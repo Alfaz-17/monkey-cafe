@@ -1,0 +1,51 @@
+MONKEY CAFE ORDER SYSTEM - FEATURE SHOWCASE
+===========================================
+
+A complete end-to-end digital ordering solution designed to modernize the cafe experience.
+
+1. CORE VALUE PROPOSITION
+-------------------------
+*   **Zero-wait Ordering:** Customers scan a QR code and order immediately. No waiting for waiters.
+*   **Visual Appeal:** A rich, image-first menu that drives appetite and sales.
+*   **Operational Efficiency:** Orders go straight to the kitchen/admin, reducing human error.
+*   **Real-time Tracking:** Live status updates from "Preparing" to "Served".
+
+2. CUSTOMER EXPERIENCE (Frontend)
+---------------------------------
+*   **Instant Access:** No app download required. Just scan the QR code to open the web app.
+*   **Smart Menu:**
+    *   **Popular Items:** Top-selling items are automatically highlighted at the top.
+    *   **Category Filtering:** Easy navigation (Coffee, Snacks, Desserts).
+*   **Full Customization:**
+    *   Interactive modifiers (e.g., Sugar Level, Milk Type, Toppings).
+    *   Real-time price updates as you customize.
+*   **Live Cart & Billing:**
+    *   View current bill total instantly.
+    *   Place multiple rounds of orders in the same session.
+*   **Digital Receipts:** Receive order summary and bill via WhatsApp automatically.
+
+3. ADMIN & OPERATIONS (Backend Dashboard)
+-----------------------------------------
+*   **Live Operations Dashboard:**
+    *   See active tables and their status.
+    *   Incoming order stream with audible alerts (planned).
+*   **Menu Management:**
+    *   Instantly update prices, images, and descriptions.
+    *   "86" (Out of Stock) items with a single click.
+    *   Manage active/inactive categories.
+*   **Table Management:**
+    *   Generate unique QR codes for each table.
+    *   monitor table occupancy.
+*   **Financials & Reports:**
+    *   Daily Revenue reports.
+    *   Order volume tracking.
+
+4. TECHNICAL ADVANTAGES
+-----------------------
+*   **Blazing Fast:** Built with Next.js for instant page loads.
+*   **Real-Time:** Socket.IO integration for instant order communication.
+*   **Scalable:** Cloud-ready architecture (MongoDB + Node.js) capable of handling high traffic.
+
+5. WHY THIS SYSTEM?
+-------------------
+Manual ordering is slow and prone to errors. This system puts the control in the customer's hands, increasing average order value through visual upselling and customizations, while freeing up staff to focus on service and preparation.
