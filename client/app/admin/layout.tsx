@@ -1,27 +1,26 @@
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+'use client';
+
+import AdminSidebar from '@/components/admin/AdminSidebar';
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar Placeholder */}
-      <aside className="w-64 bg-white border-r hidden md:block">
-        <div className="p-6">
-          <h2 className="text-xl font-bold">Monkey Cafe</h2>
-        </div>
-        <nav className="mt-6 px-4 space-y-2">
-            <a href="/admin/dashboard" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Dashboard</a>
-            <a href="/admin/menu" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Menu Management</a>
-            <a href="/admin/orders" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Orders</a>
-            <a href="/admin/tables" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded">Tables</a>
-        </nav>
-      </aside>
-      
-      {/* Main Content */}
-      <main className="flex-1 p-8">
-        {children}
-      </main>
+    <div className="min-h-screen bg-stone-50 flex font-sans selection:bg-orange-500/30">
+      {/* Sidebar Component */}
+      <AdminSidebar />
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-h-screen relative">
+          
+          {/* Mobile Header (Visible only on small screens) */}
+          <div className="md:hidden bg-stone-900 text-white p-4 flex justify-between items-center sticky top-0 z-20">
+             <span className="font-bold">Monkey Admin</span>
+             {/* Mobile Menu Trigger would go here */}
+          </div>
+
+          <main className="flex-1 p-6 lg:p-10 max-w-[1600px] w-full mx-auto overflow-y-auto">
+             {children}
+          </main>
+      </div>
     </div>
   );
 }
