@@ -32,6 +32,10 @@ const productSchema = mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    isVeg: {
+        type: Boolean,
+        default: true,
+    },
     customizations: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customization' // We will create this model next

@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import { Trash2, Plus, Pencil, X, Save } from 'lucide-react';
 import ImageUpload from '@/components/ui/ImageUpload';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 
 interface Category {
   _id: string;
@@ -91,31 +95,35 @@ export default function CategoriesTab() {
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">All Categories</h2>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+            <h2 className="text-xl font-bold tracking-tight">Categories</h2>
+            <p className="text-sm text-muted-foreground">Organize your menu structure.</p>
+        </div>
       </div>
 
-      <div className="bg-white p-6 rounded-lg border shadow-sm mb-8">
-        <h3 className="text-sm font-bold mb-4 uppercase tracking-wide text-gray-500">Add New Category</h3>
-        <div className="flex gap-4 items-start">
-             <div className="flex-1 space-y-4">
-                <input
-                    type="text"
-                    value={newCategoryName}
-                    onChange={(e) => setNewCategoryName(e.target.value)}
-                    placeholder="Category Name (e.g. Coffee)"
-                    className="w-full border p-2 rounded"
-                />
-                 <button
-                    onClick={handleAdd}
-                    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 flex items-center"
-                    disabled={loading || !newCategoryName}
-                >
-                    <Plus className="w-4 h-4 mr-1" /> Add Category
-                </button>
+      <Card className="p-6 border-stone-200">
+        <h3 className="text-sm font-bold mb-4 uppercase tracking-wide text-stone-500">Add New Category</h3>
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+             <div className="flex-1 space-y-4 w-full">
+                <div className="flex gap-4">
+                    <Input
+                        value={newCategoryName}
+                        onChange={(e) => setNewCategoryName(e.target.value)}
+                        placeholder="Category Name (e.g. Coffee)"
+                        className="flex-1 h-12 text-base"
+                    />
+                     <Button
+                        onClick={handleAdd}
+                        className="bg-green-600 hover:bg-green-700 h-12 px-6"
+                        disabled={loading || !newCategoryName}
+                    >
+                        <Plus className="w-5 h-5 mr-2" /> Add 
+                    </Button>
+                </div>
              </div>
-             <div className="w-full max-w-xs">
+             <div className="w-full md:w-auto max-w-xs shrink-0">
                  <ImageUpload 
                     value={newCategoryImage} 
                     onChange={setNewCategoryImage}
@@ -123,74 +131,73 @@ export default function CategoriesTab() {
                  />
              </div>
         </div>
-      </div>
+      </Card>
 
-      <div className="bg-white rounded-lg border shadow-sm">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+      <Card className="overflow-hidden border-stone-200 shadow-sm">
+        <div className="relative w-full overflow-auto">
+        <table className="w-full caption-bottom text-sm">
+          <thead className="[&_tr]:border-b">
+            <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-20">Image</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Name</th>
+              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+              <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Actions</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="[&_tr:last-child]:border-0">
             {categories.map((cat) => (
-              <tr key={cat._id}>
-                <td className="px-6 py-4 whitespace-nowrap">
+              <tr key={cat._id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                <td className="p-4 align-middle">
                    {editingId === cat._id ? (
-                       <div className="w-20">
+                       <div className="w-16">
                            <ImageUpload value={editImage} onChange={setEditImage} label="" />
                        </div>
                    ) : (
                        cat.image ? (
-                           <img src={cat.image} alt={cat.name} className="h-10 w-10 rounded-md object-cover border" />
+                           <div className="h-10 w-10 rounded-md overflow-hidden bg-stone-100 border border-stone-200">
+                               <img src={cat.image} alt={cat.name} className="h-full w-full object-cover" />
+                           </div>
                        ) : (
-                           <div className="h-10 w-10 rounded-md bg-gray-100 flex items-center justify-center text-gray-400 text-xs">No Img</div>
+                           <div className="h-10 w-10 rounded-md bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] font-medium border border-stone-200">No IMG</div>
                        )
                    )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="p-4 align-middle font-medium text-base">
                     {editingId === cat._id ? (
-                        <input 
-                            className="border p-1 rounded w-full" 
+                        <Input 
                             value={editName}
                             onChange={(e) => setEditName(e.target.value)}
+                            className="bg-white"
                         />
                     ) : (
                         cat.name
                     )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="p-4 align-middle">
                   {cat.isActive ? (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Active
-                    </span>
+                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
                   ) : (
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                      Inactive
-                    </span>
+                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Inactive</Badge>
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="p-4 align-middle text-right">
                   {editingId === cat._id ? (
                       <div className="flex justify-end gap-2">
-                          <button onClick={() => saveEdit(cat._id)} className="text-green-600 hover:text-green-900">
-                              <Save className="w-5 h-5" />
-                          </button>
-                          <button onClick={cancelEdit} className="text-gray-600 hover:text-gray-900">
-                              <X className="w-5 h-5" />
-                          </button>
+                          <Button size="icon" onClick={() => saveEdit(cat._id)} className="bg-green-600 hover:bg-green-700 h-8 w-8">
+                              <Save className="w-4 h-4" />
+                          </Button>
+                          <Button size="icon" variant="outline" onClick={cancelEdit} className="h-8 w-8">
+                              <X className="w-4 h-4" />
+                          </Button>
                       </div>
                   ) : (
                       <div className="flex justify-end gap-2">
-                          <button onClick={() => startEdit(cat)} className="text-indigo-600 hover:text-indigo-900">
-                              <Pencil className="w-5 h-5" />
-                          </button>
-                          <button onClick={() => handleDelete(cat._id)} className="text-red-600 hover:text-red-900">
-                              <Trash2 className="w-5 h-5" />
-                          </button>
+                          <Button variant="ghost" size="icon" onClick={() => startEdit(cat)} className="h-8 w-8 text-stone-500 hover:text-indigo-600">
+                              <Pencil className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleDelete(cat._id)} className="h-8 w-8 text-stone-500 hover:text-red-600">
+                              <Trash2 className="w-4 h-4" />
+                          </Button>
                       </div>
                   )}
                 </td>
@@ -198,12 +205,13 @@ export default function CategoriesTab() {
             ))}
             {categories.length === 0 && (
                 <tr>
-                    <td colSpan={4} className="px-6 py-4 text-center text-gray-500">No categories found.</td>
+                    <td colSpan={4} className="p-8 text-center text-muted-foreground">No categories found. Start by creating one!</td>
                 </tr>
             )}
           </tbody>
         </table>
-      </div>
+        </div>
+      </Card>
     </div>
   );
 }

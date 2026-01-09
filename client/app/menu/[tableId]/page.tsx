@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState, useRef } from 'react';
 import api from '@/lib/api';
 import { useCart } from '@/context/CartContext';
-import { ShoppingBag, Search, Clock } from 'lucide-react';
+import { ShoppingBag, Search, Clock, Star } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
@@ -106,60 +106,64 @@ export default function MenuPage() {
     <div className="min-h-screen bg-stone-50 pb-32 font-sans selection:bg-orange-100 selection:text-orange-900">
       
       {/* 1. Dynamic Hero Header */}
-      <header className="pt-8 pb-4 px-6 bg-white">
+      <header className="pt-6 pb-2 px-5 bg-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100 rounded-full blur-3xl -mr-10 -mt-10 opacity-60 pointer-events-none"></div>
+          
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-between items-start"
+            className="flex justify-between items-center relative z-10 mb-6"
           >
               <div>
-                  <p className="text-orange-600 font-bold text-sm tracking-wide uppercase mb-1">Table {tableIdParam}</p>
-                  <h1 className="text-3xl font-extrabold text-stone-900 tracking-tight">{greeting}</h1>
-                  <p className="text-stone-500 text-sm mt-1">Ready to order something delicious?</p>
+                  <div className="flex items-center gap-2 mb-1">
+                     <span className="bg-stone-900 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Table {tableIdParam}</span>
+                     <span className="text-xs text-stone-400 font-medium">Monkey Cafe</span>
+                  </div>
+                  <h1 className="text-2xl font-bold text-stone-900 leading-tight">{greeting}</h1>
               </div>
-              <div className="bg-stone-100 p-2 rounded-full">
-                  <div className="h-8 w-8 rounded-full overflow-hidden bg-white border border-stone-200">
-                     <img src="https://ui-avatars.com/api/?name=Monkey+Cafe&background=f97316&color=fff" alt="Logo" />
+              <div className="bg-white p-1 rounded-full shadow-sm border border-stone-100">
+                  <div className="h-10 w-10 rounded-full overflow-hidden bg-stone-100">
+                     <img src="https://ui-avatars.com/api/?name=Monkey+Cafe&background=f97316&color=fff" alt="Logo" className="h-full w-full object-cover" />
                   </div>
               </div>
           </motion.div>
 
-          {/* Search Bar Placeholder (Visual only for now) */}
-          <div className="mt-6 relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-stone-400" />
+          {/* Search Bar - Airbnb Style Shadow */}
+          <div className="relative z-10 group">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-stone-400 group-focus-within:text-orange-500 transition-colors" />
               </div>
               <input 
                   type="text" 
-                  className="block w-full pl-10 pr-3 py-3 border-none rounded-xl bg-stone-100 text-stone-900 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all" 
-                  placeholder="Seach for 'Latte'..." 
+                  className="block w-full pl-11 pr-4 py-3.5 border-none rounded-2xl bg-white text-stone-900 placeholder-stone-400 shadow-[0_2px_20px_-5px_rgba(0,0,0,0.08)] ring-1 ring-stone-100 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-medium" 
+                  placeholder="Search for dishes..." 
                   disabled
               />
           </div>
       </header>
 
       {/* 2. Sticky Category Navigation */}
-      <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-stone-100 py-3 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)]">
+      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-stone-100/50 pt-2 pb-3 shadow-sm">
          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex w-max space-x-2 px-6">
+            <div className="flex w-max space-x-3 px-5">
                 <button
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                    className={`px-6 py-2.5 rounded-full text-[13px] font-bold transition-all duration-300 border ${
                         selectedCategory === 'all' 
-                        ? 'bg-stone-900 text-white shadow-lg scale-105' 
-                        : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'
+                        ? 'bg-stone-900 text-white border-stone-900 shadow-md' 
+                        : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
                     }`}
                 >
-                    All
+                    All Items
                 </button>
                 {categories.map((cat) => (
                     <button
                         key={cat._id}
                         onClick={() => setSelectedCategory(cat._id)}
-                        className={`px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 ${
+                        className={`px-6 py-2.5 rounded-full text-[13px] font-bold transition-all duration-300 border ${
                             selectedCategory === cat._id 
-                            ? 'bg-stone-900 text-white shadow-lg scale-105' 
-                            : 'bg-white text-stone-600 border border-stone-200 hover:bg-stone-50'
+                            ? 'bg-stone-900 text-white border-stone-900 shadow-md' 
+                            : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
                         }`}
                     >
                         {cat.name}
@@ -174,37 +178,42 @@ export default function MenuPage() {
         
         {/* 3. Popular Items (Horizontal Scroll) */}
         {selectedCategory === 'all' && popularProducts.length > 0 && (
-          <section>
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-stone-900">Popular Now 🔥</h2>
+          <section className="mb-8">
+            <div className="flex items-center justify-between mb-5">
+                <div>
+                    <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-1.5">
+                        Bestsellers <Star className="fill-orange-500 text-orange-500 h-4 w-4" />
+                    </h2>
+                    <p className="text-xs text-stone-500 font-medium mt-0.5">Most ordered in this cafe</p>
+                </div>
             </div>
             <ScrollArea className="w-full whitespace-nowrap -mx-5 px-5">
-                <div className="flex space-x-4 pb-8 pt-2 pl-1">
+                <div className="flex space-x-3 pb-4 snap-x snap-mandatory">
                 {popularProducts.map((product, index) => (
                     <motion.div 
                         key={product._id}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.1 }}
-                        className="w-[220px] shrink-0"
+                        className="w-[160px] shrink-0 snap-start"
                     >
                         <div 
-                            className="group relative bg-white rounded-[2rem] p-4 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.08)] border border-stone-100 hover:shadow-xl transition-all duration-300 cursor-pointer h-[280px] flex flex-col"
+                            className="group relative bg-white rounded-2xl p-3 shadow-sm border border-stone-100/60 active:scale-95 transition-transform duration-200 cursor-pointer h-full flex flex-col"
                             onClick={() => handleAddToCart(product)}
                         >
-                            <div className="aspect-square rounded-[1.5rem] bg-stone-100 mb-4 overflow-hidden relative shadow-inner">
-                                {product.image && (
-                                    <img src={product.image} alt={product.name} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                            <div className="aspect-[4/3] rounded-xl bg-stone-100 mb-3 overflow-hidden relative">
+                                {product.image ? (
+                                    <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                                ) : (
+                                    <div className="h-full w-full flex items-center justify-center bg-stone-50 text-[10px] text-stone-400">No Img</div>
                                 )}
+                                <div className="absolute top-1 right-1 bg-white/90 backdrop-blur-md px-1.5 py-0.5 rounded text-[10px] font-bold text-stone-900 shadow-sm">
+                                    ${product.price}
+                                </div>
                             </div>
                             <div className="mt-auto">
-                                <h3 className="font-bold text-stone-900 text-lg truncate">{product.name}</h3>
-                                <div className="flex items-center justify-between mt-2">
-                                    <span className="font-bold text-lg text-orange-600">${product.price.toFixed(2)}</span>
-                                    <div className="h-8 w-8 rounded-full bg-stone-900 flex items-center justify-center text-white shadow-md group-hover:bg-orange-600 transition-colors">
-                                        <div className="text-xl font-light pb-1">+</div>
-                                    </div>
-                                </div>
+                                <h3 className="font-bold text-stone-900 text-sm truncate leading-tight">{product.name}</h3>
+                                <p className="text-[10px] text-stone-500 truncate mt-0.5">{product.category?.name || 'Item'}</p>
                             </div>
                         </div>
                     </motion.div>
@@ -224,15 +233,18 @@ export default function MenuPage() {
             <div className="h-px bg-stone-200 flex-1"></div>
           </div>
           
-          <div className="space-y-4">
+          {/* Grid Layout for Cards (Mobile: 2 cols, Tablet: 3 cols) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pb-32">
             <AnimatePresence mode='popLayout'>
             {filteredProducts.map((product) => (
-               <ProductCard key={product._id} product={product} onAdd={() => handleAddToCart(product)} />
+                <div key={product._id} className="h-full">
+                    <ProductCard product={product} />
+                </div>
             ))}
             </AnimatePresence>
             
             {filteredProducts.length === 0 && (
-                <div className="py-20 text-center">
+                <div className="col-span-full py-20 text-center">
                     <p className="text-stone-400 font-medium">No items found.</p>
                 </div>
             )}
