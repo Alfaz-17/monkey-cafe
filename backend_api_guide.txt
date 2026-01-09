@@ -1,0 +1,177 @@
+# Backend API Documentation & Frontend Integration Guide
+
+## 1. System Overview
+**Base URL:** `http://localhost:5000` (Development)
+**Authentication:** JWT Token via `Authorization: Bearer <token>` header.
+
+### Global Response Format
+Standard API responses follow this pattern:
+```json
+{
+  "success": true,   // (Implicit in 200 OK)
+  "data": { ... }    // Payload
+}
+// OR Error
+{
+  "message": "Error description",
+  "stack": "..."     // In development mode only
+}
+```
+
+---
+
+## 2. Authentication & Admin
+**Mount Point:** `/api/auth`
+
+| Method | Endpoint | Description | Auth | Body |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/register` | Register new Admin | Public | `{ "name": "Admin", "email": "a@a.com", "password": "123" }` |
+| `POST` | `/login` | Admin Login | Public | `{ "email": "a@a.com", "password": "123" }` |
+
+**Response (Login/Register):**
+```json
+{
+  "_id": "65a...",
+  "name": "Admin",
+  "email": "a@a.com",
+  "isAdmin": true,
+  "token": "eyJhbGciOiJIUzI1Ni..." // Store this in localStorage
+}
+```
+
+---
+
+## 3. Products
+**Mount Point:** `/api/products`
+
+### Data Model (`Product`)
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `name` | String | Product Name |
+| `price` | Number | Price in USD/INR |
+| `description` | String | Short description |
+| `category` | ObjectId | Ref to Category |
+| `image` | String | URL (Cloudinary) |
+| `isVeg` | Boolean | `true` = Veg, `false` = Non-Veg |
+| `isPopular` | Boolean | Featured status |
+| `isActive` | Boolean | Availability toggle |
+
+### Endpoints
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | **List all products** (Public). Returns array. | Public |
+| `GET` | `/:id` | Get single product. | Public |
+| `POST` | `/` | Create Product. | **Admin** |
+| `PUT` | `/:id` | Update Product. | **Admin** |
+| `DELETE` | `/:id` | Delete Product. | **Admin** |
+| `PUT` | `/:id/popular`| Toggle Popular status. | **Admin** |
+
+**Create/Update Body:**
+```json
+{
+  "name": "Cappuccino",
+  "price": 4.50,
+  "description": "Rich espresso...",
+  "category": "65b...",
+  "image": "https://res.cloudinary...",
+  "isVeg": true,
+  "isActive": true
+}
+```
+
+---
+
+## 4. Categories
+**Mount Point:** `/api/categories`
+
+### Data Model (`Category`)
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `name` | String | Category Name (e.g., "Coffee") |
+| `image` | String | Optional cover image |
+| `isActive` | Boolean | Visibility toggle |
+| `order` | Number | Sorting order (Default 0) |
+
+### Endpoints
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | **List all categories** (Public). | Public |
+| `POST` | `/` | Create Category. | **Admin** |
+| `PUT` | `/:id` | Update Category. | **Admin** |
+| `DELETE` | `/:id` | Delete Category. | **Admin** |
+
+---
+
+## 5. Orders (Core Transaction)
+**Mount Point:** `/api/orders`
+
+### Data Model (`Order`)
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `tableNo` | Number | Table Identifier |
+| `customerName` | String | Guest Name |
+| `customerMobile`| String | Contact Info |
+| `items` | Array | Array of `{ product(ID), name, price, qty }` |
+| `totalAmount` | Number | Calculated Total |
+| `status` | String | `Pending`, `Preparing`, `Served`, `Paid`, `Cancelled` |
+
+### Endpoints
+| Method | Endpoint | Description | Auth | Body Example |
+| :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/` | **Place Order** (Customer). | Public | *See below* |
+| `GET` | `/` | List all orders (Dashboard). | **Admin** | - |
+| `PUT` | `/:id/status`| Update Order Status. | **Admin** | `{ "status": "Served" }` |
+
+**Place Order Payload (`POST /api/orders`):**
+```json
+{
+  "orderItems": [
+    {
+      "product": "65a...", // Product ID
+      "name": "Latte",
+      "qty": 2,
+      "price": 4.00,
+      "image": "..."
+    }
+  ],
+  "tableNo": 5, // Important: Logic auto-creates table if missing
+  "customerName": "John Doe",
+  "customerMobile": "9876543210",
+  "totalPrice": 8.00
+}
+```
+
+**Order Status Logic:**
+1.  **Pending**: Default on creation. Kitchen accepts -> `Preparing`.
+2.  **Preparing**: Kitchen is cooking. Done -> `Served`.
+3.  **Served**: Waiter delivers. Payment collected -> `Paid`.
+4.  **Cancelled**: Any stage reject.
+
+---
+
+## 6. Tables & Utilities
+**Mount Point:** `/api/tables` & `/api/upload`
+
+### Tables
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `GET` | `/` | List Tables. | **Admin** |
+| `POST` | `/` | Create Table manually. | **Admin** |
+| `DELETE` | `/:id` | Delete Table. | **Admin** |
+
+### File Upload (Cloudinary)
+| Method | Endpoint | Description | Auth |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/upload` | Upload Image (Multipart/Form-Data). | Public |
+
+**Upload Request:**
+*   Key: `image` (Type: File)
+*   Response: `{ "url": "https://res.cloudinary.com/..." }`
+
+---
+
+## 7. Frontend Integration Checklist
+1.  **Images**: Use the `/api/upload` endpoint for all images (Products/Categories). Returns a stable Cloudinary URL.
+2.  **Cart Logic**: The Frontend must calculate `totalAmount` before sending to `/api/orders`, but Backend should ideally re-verify. (Current implementation trusts frontend total - suitable for MVP).
+3.  **Polling**: The Admin Dashboard should Poll `/api/orders` every 10-30s or use a Refresh button to see new orders (`Pending` status).
+4.  **Optimistic UI**: When toggling `isActive` or `isPopular` in Admin, update UI immediately while waiting for API.
