@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Clock, CheckCircle2, ChefHat, ArrowLeft, RefreshCw, ShoppingBag } from 'lucide-react';
+import { Clock, CheckCircle2, ChefHat, ArrowLeft, RefreshCw, ShoppingBag, X, Receipt } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import api from '@/lib/api';
 
@@ -95,6 +95,10 @@ export default function OrdersPage() {
         return <ChefHat className="w-5 h-5" />;
       case 'Served':
         return <CheckCircle2 className="w-5 h-5" />;
+      case 'Paid':
+        return <Receipt className="w-5 h-5" />;
+      case 'Cancelled':
+          return <X className="w-5 h-5" />;
       default:
         return <Clock className="w-5 h-5" />;
     }
@@ -108,6 +112,10 @@ export default function OrdersPage() {
         return 'bg-blue-100 text-blue-700 border-blue-200';
       case 'Served':
         return 'bg-green-100 text-green-700 border-green-200';
+      case 'Paid':
+         return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+      case 'Cancelled':
+         return 'bg-red-100 text-red-700 border-red-200';
       default:
         return 'bg-gray-100 text-gray-700 border-gray-200';
     }
@@ -199,7 +207,10 @@ export default function OrdersPage() {
                       </p>
                       <span className={`text-xs font-black uppercase tracking-tight ${
                         order.status === 'Served' ? 'text-green-600' : 
-                        order.status === 'Preparing' ? 'text-blue-600' : 'text-[#A68966]'
+                        order.status === 'Preparing' ? 'text-blue-600' : 
+                        order.status === 'Paid' ? 'text-emerald-600' :
+                        order.status === 'Cancelled' ? 'text-red-600' :
+                        'text-[#A68966]'
                       }`}>
                         {order.status || 'Pending'}
                       </span>
