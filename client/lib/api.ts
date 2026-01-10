@@ -9,7 +9,7 @@ const api = axios.create({
 
 export const IMAGE_BASE_URL = 'http://localhost:5000';
 
-// Add a request interceptor to attach the token
+// Request Interceptor: Attach Token
 api.interceptors.request.use(
     (config) => {
         const userInfo = localStorage.getItem('userInfo');
@@ -20,6 +20,23 @@ api.interceptors.request.use(
         return config;
     },
     (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Response Interceptor: Handle Global Errors
+api.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response?.status === 401) {
+            // Unauthorized - clear session if not already on login page
+            if (typeof window !== 'undefined' && !window.location.pathname.includes('/admin/login')) {
+                localStorage.removeItem('userInfo');
+                window.location.href = '/admin/login';
+            }
+        }
         return Promise.reject(error);
     }
 );

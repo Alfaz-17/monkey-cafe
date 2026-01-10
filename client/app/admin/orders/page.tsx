@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { RefreshCcw, ChefHat } from 'lucide-react';
+import { RefreshCcw, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import KitchenOrderCard from '@/components/admin/KitchenOrderCard';
 import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface OrderItem {
     _id: string;
@@ -30,12 +31,11 @@ export default function OrdersPage() {
 
   useEffect(() => {
     fetchOrders();
-    const interval = setInterval(fetchOrders, 5000); // Poll faster for KDS
+    const interval = setInterval(fetchOrders, 5000); 
     return () => clearInterval(interval);
   }, []);
 
   const fetchOrders = async () => {
-    // Only show loading on initial fetch to avoid flickering
     if (orders.length === 0) setLoading(true); 
     try {
         const { data } = await api.get('/orders');
@@ -48,12 +48,9 @@ export default function OrdersPage() {
   };
 
   const updateStatus = async (id: string, status: string) => {
-    // Optimistic update
     setOrders(prev => prev.map(o => o._id === id ? { ...o, status: status as any } : o));
-    
     try {
         await api.put(`/orders/${id}/status`, { status });
-        // Background re-fetch to ensure consistency
         fetchOrders();
     } catch (error) {
         console.error('Error updating status:', error);
@@ -65,61 +62,80 @@ export default function OrdersPage() {
   const completedOrders = orders.filter(o => o.status === 'Served');
 
   return (
-    <div className="space-y-8 h-[calc(100vh-100px)] flex flex-col font-sans">
-      <div className="flex justify-between items-center shrink-0">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      {/* Simple Header */}
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
         <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-stone-900 flex items-center gap-3">
-                <ChefHat className="h-8 w-8 text-orange-600" />
-                Kitchen Display
-            </h1>
-            <p className="text-stone-500 mt-1 font-medium">Live Order Stream</p>
+            <h1 className="text-3xl font-black text-[#3E2723]">Orders</h1>
+            <p className="text-xs font-medium text-[#A68966] mt-1">Live kitchen order stream</p>
         </div>
-        <div className="flex items-center gap-4">
-             <div className="bg-white px-4 py-2 rounded-full border border-stone-200 shadow-sm flex gap-4 text-sm font-bold text-stone-600">
-                 <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-yellow-400"></span> Pending: {orders.filter(o => o.status === 'Pending').length}</span>
-                 <span className="flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-blue-500"></span> Prep: {orders.filter(o => o.status === 'Preparing').length}</span>
+        
+        <div className="flex flex-wrap items-center gap-4 w-full lg:w-auto">
+             <div className="flex-1 lg:flex-none bg-white px-6 py-3 rounded-xl border border-[#F0EDE8] shadow-sm flex items-center gap-6">
+                 <div className="flex flex-col">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#A68966]">New</span>
+                     <span className="text-lg font-black text-[#6F4E37]">{orders.filter(o => o.status === 'Pending').length}</span>
+                 </div>
+                 <div className="flex flex-col">
+                     <span className="text-[10px] font-bold uppercase tracking-widest text-[#A68966]">Preparing</span>
+                     <span className="text-lg font-black text-[#6F4E37]">{orders.filter(o => o.status === 'Preparing').length}</span>
+                 </div>
              </div>
-             <Button variant="outline" onClick={fetchOrders} className="gap-2 rounded-xl">
-                <RefreshCcw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} /> 
+             
+             <Button 
+                variant="outline" 
+                onClick={fetchOrders} 
+                className="h-12 px-4 rounded-xl border-[#F0EDE8] bg-white text-xs font-bold uppercase tracking-widest"
+             >
+                <RefreshCcw className={cn("w-4 h-4 mr-2", loading ? "animate-spin" : "")} /> 
                 Refresh
              </Button>
         </div>
       </div>
 
-      {/* Main Grid: Active Orders */}
-      <div className="flex-1 overflow-y-auto pr-2 pb-10">
-          {orders.length === 0 && !loading && (
-             <div className="h-full flex flex-col items-center justify-center text-center opacity-50">
-                <ChefHat className="h-24 w-24 text-stone-300 mb-4" />
-                <h3 className="text-xl font-bold text-stone-400">All caught up!</h3>
-                <p className="text-stone-400">Waiting for new orders...</p>
+      {/* Main Order Stream */}
+      <div className="pb-10">
+          <AnimatePresence mode='wait'>
+          {orders.length === 0 && !loading ? (
+             <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="py-20 flex flex-col items-center justify-center text-center px-10 border-2 border-dashed border-[#F0EDE8] rounded-2xl"
+             >
+                <h3 className="text-xl font-bold text-[#3E2723] mb-1">No Orders</h3>
+                <p className="text-xs text-[#A68966]">Waiting for incoming traffic...</p>
+             </motion.div>
+          ) : (
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 items-start">
+                <AnimatePresence mode='popLayout'>
+                    {/* Active Cluster */}
+                    {pendingOrders.map((order) => (
+                        <KitchenOrderCard key={order._id} order={order} onUpdateStatus={updateStatus} />
+                    ))}
+                    
+                    {/* Visual Threshold */}
+                    {pendingOrders.length > 0 && completedOrders.length > 0 && (
+                        <div className="col-span-full py-10 flex items-center gap-6">
+                            <div className="h-[1px] bg-[#F0EDE8] flex-1"></div>
+                            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#A68966]/50">Served & Ready</span>
+                            <div className="h-[1px] bg-[#F0EDE8] flex-1"></div>
+                        </div>
+                    )}
+
+                    {/* Completion Cluster */}
+                    {completedOrders.map((order) => (
+                        <motion.div 
+                            layout
+                            key={order._id} 
+                            className="opacity-60 hover:opacity-100 transition-opacity duration-500"
+                        >
+                            <KitchenOrderCard order={order} onUpdateStatus={updateStatus} />
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
              </div>
           )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-start">
-             <AnimatePresence>
-                {/* Pending & Preparing first */}
-                {pendingOrders.map((order) => (
-                    <KitchenOrderCard key={order._id} order={order} onUpdateStatus={updateStatus} />
-                ))}
-                
-                {/* Separator if needed, or just mix them. Let's show Separator if we have both types */}
-                {pendingOrders.length > 0 && completedOrders.length > 0 && (
-                    <div className="col-span-full py-4 flex items-center gap-4 opacity-50">
-                        <div className="h-px bg-stone-300 flex-1"></div>
-                        <span className="text-xs font-bold uppercase tracking-widest text-stone-400">Ready to Serve</span>
-                        <div className="h-px bg-stone-300 flex-1"></div>
-                    </div>
-                )}
-
-                {/* Served / Ready */}
-                {completedOrders.map((order) => (
-                    <div key={order._id} className="opacity-75 hover:opacity-100 transition-opacity">
-                        <KitchenOrderCard order={order} onUpdateStatus={updateStatus} />
-                    </div>
-                ))}
-             </AnimatePresence>
-          </div>
+          </AnimatePresence>
       </div>
     </div>
   );

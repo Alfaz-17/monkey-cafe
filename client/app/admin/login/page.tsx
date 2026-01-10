@@ -25,58 +25,70 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">Admin Login</h1>
+    <div className="min-h-screen bg-[#FAF7F2] font-['Outfit'] text-[#3E2723] flex flex-col items-center justify-center p-6">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+             <div className="h-14 w-14 bg-[#6F4E37] rounded-xl flex items-center justify-center text-white shadow-lg mx-auto mb-4">
+                <Lock className="h-6 w-6" />
+             </div>
+             <h1 className="text-2xl font-bold tracking-tight text-[#3E2723]">Monkey Admin</h1>
+             <p className="text-xs font-medium text-[#A68966] mt-1">Please sign in to continue</p>
+        </div>
+
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+            {error && (
+            <div className="p-3 mb-6 text-xs font-bold uppercase tracking-wider text-red-600 bg-red-50 rounded-lg border border-red-100">
+                {error}
+            </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-1.5">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1">Email Address</label>
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                        <Mail className="w-4 h-4 text-gray-300" />
+                    </div>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="block w-full pl-11 h-12 bg-gray-50 border-gray-100 rounded-lg text-sm font-medium placeholder:text-gray-300 focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all"
+                        placeholder="admin@monkeycafe.com"
+                        required
+                    />
+                </div>
+            </div>
+
+            <div className="space-y-1.5">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1">Password</label>
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                        <Lock className="w-4 h-4 text-gray-300" />
+                    </div>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="block w-full pl-11 h-12 bg-gray-50 border-gray-100 rounded-lg text-sm font-medium placeholder:text-gray-300 focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all"
+                        placeholder="••••••••"
+                        required
+                    />
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                className="w-full h-12 mt-2 text-white bg-[#6F4E37] rounded-lg font-bold uppercase tracking-widest text-[10px] shadow-md hover:bg-[#5D4037] active:scale-[0.98] transition-all"
+            >
+                Login to Console
+            </button>
+            </form>
+        </div>
         
-        {error && (
-          <div className="p-3 mb-4 text-sm text-red-500 bg-red-50 rounded">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email Address</label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Mail className="w-5 h-5 text-gray-400" />
-              </div>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full pl-10 h-10 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                placeholder="admin@example.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <div className="relative mt-1">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <Lock className="w-5 h-5 text-gray-400" />
-              </div>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full pl-10 h-10 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          >
-            Sign In
-          </button>
-        </form>
+        <p className="text-center mt-8 text-[10px] font-bold text-[#A68966] uppercase tracking-widest opacity-40">
+            Secure Access Portal
+        </p>
       </div>
     </div>
   );

@@ -92,36 +92,39 @@ export default function MenuPage() {
     <div className="flex flex-col h-screen bg-[#FAF7F2] font-['Outfit'] text-[#3E2723]">
       
       {/* Premium Header Aligned with Cart */}
-      <header className="sticky top-0 bg-[#FAF7F2]/80 backdrop-blur-xl z-30 px-6 py-5 border-b border-[#E7DCCA]/40">
-          <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#6F4E37] border border-[#F0EDE8]">
-                      <Menu className="w-5 h-5" />
-                  </div>
-                  <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/menu/${tableIdParam}`)}>
-                      <h1 className="text-2xl font-black tracking-tighter leading-none font-serif italic text-[#3E2723]">MonkeyCafe</h1>
-                      <div className="flex items-center gap-2 mt-1">
-                          <div className="flex items-center gap-1 bg-[#FDF1E6] px-1.5 py-0.5 rounded-lg border border-[#F0EDE8]">
-                               <span className="text-[8px] font-black text-[#6F4E37] uppercase tracking-widest">Step 1/2</span>
-                          </div>
-                          <span className="w-1 h-1 rounded-full bg-stone-300"></span>
-                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A68966]">Table {tableIdParam}</p>
-                      </div>
-                  </div>
-              </div>
-              <button 
-                onClick={() => router.push('/cart')}
-                className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#6F4E37] border border-[#F0EDE8] relative"
-              >
-                  <ShoppingBag className="w-5 h-5" />
-                  {totalQty > 0 && (
-                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#6F4E37] text-white text-[10px] font-black rounded-lg flex items-center justify-center shadow-lg border-2 border-white">
-                          {totalQty}
-                      </span>
-                  )}
-              </button>
+ <header className="sticky top-0 bg-[#FAF7F2]/80 backdrop-blur-xl z-30 px-6 py-5 border-b border-[#E7DCCA]/40">
+  <div className="flex items-center justify-between">
+    <div className="flex items-center gap-4">
+      <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/menu/${tableIdParam}`)}>
+        <h1 className="text-2xl font-black tracking-tighter leading-none font-serif italic text-[#3E2723]">
+          MonkeyCafe
+        </h1>
+        <div className="flex items-center gap-2 mt-1">
+          <div className="flex items-center gap-1 bg-[#FDF1E6] px-1.5 py-0.5 rounded-lg border border-[#F0EDE8]">
+            <span className="text-[8px] font-black text-[#6F4E37] uppercase tracking-widest">
+              Step 1/2
+            </span>
           </div>
-      </header>
+          <span className="w-1 h-1 rounded-full bg-stone-300"></span>
+          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A68966]">
+            Table {tableIdParam}
+          </p>
+        </div>
+      </div>
+    </div>
+    <button 
+      onClick={() => router.push('/cart')}
+      className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#6F4E37] border border-[#F0EDE8] relative hover:shadow-md active:scale-[0.97] transition-all duration-200 group"
+    >
+      <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
+      {totalQty > 0 && (
+        <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#6F4E37] text-white text-[10px] font-black rounded-lg flex items-center justify-center shadow-lg border-2 border-white">
+          {totalQty}
+        </span>
+      )}
+    </button>
+  </div>
+</header>
 
       <div className="flex-1 overflow-hidden">
         <div className="p-6 space-y-8 max-h-full overflow-y-auto scrollbar-hide pb-40">

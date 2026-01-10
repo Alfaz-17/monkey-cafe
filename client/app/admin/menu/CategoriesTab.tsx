@@ -9,6 +9,8 @@ import { Input } from '@/components/ui/input';
 import { getImageUrl } from '@/lib/utils/resolveImage';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface Category {
   _id: string;
@@ -36,8 +38,12 @@ export default function CategoriesTab() {
   }, []);
 
   const fetchCategories = async () => {
-    const { data } = await api.get('/categories');
-    setCategories(data);
+    try {
+        const { data } = await api.get('/categories');
+        setCategories(data);
+    } catch (error) {
+        console.error('Failed to fetch categories:', error);
+    }
   };
 
   const handleAdd = async () => {
@@ -96,123 +102,114 @@ export default function CategoriesTab() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h2 className="text-xl font-bold tracking-tight">Categories</h2>
-            <p className="text-sm text-muted-foreground">Organize your menu structure.</p>
+            <h2 className="text-2xl font-black text-[#3E2723]">Categories</h2>
+            <p className="text-xs font-medium text-[#A68966] mt-1">Organize your menu into collections</p>
         </div>
       </div>
 
-      <Card className="p-6 border-stone-200">
-        <h3 className="text-sm font-bold mb-4 uppercase tracking-wide text-stone-500">Add New Category</h3>
-        <div className="flex flex-col md:flex-row gap-6 items-start">
-             <div className="flex-1 space-y-4 w-full">
-                <div className="flex gap-4">
-                    <Input
-                        value={newCategoryName}
-                        onChange={(e) => setNewCategoryName(e.target.value)}
-                        placeholder="Category Name (e.g. Coffee)"
-                        className="flex-1 h-12 text-base"
-                    />
-                     <Button
+      {/* Add New Section */}
+      <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm">
+        <div className="p-6">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-[#A68966] mb-6">Create New Category</h3>
+            <div className="flex flex-col lg:flex-row gap-8 items-start">
+                <div className="flex-1 space-y-4 w-full">
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1">Category Name</label>
+                        <Input
+                            value={newCategoryName}
+                            onChange={(e) => setNewCategoryName(e.target.value)}
+                            placeholder="e.g. Hot Drinks"
+                            className="h-12 rounded-lg bg-[#FAF7F2] border-[#F0EDE8] text-sm font-bold"
+                        />
+                    </div>
+                    <Button
                         onClick={handleAdd}
-                        className="bg-green-600 hover:bg-green-700 h-12 px-6"
+                        className="h-12 px-8 bg-[#6F4E37] text-white rounded-lg font-bold uppercase tracking-widest text-[10px]"
                         disabled={loading || !newCategoryName}
                     >
-                        <Plus className="w-5 h-5 mr-2" /> Add 
+                        <Plus className="w-4 h-4 mr-2" /> Create Category
                     </Button>
                 </div>
-             </div>
-             <div className="w-full md:w-auto max-w-xs shrink-0">
-                 <ImageUpload 
-                    value={newCategoryImage} 
-                    onChange={setNewCategoryImage}
-                    label="Category Image (Optional)"
-                 />
-             </div>
+                <div className="w-full lg:w-64 shrink-0">
+                    <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1 mb-2 block">Cover Image</label>
+                    <ImageUpload 
+                        value={newCategoryImage} 
+                        onChange={setNewCategoryImage}
+                        label=""
+                    />
+                </div>
+            </div>
         </div>
       </Card>
 
-      <Card className="overflow-hidden border-stone-200 shadow-sm">
-        <div className="relative w-full overflow-auto">
-        <table className="w-full caption-bottom text-sm">
-          <thead className="[&_tr]:border-b">
-            <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground w-20">Image</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Name</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
-              <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="[&_tr:last-child]:border-0">
+      {/* Categories Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <AnimatePresence mode='popLayout'>
             {categories.map((cat) => (
-              <tr key={cat._id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                <td className="p-4 align-middle">
-                   {editingId === cat._id ? (
-                       <div className="w-16">
-                           <ImageUpload value={editImage} onChange={setEditImage} label="" />
-                       </div>
-                   ) : (
-                       cat.image ? (
-                           <div className="h-10 w-10 rounded-md overflow-hidden bg-stone-100 border border-stone-200">
-                               <img src={getImageUrl(cat.image)} alt={cat.name} className="h-full w-full object-cover" />
-                           </div>
-                       ) : (
-                           <div className="h-10 w-10 rounded-md bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] font-medium border border-stone-200">No IMG</div>
-                       )
-                   )}
-                </td>
-                <td className="p-4 align-middle font-medium text-base">
-                    {editingId === cat._id ? (
-                        <Input 
-                            value={editName}
-                            onChange={(e) => setEditName(e.target.value)}
-                            className="bg-white"
-                        />
-                    ) : (
-                        cat.name
-                    )}
-                </td>
-                <td className="p-4 align-middle">
-                  {cat.isActive ? (
-                    <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Active</Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Inactive</Badge>
-                  )}
-                </td>
-                <td className="p-4 align-middle text-right">
-                  {editingId === cat._id ? (
-                      <div className="flex justify-end gap-2">
-                          <Button size="icon" onClick={() => saveEdit(cat._id)} className="bg-green-600 hover:bg-green-700 h-8 w-8">
-                              <Save className="w-4 h-4" />
-                          </Button>
-                          <Button size="icon" variant="outline" onClick={cancelEdit} className="h-8 w-8">
-                              <X className="w-4 h-4" />
-                          </Button>
-                      </div>
-                  ) : (
-                      <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => startEdit(cat)} className="h-8 w-8 text-stone-500 hover:text-indigo-600">
-                              <Pencil className="w-4 h-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(cat._id)} className="h-8 w-8 text-stone-500 hover:text-red-600">
-                              <Trash2 className="w-4 h-4" />
-                          </Button>
-                      </div>
-                  )}
-                </td>
-              </tr>
+                <motion.div 
+                    layout
+                    key={cat._id}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                >
+                    <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white h-full flex flex-col">
+                        <div className="h-40 relative bg-[#FAF7F2]">
+                             {cat.image ? (
+                                 <img src={getImageUrl(cat.image)} alt={cat.name} className="h-full w-full object-cover" />
+                             ) : (
+                                 <div className="h-full w-full flex items-center justify-center text-[#A68966]/20">
+                                     <Plus className="w-8 h-8" />
+                                 </div>
+                             )}
+                             <div className="absolute top-3 right-3">
+                                 <Badge className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none", 
+                                     cat.isActive ? "bg-green-500 text-white" : "bg-gray-400 text-white"
+                                 )}>
+                                     {cat.isActive ? 'Active' : 'Hidden'}
+                                 </Badge>
+                             </div>
+                        </div>
+
+                        <div className="p-5 flex-1 flex flex-col">
+                            {editingId === cat._id ? (
+                                <div className="space-y-3">
+                                    <Input 
+                                        value={editName}
+                                        onChange={(e) => setEditName(e.target.value)}
+                                        className="h-10 rounded-lg text-sm font-bold"
+                                    />
+                                    <div className="flex gap-2">
+                                        <Button size="sm" onClick={() => saveEdit(cat._id)} className="flex-1 bg-green-600 rounded-lg text-[10px]">Save</Button>
+                                        <Button size="sm" variant="outline" onClick={cancelEdit} className="rounded-lg text-[10px]">Cancel</Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div className="flex-1">
+                                        <h3 className="text-lg font-bold text-[#3E2723]">{cat.name}</h3>
+                                        <p className="text-[10px] font-bold text-[#A68966] uppercase mt-1">Category</p>
+                                    </div>
+                                    <div className="flex gap-2 mt-4">
+                                        <Button variant="outline" size="sm" onClick={() => startEdit(cat)} className="h-9 w-9 p-0 rounded-lg border-gray-100 text-[#6F4E37]"><Pencil className="w-3.5 h-3.5" /></Button>
+                                        <Button variant="outline" size="sm" onClick={() => handleDelete(cat._id)} className="h-9 w-9 p-0 rounded-lg border-red-50 text-red-500 hover:bg-red-50 ml-auto"><Trash2 className="w-3.5 h-3.5" /></Button>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </Card>
+                </motion.div>
             ))}
-            {categories.length === 0 && (
-                <tr>
-                    <td colSpan={4} className="p-8 text-center text-muted-foreground">No categories found. Start by creating one!</td>
-                </tr>
-            )}
-          </tbody>
-        </table>
-        </div>
-      </Card>
+        </AnimatePresence>
+        
+        {categories.length === 0 && (
+            <div className="col-span-full py-16 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No categories found</p>
+            </div>
+        )}
+      </div>
     </div>
   );
 }

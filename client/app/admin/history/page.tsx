@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { RefreshCcw, Search, Filter, Calendar } from 'lucide-react';
+import { RefreshCcw, Search, Calendar, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card } from '@/components/ui/card';
+import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface OrderItem {
     _id: string;
@@ -37,7 +38,6 @@ export default function HistoryPage() {
   }, []);
 
   useEffect(() => {
-      // Basic Search Logic
       if (!searchTerm) {
           setFilteredOrders(orders);
       } else {
@@ -54,10 +54,6 @@ export default function HistoryPage() {
     setLoading(true); 
     try {
         const { data } = await api.get('/orders');
-        // Filter for "History" relevant statuses (Served, Paid, Cancelled)
-        // Actually, usually History shows EVERYTHING, or maybe just closed ones.
-        // Let's show EVERYTHING but sorted new to old.
-        // 'data' is already sorted by backend usually, but let's confirm.
         setOrders(data);
         setFilteredOrders(data);
     } catch (error) {
@@ -67,115 +63,147 @@ export default function HistoryPage() {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-      switch(status) {
-          case 'Pending': return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>;
-          case 'Preparing': return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Preparing</Badge>;
-          case 'Served': return <Badge variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">Served</Badge>;
-          case 'Paid': return <Badge className="bg-green-600 text-white hover:bg-green-700">Paid</Badge>;
-          case 'Cancelled': return <Badge variant="destructive">Cancelled</Badge>;
-          default: return <Badge variant="outline">{status}</Badge>;
-      }
+  const statusMap: Record<string, { label: string; bg: string; text: string }> = {
+      'Pending': { label: 'In Queue', bg: 'bg-yellow-50', text: 'text-yellow-700' },
+      'Preparing': { label: 'Cooking', bg: 'bg-blue-50', text: 'text-blue-700' },
+      'Served': { label: 'Delivered', bg: 'bg-orange-50', text: 'text-orange-700' },
+      'Paid': { label: 'Settled', bg: 'bg-green-600', text: 'text-white' },
+      'Cancelled': { label: 'Voided', bg: 'bg-red-500', text: 'text-white' },
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      {/* Simple Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h1 className="text-3xl font-bold tracking-tight text-stone-900">Order History</h1>
-            <p className="text-stone-500 mt-1">Archive of all past transactions and activities.</p>
+            <h1 className="text-3xl font-black text-[#3E2723]">History</h1>
+            <p className="text-xs font-medium text-[#A68966] mt-1">View past orders and records</p>
         </div>
-        <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" className="hidden md:flex">
-                <Calendar className="mr-2 h-4 w-4" /> Filter Date
-            </Button>
-            <Button variant="outline" size="sm" onClick={fetchHistory}>
-                <RefreshCcw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-            </Button>
-        </div>
-      </div>
-
-      <Card className="border-none shadow-sm">
-        <CardHeader className="bg-stone-50/50 pb-4 border-b border-stone-100">
-            <div className="relative max-w-sm">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-stone-500" />
+        <div className="flex items-center gap-3 w-full md:w-auto">
+            <div className="flex-1 md:flex-none relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#A68966] opacity-50" />
                 <Input
                     type="search"
-                    placeholder="Search by customer, id, or table..."
-                    className="pl-9 bg-white"
+                    placeholder="Search orders..."
+                    className="h-10 pl-10 pr-4 rounded-lg bg-white border-[#F0EDE8] text-sm font-bold w-full md:w-64"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
-        </CardHeader>
-        <CardContent className="p-0">
-             <div className="rounded-md border-none">
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHead className="w-[100px]">Order ID</TableHead>
-                            <TableHead>Date & Time</TableHead>
-                            <TableHead>Customer</TableHead>
-                            <TableHead>Table</TableHead>
-                            <TableHead>Items</TableHead>
-                            <TableHead>Total</TableHead>
-                            <TableHead>Status</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {filteredOrders.length > 0 ? (
-                            filteredOrders.map((order) => (
-                                <TableRow key={order._id} className="hover:bg-stone-50/50">
-                                    <TableCell className="font-mono text-xs text-stone-500">
-                                        #{order._id.slice(-6).toUpperCase()}
-                                    </TableCell>
-                                    <TableCell className="text-sm">
-                                        <div className="flex flex-col">
-                                            <span className="font-medium text-stone-700">
-                                                {new Date(order.createdAt).toLocaleDateString()}
-                                            </span>
-                                            <span className="text-xs text-stone-400">
-                                                {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="font-medium text-stone-900">
-                                        {order.customerName}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline" className="font-normal bg-stone-50 text-stone-600">
-                                            Tb {order.tableNo}
-                                        </Badge>
-                                    </TableCell>
-                                    <TableCell className="max-w-[200px] truncate text-stone-500 text-sm" title={order.items.map(i => `${i.qty}x ${i.name}`).join(', ')}>
-                                        {order.items.length === 1 
-                                            ? `${order.items[0].qty}x ${order.items[0].name}`
-                                            : `${order.items[0].qty}x ${order.items[0].name} +${order.items.length - 1} more`
-                                        }
-                                    </TableCell>
-                                    <TableCell className="font-bold text-stone-900">
-                                        ${order.totalAmount.toFixed(2)}
-                                    </TableCell>
-                                    <TableCell>
-                                        {getStatusBadge(order.status)}
-                                    </TableCell>
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan={7} className="h-24 text-center text-stone-500">
-                                    No orders found.
-                                </TableCell>
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </div>
-        </CardContent>
+            <Button 
+                variant="outline" 
+                size="icon" 
+                onClick={fetchHistory}
+                className="h-10 w-10 rounded-lg border-[#F0EDE8] bg-white"
+            >
+                <RefreshCcw className={cn("h-4 w-4 text-[#6F4E37]", loading ? "animate-spin" : "")} />
+            </Button>
+        </div>
+      </div>
+
+      {/* Desktop Table View */}
+      <Card className="hidden lg:block rounded-xl border border-[#F0EDE8] shadow-sm overflow-hidden bg-white">
+          <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm">
+                  <thead>
+                      <tr className="border-b border-gray-50 bg-[#FAF7F2]/30">
+                          <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A68966]">Order ID</th>
+                          <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A68966]">Customer</th>
+                          <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A68966]">Table</th>
+                          <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A68966]">Date & Time</th>
+                          <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-[#A68966]">Amount</th>
+                          <th className="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-[#A68966]">Status</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {filteredOrders.map((order) => (
+                          <tr key={order._id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                              <td className="px-6 py-4 font-mono text-[10px] text-[#A68966]">
+                                  #{order._id.slice(-6).toUpperCase()}
+                              </td>
+                              <td className="px-6 py-4 font-bold text-[#3E2723]">
+                                  {order.customerName}
+                              </td>
+                              <td className="px-6 py-4">
+                                  <span className="h-7 w-7 bg-[#FAF7F2] rounded-md flex items-center justify-center text-[11px] font-bold text-[#6F4E37]">
+                                      {order.tableNo}
+                                  </span>
+                              </td>
+                              <td className="px-6 py-4">
+                                  <div className="flex flex-col">
+                                      <span className="font-bold text-xs text-[#3E2723]">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                      <span className="text-[10px] text-[#A68966]">{new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                  </div>
+                              </td>
+                              <td className="px-6 py-4 font-bold text-[#6F4E37]">
+                                  ${order.totalAmount.toFixed(2)}
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                  <Badge className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none shadow-none", 
+                                      order.status === 'Paid' ? 'bg-green-100 text-green-700' :
+                                      order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                                      'bg-gray-100 text-gray-700'
+                                  )}>
+                                      {order.status}
+                                  </Badge>
+                              </td>
+                          </tr>
+                      ))}
+                  </tbody>
+              </table>
+          </div>
       </Card>
+
+      {/* Mobile Card View */}
+      <div className="lg:hidden space-y-3">
+          <AnimatePresence mode='popLayout'>
+              {filteredOrders.map((order) => (
+                  <motion.div 
+                    layout
+                    key={order._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                      <Card className="rounded-xl border border-[#F0EDE8] p-4 bg-white shadow-sm flex flex-col gap-3">
+                          <div className="flex justify-between items-start">
+                              <div>
+                                  <span className="text-[9px] font-bold text-[#A68966] uppercase">#{order._id.slice(-6).toUpperCase()}</span>
+                                  <h3 className="text-sm font-bold text-[#3E2723]">{order.customerName}</h3>
+                              </div>
+                              <Badge className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase border-none", 
+                                  order.status === 'Paid' ? 'bg-green-100 text-green-700' :
+                                  order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                                  'bg-gray-100 text-gray-700'
+                              )}>
+                                  {order.status}
+                              </Badge>
+                          </div>
+                          <div className="flex items-center justify-between pt-3 border-t border-gray-50">
+                              <div>
+                                  <span className="text-sm font-bold text-[#6F4E37]">${order.totalAmount.toFixed(2)}</span>
+                                  <span className="text-[10px] text-[#A68966] ml-2 font-medium">Table {order.tableNo}</span>
+                              </div>
+                              <div className="text-right text-[10px] text-[#A68966] font-medium">
+                                  {new Date(order.createdAt).toLocaleDateString()}
+                              </div>
+                          </div>
+                      </Card>
+                  </motion.div>
+              ))}
+          </AnimatePresence>
+      </div>
+
+      {filteredOrders.length === 0 && !loading && (
+          <div className="py-20 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
+              <Calendar className="w-10 h-10 mx-auto mb-3 text-[#A68966] opacity-20" />
+              <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No records found</p>
+          </div>
+      )}
       
-      <div className="text-center text-xs text-stone-400">
-          Showing {filteredOrders.length} records.
+      <div className="text-center pt-4">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] opacity-30">
+              Total {filteredOrders.length} records found
+          </span>
       </div>
     </div>
   );

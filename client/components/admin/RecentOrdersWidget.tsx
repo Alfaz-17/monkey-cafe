@@ -13,29 +13,31 @@ interface OrderMock {
 
 export default function RecentOrdersWidget({ orders }: { orders: OrderMock[] }) {
   return (
-    <Card className="col-span-3 border-none shadow-[0_2px_10px_-3px_rgba(0,0,0,0.1)]">
-        <CardHeader>
-        <CardTitle>Recent Sales</CardTitle>
-        <div className="text-sm text-stone-500">
-            Latest transaction history.
-        </div>
+    <Card className="col-span-1 lg:col-span-3 rounded-xl border border-[#F0EDE8] shadow-sm font-['Outfit']">
+        <CardHeader className="pb-3 pt-6 px-6">
+            <CardTitle className="text-base font-bold text-[#3E2723]">Recent Sales</CardTitle>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] mt-1">Latest transactions</p>
         </CardHeader>
-        <CardContent>
-        <div className="space-y-6">
+        <CardContent className="px-6 pb-6">
+            <div className="space-y-5">
                 {orders.slice(0, 5).map(order => (
                     <div key={order._id} className="flex items-center">
-                        <div className="h-9 w-9 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">
+                        <div className="h-9 w-9 rounded-lg bg-[#FAF7F2] text-[#6F4E37] flex items-center justify-center font-bold text-xs border border-[#F0EDE8]">
                             {order.customerName.charAt(0)}
                         </div>
-                        <div className="ml-4 space-y-1">
-                            <p className="text-sm font-medium leading-none text-stone-900">{order.customerName}</p>
-                            <p className="text-xs text-stone-500">{new Date(order.createdAt).toLocaleTimeString()}</p>
+                        <div className="ml-3">
+                            <p className="text-sm font-bold text-[#3E2723]">{order.customerName}</p>
+                            <p className="text-[9px] font-medium text-[#A68966] uppercase">{new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
-                        <div className="ml-auto font-medium text-stone-900">+${order.totalAmount.toFixed(2)}</div>
+                        <div className="ml-auto font-bold text-sm text-[#3E2723]">+${order.totalAmount.toFixed(2)}</div>
                     </div>
                 ))}
-                {orders.length === 0 && <p className="text-sm text-stone-500">No sales yet.</p>}
-        </div>
+                {orders.length === 0 && (
+                    <div className="py-8 text-center text-[#A68966]/40">
+                         <p className="text-xs font-bold uppercase tracking-widest">No sales yet</p>
+                    </div>
+                )}
+            </div>
         </CardContent>
     </Card>
   );

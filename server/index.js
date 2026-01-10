@@ -9,6 +9,7 @@ import productRoutes from './routes/productRoutes.js';
 import tableRoutes from './routes/tableRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 // Load env vars
 dotenv.config();
@@ -36,6 +37,10 @@ app.use('/api/products', productRoutes);
 app.use('/api/tables', tableRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/upload', uploadRoutes);
+
+// Error Middleware
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

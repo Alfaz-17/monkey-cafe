@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, ShoppingBag, Users, Utensils, TrendingUp } from 'lucide-react';
+import { DollarSign, ShoppingBag, Utensils, TrendingUp, Sparkles, Activity } from 'lucide-react';
 import StatsCard from '@/components/admin/StatsCard';
 import RecentOrdersWidget from '@/components/admin/RecentOrdersWidget';
+import { motion } from 'framer-motion';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -36,61 +37,64 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-extrabold tracking-tight text-stone-900">Control Tower</h1>
-          <p className="text-stone-500">Real-time overview of your cafe performance.</p>
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      {/* Simple Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 className="text-3xl font-black text-[#3E2723]">Dashboard</h1>
+            <p className="text-xs font-medium text-[#A68966] mt-1">Quick summary of today's performance</p>
+        </div>
       </div>
       
       {/* 1. Key Metrics Cards */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard 
             title="Total Revenue" 
             value={`$${stats.totalRevenue.toFixed(2)}`} 
             icon={DollarSign} 
-            description="Lifetime revenue"
+            description="Lifetime earnings"
         />
         <StatsCard 
             title="Total Orders" 
             value={stats.totalOrders} 
             icon={ShoppingBag} 
-            description="Lifetime orders"
+            description="Total transactions"
         />
         <StatsCard 
-            title="Live Orders" 
+            title="Active Orders" 
             value={stats.activeTables} 
             icon={Utensils} 
-            description="Currently preparing/serving"
+            description="In preparation"
         />
         <StatsCard 
-            title="Avg. Order Value" 
+            title="Avg Order" 
             value={`$${stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(2) : '0.00'}`} 
             icon={TrendingUp} 
-            description="Per customer"
+            description="Per ticket"
         />
       </div>
 
       {/* 2. Charts & Lists Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-6 lg:grid-cols-7 pb-10">
         
-        {/* Placeholder Chart Widget (Taking up 4 columns) */}
-        <Card className="col-span-4 border-none shadow-[0_2px_10px_-3px_rgba(0,0,0,0.1)]">
-          <CardHeader>
-            <CardTitle>Revenue Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-           <div className="h-[300px] flex items-center justify-center text-stone-400 bg-stone-50 rounded-xl m-4 border border-dashed border-stone-200">
+        {/* Simple Chart Widget */}
+        <Card className="lg:col-span-4 rounded-2xl border border-[#F0EDE8] shadow-sm bg-white overflow-hidden">
+          <div className="p-6">
+            <h3 className="text-xs font-black uppercase tracking-widest text-[#A68966] mb-6">Revenue Analysis</h3>
+            <div className="h-[300px] flex items-center justify-center bg-[#FAF7F2] rounded-xl border border-dashed border-[#F0EDE8]">
                <div className="text-center">
-                   <TrendingUp className="h-10 w-10 mx-auto mb-2 opacity-20" />
-                   <p>Visualization Chart Area</p>
-                   <p className="text-xs opacity-60">(Recharts Integration Ready)</p>
+                   <TrendingUp className="h-6 w-6 text-[#A68966] mx-auto mb-2" />
+                   <p className="text-xs font-bold text-[#3E2723]">Analytics Pending</p>
+                   <p className="text-[10px] text-[#A68966] mt-1">Data points will appear here</p>
                </div>
-           </div>
-          </CardContent>
+            </div>
+          </div>
         </Card>
 
         {/* Recent Sales Widget (Taking up 3 columns) */}
-        <RecentOrdersWidget orders={stats.recentOrders} />
+        <div className="lg:col-span-3">
+             <RecentOrdersWidget orders={[...stats.recentOrders].reverse().slice(0, 5)} />
+        </div>
       </div>
     </div>
   );

@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { Trash2, Plus, Printer, QrCode } from 'lucide-react';
+import { Trash2, Plus, QrCode } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface Table {
   _id: string;
@@ -25,8 +26,12 @@ export default function TablesPage() {
   }, []);
 
   const fetchTables = async () => {
-    const { data } = await api.get('/tables');
-    setTables(data);
+    try {
+        const { data } = await api.get('/tables');
+        setTables(data);
+    } catch (error) {
+        console.error('Failed to fetch tables:', error);
+    }
   };
 
   const handleAdd = async (e: React.FormEvent) => {
@@ -39,12 +44,12 @@ export default function TablesPage() {
       fetchTables();
     } catch (error) {
       console.error(error);
-      alert('Failed to add table (maybe duplicate?)');
+      alert('Failed to add table');
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure?')) return;
+    if (!confirm('Remove this table and its unique QR code?')) return;
     try {
         await api.delete(`/tables/${id}`);
         fetchTables();
@@ -55,78 +60,86 @@ export default function TablesPage() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-end">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-           <h1 className="text-3xl font-bold tracking-tight">Tables & QR Codes</h1>
-           <p className="text-muted-foreground mt-1">Manage cafe tables and print QR codes.</p>
+            <h1 className="text-3xl font-black text-[#3E2723]">Tables</h1>
+            <p className="text-xs font-medium text-[#A68966] mt-1">Manage physical table locations and QR codes</p>
         </div>
       </div>
 
-      <Card className="max-w-md">
-        <CardHeader>
-           <CardTitle className="text-base">Add New Table</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <Card className="max-w-md rounded-2xl border border-[#F0EDE8] shadow-sm">
+        <div className="p-6">
+            <h3 className="text-xs font-bold uppercase tracking-widest text-[#A68966] mb-4">Add New Table</h3>
             <form onSubmit={handleAdd} className="flex gap-3">
-                <div className="flex-1">
-                    <Label htmlFor="tableNo" className="sr-only">Table Number</Label>
-                    <Input
-                        id="tableNo"
-                        type="number"
-                        value={newTableNo}
-                        onChange={(e) => setNewTableNo(e.target.value)}
-                        placeholder="Table Number (e.g. 1)"
-                        required
-                    />
-                </div>
-                <Button type="submit" className="bg-green-600 hover:bg-green-700">
-                    <Plus className="w-4 h-4 mr-2" /> Add Table
+                <Input
+                    type="number"
+                    value={newTableNo}
+                    onChange={(e) => setNewTableNo(e.target.value)}
+                    placeholder="No. (e.g. 1)"
+                    className="h-12 rounded-lg bg-[#FAF7F2] border-[#F0EDE8] text-sm font-bold"
+                    required
+                />
+                <Button type="submit" className="h-12 px-6 bg-[#6F4E37] text-white rounded-lg font-bold uppercase text-[10px] tracking-widest">
+                    <Plus className="w-4 h-4 mr-2" /> Add
                 </Button>
             </form>
-        </CardContent>
+        </div>
       </Card>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {tables.map((table) => (
-            <Card key={table._id} className="overflow-hidden bg-white hover:shadow-md transition-all duration-200">
-                <CardHeader className="bg-gray-50/50 py-4 flex flex-row items-center justify-between border-b border-gray-100">
-                     <CardTitle className="text-lg font-bold flex items-center gap-2">
-                        <span className="bg-black text-white h-7 w-7 rounded-md flex items-center justify-center text-sm">{table.tableNo}</span>
-                        Table {table.tableNo}
-                     </CardTitle>
-                     <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="h-8 w-8 text-red-500 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => handleDelete(table._id)} 
-                     >
-                        <Trash2 className="w-4 h-4" />
-                     </Button>
-                </CardHeader>
-                <CardContent className="flex justify-center py-8">
-                     <div className="bg-white p-2 border rounded-lg shadow-sm">
-                        <QRCode 
-                            value={`${typeof window !== 'undefined' ? window.location.origin : ''}/menu/${table.tableNo}`}
-                            size={140}
-                        />
-                     </div>
-                </CardContent>
-                <CardFooter className="bg-gray-50/30 p-3 pt-0 flex gap-2">
-                     <Button 
-                        variant="secondary" 
-                        className="w-full text-xs font-semibold"
-                        onClick={() => window.open(`/menu/${table.tableNo}`, '_blank')}
-                     >
-                         <QrCode className="w-3.5 h-3.5 mr-2" />
-                         Test Menu
-                     </Button>
-                </CardFooter>
-            </Card>
-        ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <AnimatePresence mode='popLayout'>
+            {tables.map((table) => (
+                <motion.div 
+                    layout
+                    key={table._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                >
+                    <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white">
+                        <div className="p-4 border-b border-gray-50 flex items-center justify-between">
+                             <div className="flex items-center gap-3">
+                                 <div className="h-10 w-10 bg-[#FAF7F2] rounded-lg flex items-center justify-center text-[#6F4E37] font-bold text-sm border border-[#F0EDE8]">
+                                    {table.tableNo}
+                                 </div>
+                                 <span className="font-bold text-[#3E2723]">Table {table.tableNo}</span>
+                             </div>
+                             <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                className="h-8 w-8 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50"
+                                onClick={() => handleDelete(table._id)} 
+                             >
+                                <Trash2 className="w-4 h-4" />
+                             </Button>
+                        </div>
+                        <div className="flex justify-center p-8">
+                             <div className="bg-white p-4 rounded-xl shadow-inner border border-gray-100">
+                                <QRCode 
+                                    value={`${typeof window !== 'undefined' ? window.location.origin : ''}/menu/${table.tableNo}`}
+                                    size={140}
+                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                />
+                             </div>
+                        </div>
+                        <div className="p-4 pt-0">
+                             <Button 
+                                variant="outline" 
+                                className="w-full h-10 rounded-lg text-[#6F4E37] font-bold uppercase text-[9px] tracking-widest border-[#F0EDE8]"
+                                onClick={() => window.open(`/menu/${table.tableNo}`, '_blank')}
+                             >
+                                 Open Menu
+                             </Button>
+                        </div>
+                    </Card>
+                </motion.div>
+            ))}
+        </AnimatePresence>
+        
         {tables.length === 0 && (
-            <div className="col-span-full py-12 text-center text-muted-foreground bg-gray-50 rounded-xl border border-dashed">
-                <p>No tables added yet.</p>
+            <div className="col-span-full py-20 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
+                <QrCode className="w-12 h-12 mx-auto mb-4 text-[#A68966] opacity-30" />
+                <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No tables found</p>
             </div>
         )}
       </div>

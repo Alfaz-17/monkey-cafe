@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { Trash2, Plus, Star, Pencil, X } from 'lucide-react';
+import { Trash2, Plus, Star, Pencil, X, Coffee } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { getImageUrl } from '@/lib/utils/resolveImage';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import ImageUpload from '@/components/ui/ImageUpload';
 import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 interface Product {
   _id: string;
@@ -52,13 +53,21 @@ export default function ProductsTab() {
   }, []);
 
   const fetchProducts = async () => {
-    const { data } = await api.get('/products');
-    setProducts(data);
+    try {
+        const { data } = await api.get('/products');
+        setProducts(data);
+    } catch (error) {
+        console.error('Failed to fetch products:', error);
+    }
   };
 
   const fetchCategories = async () => {
-      const { data } = await api.get('/categories');
-      setCategories(data);
+      try {
+          const { data } = await api.get('/categories');
+          setCategories(data);
+      } catch (error) {
+          console.error('Failed to fetch categories:', error);
+      }
   };
 
   const handleTogglePopular = async (id: string) => {
@@ -126,11 +135,11 @@ export default function ProductsTab() {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h2 className="text-xl font-bold tracking-tight">Products</h2>
-            <p className="text-sm text-muted-foreground">Manage your cafe menu items.</p>
+            <h2 className="text-2xl font-black text-[#3E2723]">Products</h2>
+            <p className="text-xs font-medium text-[#A68966] mt-1">Add and manage your menu items</p>
         </div>
         <Button 
             onClick={() => {
@@ -138,75 +147,94 @@ export default function ProductsTab() {
                 setFormData({ name: '', price: '', description: '', category: '', image: '', isPopular: false, isActive: true, isVeg: true });
                 setIsModalOpen(true);
             }}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="w-full md:w-auto h-12 px-6 bg-[#6F4E37] text-white rounded-lg font-bold uppercase tracking-widest text-[10px]"
         >
-          <Plus className="w-4 h-4 mr-2" /> Add Product
+          <Plus className="w-4 h-4 mr-2" /> New Product
         </Button>
       </div>
 
-      <Card className="overflow-hidden border-stone-200 shadow-sm">
-        <div className="relative w-full overflow-auto">
-        <table className="w-full caption-bottom text-sm">
-          <thead className="[&_tr]:border-b">
-            <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Image</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Product</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Category</th>
-              <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Price</th>
-              <th className="h-12 px-4 text-center align-middle font-medium text-muted-foreground">Popular</th>
-              <th className="h-12 px-4 text-right align-middle font-medium text-muted-foreground">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="[&_tr:last-child]:border-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <AnimatePresence mode='popLayout'>
             {products.map((product) => (
-              <tr key={product._id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                <td className="p-4 align-middle">
-                   {product.image ? (
-                       <div className="h-10 w-10 rounded-md overflow-hidden bg-stone-100 border border-stone-200">
-                           <img src={getImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover" />
-                       </div>
-                   ) : (
-                       <div className="h-10 w-10 rounded-md bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] font-medium border border-stone-200">No IMG</div>
-                   )}
-                </td>
-                <td className="p-4 align-middle font-medium">
-                    {product.name}
-                    {!product.isActive && <span className="ml-2 text-xs text-red-500 font-normal">(Inactive)</span>}
-                </td>
-                <td className="p-4 align-middle text-muted-foreground">
-                    <Badge variant="secondary" className="font-normal bg-stone-100 text-stone-600 hover:bg-stone-200">
-                        {product.category?.name || 'Uncategorized'}
-                    </Badge>
-                </td>
-                <td className="p-4 align-middle font-medium">
-                    ${product.price.toFixed(2)}
-                </td>
-                <td className="p-4 align-middle text-center">
-                    <button onClick={() => handleTogglePopular(product._id)} className="focus:outline-none transition-transform active:scale-90">
-                        <Star className={`w-5 h-5 mx-auto transition-colors ${product.isPopular ? 'text-yellow-400 fill-yellow-400' : 'text-stone-300 hover:text-yellow-400'}`} />
-                    </button>
-                </td>
-                <td className="p-4 align-middle text-right">
-                  <div className="flex justify-end gap-2">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(product)} className="h-8 w-8 text-stone-500 hover:text-indigo-600">
-                        <Pencil className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(product._id)} className="h-8 w-8 text-stone-500 hover:text-red-600">
-                        <Trash2 className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </td>
-              </tr>
+              <motion.div 
+                layout
+                key={product._id}
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                  <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white h-full flex flex-col">
+                      <div className="h-44 relative bg-[#FAF7F2]">
+                          {product.image ? (
+                              <img src={getImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover" />
+                          ) : (
+                              <div className="h-full w-full flex items-center justify-center text-[#A68966]/20">
+                                  <Coffee className="w-10 h-10" />
+                              </div>
+                          )}
+                          
+                          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                             <Badge variant="outline" className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none", 
+                                product.isActive ? "bg-white/90 text-[#6F4E37]" : "bg-red-500 text-white"
+                             )}>
+                                {product.isActive ? 'Active' : 'Hidden'}
+                             </Badge>
+                          </div>
+
+                          <button 
+                            onClick={(e) => { e.stopPropagation(); handleTogglePopular(product._id); }}
+                            className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center shadow-sm"
+                          >
+                              <Star className={cn("w-4 h-4", product.isPopular ? "fill-yellow-400 text-yellow-400" : "text-gray-300")} />
+                          </button>
+                          
+                          <div className="absolute bottom-3 left-3">
+                             <div className="bg-white/90 px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
+                                <span className="text-sm font-bold text-[#3E2723]">${product.price.toFixed(2)}</span>
+                             </div>
+                          </div>
+                      </div>
+
+                      <div className="p-5 flex-1 flex flex-col">
+                          <div className="flex-1">
+                              <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest text-[#A68966] mb-2">
+                                  {product.category?.name || 'Uncategorized'}
+                              </Badge>
+                              <h3 className="text-lg font-bold text-[#3E2723] leading-tight">{product.name}</h3>
+                              <p className="text-[11px] text-[#A68966] mt-2 line-clamp-2 leading-relaxed font-medium">
+                                  {product.description || 'No description.'}
+                              </p>
+                          </div>
+
+                          <div className="flex gap-2 mt-4">
+                              <Button 
+                                variant="outline" 
+                                size="sm"
+                                onClick={() => handleEdit(product)} 
+                                className="flex-1 h-9 rounded-lg border-[#F0EDE8] text-[#6F4E37] font-bold uppercase text-[9px]"
+                              >
+                                  Edit
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => handleDelete(product._id)} 
+                                className="h-9 w-9 p-0 rounded-lg border-red-50 text-red-500 hover:bg-red-50"
+                              >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                          </div>
+                      </div>
+                  </Card>
+              </motion.div>
             ))}
-             {products.length === 0 && (
-                <tr>
-                    <td colSpan={6} className="p-8 text-center text-muted-foreground">No products found. Add your first item!</td>
-                </tr>
-            )}
-          </tbody>
-        </table>
-        </div>
-      </Card>
+        </AnimatePresence>
+        
+        {products.length === 0 && (
+            <div className="col-span-full py-16 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No products found</p>
+            </div>
+        )}
+      </div>
 
       {/* Modern Modal Overlay */}
       <AnimatePresence>

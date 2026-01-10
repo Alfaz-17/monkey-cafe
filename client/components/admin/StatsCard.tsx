@@ -13,21 +13,21 @@ interface StatsCardProps {
 
 export default function StatsCard({ title, value, icon: Icon, trend, description }: StatsCardProps) {
   return (
-    <Card className="border-none shadow-[0_2px_10px_-3px_rgba(0,0,0,0.1)] hover:shadow-lg transition-shadow duration-300">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-stone-500">{title}</CardTitle>
-        <div className="h-8 w-8 rounded-lg bg-stone-100 flex items-center justify-center">
-            <Icon className="h-4 w-4 text-stone-600" />
-        </div>
+    <Card className="rounded-xl border border-[#F0EDE8] shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-1 pt-4 px-5">
+            <CardTitle className="text-[10px] font-bold uppercase tracking-widest text-[#A68966]">{title}</CardTitle>
+            <div className="h-8 w-8 rounded-lg bg-[#FAF7F2] flex items-center justify-center text-[#6F4E37]">
+                <Icon className="h-4 w-4" />
+            </div>
         </CardHeader>
-        <CardContent>
-        <div className="text-2xl font-bold text-stone-900">{value}</div>
-        {(trend || description) && (
-            <p className="text-xs text-stone-500 mt-1">
-                {trend && <span className="text-green-600 font-medium mr-1">{trend}</span>}
-                {description}
-            </p>
-        )}
+        <CardContent className="px-5 pb-4">
+            <div className="text-2xl font-bold text-[#3E2723]">{value}</div>
+            {(trend || description) && (
+                <p className="text-[9px] font-bold text-[#A68966] mt-1 uppercase tracking-wider">
+                    {trend && <span className="text-green-600 mr-1">{trend}</span>}
+                    {description}
+                </p>
+            )}
         </CardContent>
     </Card>
   );

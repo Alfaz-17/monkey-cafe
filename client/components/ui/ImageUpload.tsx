@@ -5,6 +5,7 @@ import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios'; // Direct axios or use lib/api
 import api from '@/lib/api';
 import { getImageUrl } from '@/lib/utils/resolveImage';
+import { cn } from '@/lib/utils';
 
 interface ImageUploadProps {
     value: string;
@@ -39,22 +40,24 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
   };
 
   return (
-    <div className="w-full">
-        <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+    <div className="w-full font-['Outfit']">
+        {label && <label className="block text-[10px] font-bold uppercase tracking-widest text-[#A68966] mb-2 ml-1">{label}</label>}
         
         {value ? (
-            <div className="relative w-32 h-32 rounded-lg border border-gray-200 overflow-hidden group">
+            <div className="relative w-full aspect-square rounded-xl border border-[#F0EDE8] overflow-hidden group shadow-sm bg-[#FAF7F2]">
                 <img src={getImageUrl(value)} alt="Uploaded" className="w-full h-full object-cover" />
-                <button
-                    type="button"
-                    onClick={() => onChange('')}
-                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-md"
-                >
-                    <X className="w-4 h-4" />
-                </button>
+                <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button
+                        type="button"
+                        onClick={() => onChange('')}
+                        className="bg-white text-[#3E2723] rounded-lg px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest shadow-md"
+                    >
+                        Change Image
+                    </button>
+                </div>
             </div>
         ) : (
-             <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 hover:bg-gray-50 transition-colors relative">
+             <div className="border border-dashed border-[#F0EDE8] rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-[#FAF7F2] transition-colors relative aspect-square bg-white">
                 <input 
                     type="file" 
                     accept="image/*"
@@ -63,13 +66,18 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
                     disabled={uploading}
                 />
                 {uploading ? (
-                    <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+                    <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="w-6 h-6 text-[#6F4E37] animate-spin" />
+                        <span className="text-[10px] font-bold uppercase text-[#A68966]">Uploading...</span>
+                    </div>
                 ) : (
-                    <>
-                        <ImageIcon className="w-8 h-8 text-gray-400 mb-2" />
-                        <span className="text-sm text-gray-500 font-medium">Click to upload</span>
-                        <span className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP</span>
-                    </>
+                    <div className="text-center">
+                        <div className="w-12 h-12 rounded-lg bg-[#FAF7F2] flex items-center justify-center mx-auto mb-3 border border-gray-100">
+                            <ImageIcon className="w-5 h-5 text-[#A68966]" />
+                        </div>
+                        <span className="text-xs font-bold text-[#3E2723] block">Select Image</span>
+                        <span className="text-[9px] text-[#A68966] mt-1 block uppercase">JPG, PNG (Max 5MB)</span>
+                    </div>
                 )}
              </div>
         )}
