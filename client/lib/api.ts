@@ -1,13 +1,14 @@
 import axios from 'axios';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+export const IMAGE_BASE_URL = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || 'http://localhost:5000';
+
 const api = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
 });
-
-export const IMAGE_BASE_URL = 'http://localhost:5000';
 
 // Request Interceptor: Attach Token
 api.interceptors.request.use(

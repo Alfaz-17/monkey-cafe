@@ -71,24 +71,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
   
   const decrementFromCart = (uniqueId: string) => {
-       console.log('🗑️ decrementFromCart called with uniqueId:', uniqueId);
        setCartItems((prevItems) => {
-            console.log('📦 Current cart items:', prevItems.map(x => ({ id: x._id, uniqueId: x.uniqueId, qty: x.qty, name: x.name })));
             const existItem = prevItems.find((x) => (x.uniqueId || x._id) === uniqueId);
-            console.log('🔍 Found item:', existItem ? { id: existItem._id, uniqueId: existItem.uniqueId, qty: existItem.qty } : 'NOT FOUND');
             if (existItem) {
                 if (existItem.qty === 1) {
-                    console.log('❌ Deleting item with qty=1');
-                    const filtered = prevItems.filter((x) => (x.uniqueId || x._id) !== uniqueId);
-                    console.log('✅ After filter, items remaining:', filtered.length);
-                    return filtered;
+                    return prevItems.filter((x) => (x.uniqueId || x._id) !== uniqueId);
                 }
-                console.log('➖ Decrementing item qty from', existItem.qty, 'to', existItem.qty - 1);
                 return prevItems.map((x) =>
                      (x.uniqueId || x._id) === uniqueId ? { ...x, qty: x.qty - 1 } : x
                 );
             }
-            console.log('⚠️ Item not found, returning prevItems unchanged');
             return prevItems;
        });
    };

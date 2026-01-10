@@ -26,8 +26,8 @@ const importData = async () => {
         const hashedPassword = await bcrypt.hash('123456', salt);
 
         await User.create({
-            name: 'Admin User',
-            email: 'admin@example.com',
+            name: 'Monkey_Cafe',
+            email: 'monkey@.com',
             password: hashedPassword,
             isAdmin: true,
         });
