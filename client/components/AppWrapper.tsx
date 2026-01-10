@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
+import BottomNav from '@/components/BottomNav';
 
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -68,6 +69,9 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
             {/* Extra Right Space for balance on very large screens */}
             <div className="hidden xl:block w-[320px]"></div>
         </div>
+        
+        {/* Native App Bottom Navigation */}
+        <BottomNav />
     </div>
   );
 }

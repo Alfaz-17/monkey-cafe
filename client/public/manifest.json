@@ -1,0 +1,37 @@
+{
+  "name": "Monkey Cafe",
+  "short_name": "MonkeyCafe",
+  "description": "Order your favorites instantly",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#6F4E37",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "View Menu",
+      "url": "/menu/1",
+      "description": "Browse our menu"
+    },
+    {
+      "name": "My Cart",
+      "url": "/cart",
+      "description": "View your cart"
+    }
+  ]
+}

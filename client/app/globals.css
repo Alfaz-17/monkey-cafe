@@ -147,4 +147,40 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Native App Enhancements */
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  body {
+    overscroll-behavior-y: contain;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* iOS-specific smooth scrolling */
+  .scrollbar-hide {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Native button press effect */
+  button, a, [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+
+  /* Prevent iOS zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+
+  /* Smooth native transitions */
+  @media (prefers-reduced-motion: no-preference) {
+    * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
 }
