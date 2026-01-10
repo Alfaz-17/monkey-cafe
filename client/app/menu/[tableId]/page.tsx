@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { useCart } from '@/context/CartContext';
-import { Search, Menu, CloudRain, ShoppingBag, ChevronRight, ChefHat, CheckCircle2, ArrowLeft, Clock, User, Flame, Sparkles } from 'lucide-react';
+import { Search,X, Menu, CloudRain, ShoppingBag, ChevronRight, ChefHat, CheckCircle2, ArrowLeft, Clock, User, Flame, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -61,13 +61,16 @@ export default function MenuPage() {
     const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                          p.description?.toLowerCase().includes(searchQuery.toLowerCase());
     
+    // Global search when typing, otherwise category filter
+    if (searchQuery.trim()) return matchesSearch;
+
     let matchesCategory = activeCategory === 'all';
     if (!matchesCategory) {
         const prodCatId = typeof p.category === 'string' ? p.category : (p.category as any)?._id;
         const activeCatObj = categories.find(c => c.name === activeCategory);
         matchesCategory = (prodCatId === activeCatObj?._id) || (activeCategory === (p.category as any)?.name);
     }
-    return matchesSearch && matchesCategory;
+    return matchesCategory;
   });
 
   const popularProducts = products.filter(p => p.isPopular);
@@ -141,31 +144,39 @@ export default function MenuPage() {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-[#A68966] group-focus-within:text-[#6F4E37] transition-colors" />
             <Input 
               placeholder="Search for coffee, burgers..." 
-              className="h-12 sm:h-16 pl-11 sm:pl-14 pr-4 sm:pr-6 bg-white rounded-[2rem] border-transparent shadow-[0_10px_30px_rgba(0,0,0,0.03)] focus:bg-white focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all text-sm font-bold placeholder:text-[#A68966]/60 placeholder:font-medium"
+              className="h-12 sm:h-16 pl-11 sm:pl-14 pr-12 sm:pr-14 bg-white rounded-[2rem] border-transparent shadow-[0_10px_30px_rgba(0,0,0,0.03)] focus:bg-white focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all text-sm font-bold placeholder:text-[#A68966]/60 placeholder:font-medium"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            {searchQuery && (
+              <button 
+                onClick={() => setSearchQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-[#FAF7F2] rounded-full transition-colors"
+              >
+                <X className="w-4 h-4 text-[#A68966]" />
+              </button>
+            )}
           </div>
 
           {/* Native-App Style Categories (Story Mode) */}
-          <section className="space-y-2">
+          <section className="space-y-4">
             <div className="flex items-center justify-between px-1">
-                <h3 className="text-[11px] font-black text-[#6F4E37]/50 uppercase tracking-[0.3em]">Kitchen Segments</h3>
+                <h3 className="text-xs font-black text-[#6F4E37]/40 uppercase tracking-[0.3em]">Kitchen Segments</h3>
             </div>
-            <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+            <div className="-mx-4 sm:-mx-6 px-4 sm:px-6 flex gap-7 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
                 <div 
                     onClick={() => setActiveCategory('all')}
-                    className="flex flex-col items-center gap-2.5 flex-shrink-0 snap-start cursor-pointer group"
+                    className="flex flex-col items-center gap-3 flex-shrink-0 snap-start cursor-pointer group"
                 >
                     <div className={`
-                        w-16 h-16 rounded-[1.8rem] flex items-center justify-center text-2xl transition-all duration-300
+                        w-[4.2rem] h-[4.2rem] rounded-[1.8rem] flex items-center justify-center text-2xl transition-all duration-300
                         ${activeCategory === 'all' 
-                        ? 'bg-[#6F4E37] text-white shadow-[0_10px_20px_rgba(111,78,55,0.25)] scale-110 ring-4 ring-[#FAF7F2] outline-2 outline-[#6F4E37]' 
-                        : 'bg-white text-[#8D7F75] border border-[#F0EDE8] group-hover:border-[#D4A373]/50'}
+                        ? 'bg-[#6F4E37] text-white shadow-[0_12px_24px_rgba(111,78,55,0.2)] scale-105 border-4 border-white' 
+                        : 'bg-white text-[#8D7F75] border border-[#F0EDE8] group-hover:scale-105 transition-transform'}
                     `}>
                         🍽️
                     </div>
-                    <span className={`text-[11px] font-black uppercase tracking-widest transition-colors ${activeCategory === 'all' ? 'text-[#3E2723]' : 'text-[#A68966]'}`}>
+                    <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${activeCategory === 'all' ? 'text-[#3E2723]' : 'text-[#A68966]/60'}`}>
                         All
                     </span>
                 </div>
@@ -173,24 +184,21 @@ export default function MenuPage() {
                 <div
                     key={cat._id}
                     onClick={() => setActiveCategory(cat.name)}
-                    className="flex flex-col items-center gap-2.5 flex-shrink-0 snap-start cursor-pointer group"
+                    className="flex flex-col items-center gap-3 flex-shrink-0 snap-start cursor-pointer group"
                 >
                     <div className={`
-                        w-16 h-16 rounded-[1.8rem] overflow-hidden transition-all duration-300 relative
+                        w-[4.2rem] h-[4.2rem] rounded-[1.8rem] overflow-hidden transition-all duration-300 relative
                         ${activeCategory === cat.name 
-                            ? 'shadow-[0_10px_20px_rgba(111,78,55,0.25)] scale-110 ring-4 ring-[#FAF7F2] outline-2 outline-[#6F4E37]' 
-                            : 'border border-[#F0EDE8] opacity-70 group-hover:opacity-100'}
+                            ? 'shadow-[0_12px_24px_rgba(111,78,55,0.2)] scale-105 border-4 border-white' 
+                            : 'border border-[#F0EDE8] opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all'}
                     `}>
                         {cat.image ? (
-                            <img src={getImageUrl(cat.image)} alt={cat.name} className="w-full h-full object-cover transition-transform group-hover:scale-110" />
+                            <img src={getImageUrl(cat.image)} alt={cat.name} className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full bg-[#FAF7F2] flex items-center justify-center text-xl">☕</div>
                         )}
-                        {activeCategory === cat.name && (
-                            <div className="absolute inset-0 bg-[#6F4E37]/10 pointer-events-none" />
-                        )}
                     </div>
-                    <span className={`text-[11px] font-black uppercase tracking-widest transition-colors ${activeCategory === cat.name ? 'text-[#3E2723]' : 'text-[#A68966]'}`}>
+                    <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${activeCategory === cat.name ? 'text-[#3E2723]' : 'text-[#A68966]/60'}`}>
                         {cat.name}
                     </span>
                 </div>
@@ -199,7 +207,7 @@ export default function MenuPage() {
           </section>
 
           {/* High-End Popular Section */}
-          {activeCategory === 'all' && popularProducts.length > 0 && (
+          {!searchQuery && activeCategory === 'all' && popularProducts.length > 0 && (
             <section className="space-y-4">
               <div className="flex items-center justify-between px-1">
                 <h3 className="text-xs font-black text-[#A68966] uppercase tracking-[0.2em] flex items-center gap-2">
@@ -220,17 +228,36 @@ export default function MenuPage() {
           <section className="space-y-6">
             <div className="flex items-center justify-between px-1">
               <h3 className="text-xs font-black text-[#A68966] uppercase tracking-[0.2em]">
-                {activeCategory === 'all' ? 'FULL MENU' : activeCategory}
+                {searchQuery ? `Search Results for "${searchQuery}"` : (activeCategory === 'all' ? 'FULL MENU' : activeCategory)}
               </h3>
               <span className="text-[10px] font-black bg-[#E7DCCA] text-[#6F4E37] px-2 py-0.5 rounded-full uppercase">
                 {filteredProducts.length} Items
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6">
-              {filteredProducts.map(product => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
+            {filteredProducts.length > 0 ? (
+              <div className="grid grid-cols-2 gap-x-4 gap-y-6">
+                {filteredProducts.map(product => (
+                  <ProductCard key={product._id} product={product} />
+                ))}
+              </div>
+            ) : (
+              <div className="py-20 text-center space-y-4 bg-white/50 rounded-[2.5rem] border-2 border-dashed border-[#E7DCCA]/30">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto shadow-sm">
+                  <Search className="w-8 h-8 text-[#A68966]/40" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-[#3E2723] uppercase">No matches found</h4>
+                  <p className="text-[10px] font-bold text-[#A68966] mt-1">Try searching for something else</p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setSearchQuery('')}
+                  className="h-10 px-6 rounded-full border-[#E7DCCA] text-[10px] font-black uppercase tracking-widest text-[#6F4E37]"
+                >
+                  Clear Search
+                </Button>
+              </div>
+            )}
           </section>
         </div>
       </div>

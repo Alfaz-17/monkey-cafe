@@ -61,11 +61,11 @@ const updateProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
     if (product) {
-        product.name = name || product.name;
-        product.price = price || product.price;
-        product.description = description || product.description;
-        product.image = image || product.image;
-        product.category = category || product.category;
+        product.name = name !== undefined ? name : product.name;
+        product.price = price !== undefined ? price : product.price;
+        product.description = description !== undefined ? description : product.description;
+        product.image = image !== undefined ? image : product.image;
+        product.category = category !== undefined ? category : product.category;
         product.isPopular = isPopular !== undefined ? isPopular : product.isPopular;
         product.isActive = isActive !== undefined ? isActive : product.isActive;
         product.isVeg = isVeg !== undefined ? isVeg : product.isVeg;

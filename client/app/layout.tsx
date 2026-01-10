@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -21,17 +21,18 @@ const outfit = Outfit({
     display: 'swap',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: '#FAF7F2',
+};
+
 export const metadata: Metadata = {
   title: "Monkey Cafe | Premium Digital Menu",
   description: "Order your favorites instantly.",
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: 'cover',
-  },
-  themeColor: '#FAF7F2',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',

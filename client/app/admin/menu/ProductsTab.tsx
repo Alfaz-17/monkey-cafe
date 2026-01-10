@@ -53,7 +53,7 @@ export default function ProductsTab() {
     setFormData({
       name: product.name,
       price: product.price,
-      category: product.category,
+      category: typeof product.category === 'object' ? product.category._id : product.category,
       description: product.description || '',
       image: product.image || '',
       isVeg: product.isVeg,
@@ -236,6 +236,13 @@ export default function ProductsTab() {
                   {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
                 </select>
               </div>
+              <Textarea 
+                placeholder="Product Description" 
+                value={formData.description} 
+                onChange={(e) => setFormData({...formData, description: e.target.value})} 
+                required 
+                className="min-h-[100px]"
+              />
               <div className="space-y-2">
                 <label className="text-sm font-medium">Product Image</label>
                 <div 

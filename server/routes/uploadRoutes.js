@@ -1,42 +1,33 @@
 import express from 'express';
 import multer from 'multer';
-import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
-// Configure local storage
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename(req, file, cb) {
-        cb(
-            null,
-            `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-        );
+// Configure Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Configure Cloudinary Storage for Multer
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'monkey-cafe',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+        public_id: (req, file) => `${file.fieldname}-${Date.now()}`,
     },
 });
 
-function checkFileType(file, cb) {
-    const filetypes = /jpg|jpeg|png|webp/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
+const upload = multer({ storage });
 
-    if (extname && mimetype) {
-        return cb(null, true);
-    } else {
-        cb('Images only!');
-    }
-}
-
-const upload = multer({
-    storage,
-    fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
-    },
-});
-
-// @desc    Upload image to local storage
+// @desc    Upload image to Cloudinary
 // @route   POST /api/upload
 // @access  Public
 router.post('/', upload.single('image'), (req, res) => {
@@ -44,9 +35,8 @@ router.post('/', upload.single('image'), (req, res) => {
         return res.status(400).json({ message: 'No file uploaded' });
     }
     
-    // Return the accessible URL path
-    // The server serves /uploads statically
-    res.json({ url: `/${req.file.path.replace(/\\/g, '/')}` });
+    // Return the secure Cloudinary URL
+    res.json({ url: req.file.path });
 });
 
 export default router;
