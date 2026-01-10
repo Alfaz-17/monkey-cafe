@@ -244,7 +244,7 @@ export default function MenuPage() {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent z-40"
+            className="fixed bottom-16 sm:bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent z-40"
           >
             <div className="w-full">
                 <Button 
