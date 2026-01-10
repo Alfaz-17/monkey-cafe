@@ -89,10 +89,10 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-[#FAF7F2] font-['Outfit'] text-[#3E2723]">
+    <div className="flex flex-col h-[100dvh] bg-[#FAF7F2] font-['Outfit'] text-[#3E2723] overflow-hidden">
       
       {/* Premium Header Aligned with Cart */}
- <header className="sticky top-0 bg-[#FAF7F2]/80 backdrop-blur-xl z-30 px-6 py-5 border-b border-[#E7DCCA]/40">
+ <header className="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-xl z-30 px-4 sm:px-6 py-3 sm:py-5 border-b border-[#E7DCCA]/40 flex-shrink-0">
   <div className="flex items-center justify-between">
     <div className="flex items-center gap-4">
       <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/menu/${tableIdParam}`)}>
@@ -126,8 +126,8 @@ export default function MenuPage() {
   </div>
 </header>
 
-      <div className="flex-1 overflow-hidden">
-        <div className="p-6 space-y-8 max-h-full overflow-y-auto scrollbar-hide pb-40">
+      <div className="flex-1 overflow-y-auto scrollbar-hide">
+        <div className="px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-32 sm:pb-40">
           {/* Dynamic Greeting */}
           <div className="space-y-1">
             <span className="text-[10px] font-black text-[#A68966] uppercase tracking-[0.3em] ml-1">{greeting}</span>
