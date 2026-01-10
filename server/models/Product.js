@@ -38,7 +38,7 @@ const productSchema = mongoose.Schema({
     },
     customizations: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Customization' // We will create this model next
+        ref: 'Customization'
     }]
 }, {
     timestamps: true,

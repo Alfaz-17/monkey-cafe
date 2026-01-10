@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CartPage() {
-  const { cartItems, addToCart, removeFromCart, totalPrice, clearCart, tableId } = useCart();
+  const { cartItems, addToCart, removeFromCart, decrementFromCart, totalPrice, clearCart, tableId } = useCart();
   const router = useRouter();
   
   const [customerName, setCustomerName] = useState('');
@@ -34,17 +34,22 @@ export default function CartPage() {
             customerName,
             customerMobile,
             orderItems: cartItems.map(item => ({
-                product: item.id,
+                product: item._id, // Use _id as product reference
                 name: item.name,
                 price: item.price,
-                qty: item.qty
+                qty: item.qty,
+                // Pass customizations if backend supports it
+                customizations: item.selectedCustomizations?.map(c => ({
+                    name: c.name + (c.optionName ? ` (${c.optionName})` : ''),
+                    price: c.price // This should be validated on backend but good for display
+                }))
             })),
             totalPrice: totalPrice,
         };
 
         const { data } = await api.post('/orders', orderData);
         clearCart();
-        router.push('/order-success');
+        router.push(`/order-success?orderId=${data._id}`); // Pass order ID to success page
     } catch (error: any) {
         console.error(error);
         alert(error.response?.data?.message || 'Order Failed');
@@ -53,11 +58,15 @@ export default function CartPage() {
     }
   };
 
-  const updateQty = (id: string, delta: number) => {
-      const item = cartItems.find(x => x.id === id);
+  const updateQty = (uniqueId: string, delta: number) => {
+      const item = cartItems.find(x => (x.uniqueId || x._id) === uniqueId);
       if (!item) return;
-      if (item.qty + delta > 0) addToCart({ ...item, qty: delta });
-      else removeFromCart(id);
+      
+      if (delta > 0) {
+          addToCart({ ...item, qty: 1 }); // addToCart adds to existing
+      } else {
+          decrementFromCart(uniqueId);
+      }
   };
 
   if (cartItems.length === 0) {
@@ -101,35 +110,49 @@ export default function CartPage() {
               <AnimatePresence>
               {cartItems.map((item) => (
                   <motion.div 
-                    key={item.id}
+                    key={item.uniqueId || item._id}
                     layout 
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="flex items-center justify-between bg-white p-4 rounded-2xl border border-stone-100 shadow-sm"
+                    className="flex items-start justify-between bg-white p-4 rounded-2xl border border-stone-100 shadow-sm"
                   >
-                     <div className="flex items-center gap-4">
+                     <div className="flex items-start gap-4">
                          {item.image ? (
-                             <img src={item.image} className="h-16 w-16 rounded-xl object-cover bg-stone-100" />
+                             <img src={item.image} className="h-16 w-16 rounded-xl object-cover bg-[#F5EFE6]" />
                          ) : (
-                             <div className="h-16 w-16 rounded-xl bg-stone-100" />
+                             <div className="h-16 w-16 rounded-xl bg-[#F5EFE6] flex items-center justify-center text-stone-300">
+                                 <span className="text-xs">IMG</span>
+                             </div>
                          )}
                          <div>
-                            <h3 className="font-bold text-stone-900">{item.name}</h3>
-                            <p className="text-stone-500 text-sm font-medium mt-0.5">${(item.price * item.qty).toFixed(2)}</p>
+                            <h3 className="font-bold text-[#1F2937] leading-tight">{item.name}</h3>
+                            
+                            {/* Customizations */}
+                            {(item.selectedCustomizations && item.selectedCustomizations.length > 0) && (
+                                <div className="mt-1 space-y-0.5">
+                                    {item.selectedCustomizations.map((cust, idx) => (
+                                        <p key={idx} className="text-[11px] text-[#6B7280]">
+                                            {cust.name}: <span className="font-medium text-[#4B5563]">{cust.optionName}</span>
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
+
+                            <p className="text-[#6F4E37] text-sm font-bold mt-1.5">${(item.price * item.qty).toFixed(2)}</p>
                          </div>
                      </div>
-                     <div className="flex flex-col items-center gap-2 bg-stone-50 rounded-lg p-1">
+                     <div className="flex flex-col items-center gap-2 bg-[#FAF7F2] rounded-lg p-1">
                           <button 
-                            onClick={() => updateQty(item.id, 1)}
-                            className="h-8 w-8 rounded-md bg-white shadow-sm flex items-center justify-center text-stone-800 hover:text-orange-600 active:scale-95 transition-all"
+                            onClick={() => updateQty(item.uniqueId || item._id, 1)}
+                            className="h-8 w-8 rounded-md bg-white shadow-sm flex items-center justify-center text-[#6F4E37] hover:bg-[#6F4E37] hover:text-white active:scale-95 transition-all"
                           >
                               <Plus className="w-4 h-4" />
                           </button>
-                          <span className="font-bold text-sm text-stone-900">{item.qty}</span>
+                          <span className="font-bold text-sm text-[#3E2723]">{item.qty}</span>
                           <button 
-                            onClick={() => updateQty(item.id, -1)}
-                            className="h-8 w-8 rounded-md bg-white shadow-sm flex items-center justify-center text-stone-800 hover:text-red-600 active:scale-95 transition-all"
+                            onClick={() => updateQty(item.uniqueId || item._id, -1)}
+                            className="h-8 w-8 rounded-md bg-white shadow-sm flex items-center justify-center text-[#6F4E37] hover:text-red-600 active:scale-95 transition-all"
                           >
                               {item.qty === 1 ? <Trash2 className="w-3.5 h-3.5 text-red-400" /> : <Minus className="w-4 h-4" />}
                           </button>
@@ -203,7 +226,7 @@ export default function CartPage() {
              <Button 
                 onClick={handlePlaceOrder}
                 disabled={loading}
-                className="w-full h-14 rounded-2xl bg-orange-600 hover:bg-orange-700 text-white shadow-xl shadow-orange-200 font-bold text-lg flex items-center justify-center gap-2 group transition-all hover:scale-[1.02]"
+                className="w-full h-14 rounded-2xl bg-[#6F4E37] hover:bg-[#5A3E2B] text-white shadow-xl flex items-center justify-center gap-2 group transition-all hover:scale-[1.02]"
              >
                 {loading ? <Loader2 className="animate-spin" /> : (
                     <>

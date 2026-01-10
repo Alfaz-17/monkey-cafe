@@ -28,7 +28,14 @@ const orderSchema = mongoose.Schema({
             name: { type: String, required: true },
             price: { type: Number, required: true },
             qty: { type: Number, required: true },
-            // customizations can be added here later
+            // customizations: [{
+            //     name: { type: String }, 
+            //     price: { type: Number }
+            // }]
+            customizations: [{
+                name: { type: String }, // e.g., "Extra Cheese"
+                price: { type: Number }  // Price at time of order
+            }]
         }
     ],
     totalAmount: {

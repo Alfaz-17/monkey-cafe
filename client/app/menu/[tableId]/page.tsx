@@ -103,11 +103,11 @@ export default function MenuPage() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 pb-32 font-sans selection:bg-orange-100 selection:text-orange-900">
+    <div className="min-h-screen bg-[#FAF7F2] pb-32 font-sans selection:bg-[#D4A373] selection:text-white">
       
       {/* 1. Dynamic Hero Header */}
-      <header className="pt-6 pb-2 px-5 bg-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100 rounded-full blur-3xl -mr-10 -mt-10 opacity-60 pointer-events-none"></div>
+      {/* 1. Dynamic Hero Header */}
+      <header className="pt-6 pb-2 px-5 bg-[#FAF7F2] relative overflow-hidden">
           
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
@@ -116,42 +116,43 @@ export default function MenuPage() {
           >
               <div>
                   <div className="flex items-center gap-2 mb-1">
-                     <span className="bg-stone-900 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Table {tableIdParam}</span>
-                     <span className="text-xs text-stone-400 font-medium">Monkey Cafe</span>
+                     <span className="bg-[#1F2937] text-white text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">Table {tableIdParam}</span>
                   </div>
-                  <h1 className="text-2xl font-bold text-stone-900 leading-tight">{greeting}</h1>
+                  <h1 className="text-3xl font-bold text-[#1F2937] leading-tight font-serif mt-2">Monkey Cafe</h1>
+                  <p className="text-[#6B7280] text-sm font-medium">{greeting}</p>
               </div>
-              <div className="bg-white p-1 rounded-full shadow-sm border border-stone-100">
-                  <div className="h-10 w-10 rounded-full overflow-hidden bg-stone-100">
-                     <img src="https://ui-avatars.com/api/?name=Monkey+Cafe&background=f97316&color=fff" alt="Logo" className="h-full w-full object-cover" />
+              <div className="bg-white p-1 rounded-full shadow-sm border border-[#E5E7EB]">
+                  <div className="h-10 w-10 rounded-full overflow-hidden bg-[#F5EFE6]">
+                     <img src="https://ui-avatars.com/api/?name=Monkey+Cafe&background=6F4E37&color=fff" alt="Logo" className="h-full w-full object-cover" />
                   </div>
               </div>
           </motion.div>
 
-          {/* Search Bar - Airbnb Style Shadow */}
+          {/* Search Bar - Seamless */}
           <div className="relative z-10 group">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-stone-400 group-focus-within:text-orange-500 transition-colors" />
+                  <Search className="h-4 w-4 text-[#9CA3AF] group-focus-within:text-[#6F4E37] transition-colors" />
               </div>
               <input 
                   type="text" 
-                  className="block w-full pl-11 pr-4 py-3.5 border-none rounded-2xl bg-white text-stone-900 placeholder-stone-400 shadow-[0_2px_20px_-5px_rgba(0,0,0,0.08)] ring-1 ring-stone-100 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all font-medium" 
-                  placeholder="Search for dishes..." 
+                  className="block w-full pl-11 pr-4 py-3.5 border-none rounded-xl bg-white text-[#1F2937] placeholder-[#9CA3AF] shadow-sm ring-1 ring-[#E5E7EB] focus:outline-none focus:ring-2 focus:ring-[#6F4E37]/20 transition-all font-medium text-[15px]" 
+                  placeholder="Search for coffee, cakes..." 
                   disabled
               />
           </div>
       </header>
 
       {/* 2. Sticky Category Navigation */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-stone-100/50 pt-2 pb-3 shadow-sm">
+      {/* 2. Sticky Category Navigation */}
+      <div className="sticky top-0 z-40 bg-[#FAF7F2]/95 backdrop-blur-xl border-b border-[#E5E7EB] pt-2 pb-3">
          <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex w-max space-x-3 px-5">
                 <button
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-6 py-2.5 rounded-full text-[13px] font-bold transition-all duration-300 border ${
+                    className={`px-5 py-2 rounded-full text-[14px] font-medium transition-all duration-300 border ${
                         selectedCategory === 'all' 
-                        ? 'bg-stone-900 text-white border-stone-900 shadow-md' 
-                        : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
+                        ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-md' 
+                        : 'bg-white text-[#4B5563] border-[#E5E7EB] hover:bg-[#F5EFE6]'
                     }`}
                 >
                     All Items
@@ -160,10 +161,10 @@ export default function MenuPage() {
                     <button
                         key={cat._id}
                         onClick={() => setSelectedCategory(cat._id)}
-                        className={`px-6 py-2.5 rounded-full text-[13px] font-bold transition-all duration-300 border ${
+                        className={`px-5 py-2 rounded-full text-[14px] font-medium transition-all duration-300 border ${
                             selectedCategory === cat._id 
-                            ? 'bg-stone-900 text-white border-stone-900 shadow-md' 
-                            : 'bg-white text-stone-600 border-stone-200 hover:bg-stone-50'
+                            ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-md' 
+                            : 'bg-white text-[#4B5563] border-[#E5E7EB] hover:bg-[#F5EFE6]'
                         }`}
                     >
                         {cat.name}
@@ -181,10 +182,10 @@ export default function MenuPage() {
           <section className="mb-8">
             <div className="flex items-center justify-between mb-5">
                 <div>
-                    <h2 className="text-lg font-extrabold text-stone-900 flex items-center gap-1.5">
-                        Bestsellers <Star className="fill-orange-500 text-orange-500 h-4 w-4" />
+                    <h2 className="text-[20px] font-semibold text-[#1F2937] flex items-center gap-2">
+                        Bestsellers <Star className="fill-[#F59E0B] text-[#F59E0B] h-5 w-5" />
                     </h2>
-                    <p className="text-xs text-stone-500 font-medium mt-0.5">Most ordered in this cafe</p>
+                    <p className="text-[14px] text-[#6B7280] mt-0.5">Most ordered in this cafe</p>
                 </div>
             </div>
             <ScrollArea className="w-full whitespace-nowrap -mx-5 px-5">
