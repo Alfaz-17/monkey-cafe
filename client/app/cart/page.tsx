@@ -2,7 +2,7 @@
 
 import { useCart } from '@/context/CartContext';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getImageUrl } from '@/lib/utils/resolveImage';
 import api from '@/lib/api';
 import { 
@@ -16,7 +16,8 @@ import {
   MapPin, 
   User as UserIcon, 
   Phone,
-  Sparkles
+  Sparkles,
+  CheckCircle2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,11 +32,22 @@ export default function CartPage() {
   const [loading, setLoading] = useState(false);
   const [tableNo, setTableNo] = useState(tableId || '');
 
+  // Auto-navigate to menu if cart becomes empty
+  useEffect(() => {
+    if (cartItems.length === 0 && !loading) {
+        const timer = setTimeout(() => {
+            router.push(tableId ? `/menu/${tableId}` : '/');
+        }, 800); // Small delay to let animations finish
+        return () => clearTimeout(timer);
+    }
+  }, [cartItems.length, tableId, router, loading]);
+
   const handlePlaceOrder = async () => {
     if (!customerName || !customerMobile || !tableNo) {
         alert('Please fill all details');
         return;
     }
+   
     
     setLoading(true);
     try {
@@ -57,6 +69,15 @@ export default function CartPage() {
         };
 
         const { data } = await api.post('/orders', orderData);
+        
+        // Save to order history immediately for tracking
+        const existingOrders = localStorage.getItem('userOrders');
+        const orders = existingOrders ? JSON.parse(existingOrders) : [];
+        if (!orders.some((o: any) => o._id === data._id)) {
+            orders.unshift(data);
+            localStorage.setItem('userOrders', JSON.stringify(orders));
+        }
+        
         clearCart();
         router.push(`/order-success?orderId=${data._id}`);
     } catch (error: any) {
@@ -143,25 +164,25 @@ export default function CartPage() {
           </div>
       </header>
 
-      <main className="px-4 sm:px-6 space-y-6 sm:space-y-10 scrollbar-hide">
+      <main className="px-4 sm:px-6 space-y-8 sm:space-y-12 scrollbar-hide py-6">
           
           {/* Order Items Section */}
-          <section className="space-y-3 sm:space-y-4">
-              <div className="flex items-center justify-between px-1">
-                  <h2 className="text-xs font-black text-[#A68966] uppercase tracking-[0.2em]">Selected Delights</h2>
-                  <span className="text-[10px] font-bold bg-[#E7DCCA] text-[#6F4E37] px-2 py-0.5 rounded-full">{cartItems.length} ITEMS</span>
+          <section className="space-y-4">
+              <div className="flex items-center justify-between px-2">
+                  <h2 className="text-[11px] font-black text-[#6F4E37]/60 uppercase tracking-[0.25em]">Selected Delights</h2>
+                  <span className="text-[9px] font-black bg-[#6F4E37]/10 text-[#6F4E37] px-3 py-1 rounded-lg">{cartItems.length} {cartItems.length === 1 ? 'ITEM' : 'ITEMS'}</span>
               </div>
               
-              <div className="space-y-3 sm:space-y-4">
+              <div className="space-y-4">
                   <AnimatePresence mode="popLayout">
                   {cartItems.map((item) => (
                       <motion.div 
                         key={item.uniqueId || item._id}
                         layout 
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        className="group relative bg-white p-4 rounded-[2rem] border border-[#F0EDE8] hover:border-[#D4A373]/30 transition-all hover:shadow-[0_20px_40px_rgba(111,78,55,0.05)]"
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        className="group relative bg-white p-5 rounded-[2.5rem] border border-[#F0EDE8] hover:border-[#D4A373]/30 transition-all hover:shadow-[0_25px_50px_-12px_rgba(111,78,55,0.08)]"
                       >
                          <div className="flex items-start gap-4">
                             {/* Image Container */}
@@ -183,9 +204,9 @@ export default function CartPage() {
                             <div className="flex-1 min-w-0">
                                 <h3 className="font-black text-[#3E2723] text-lg leading-tight truncate">{item.name}</h3>
                                 
-                                <div className="flex flex-wrap gap-1 mt-1.5 min-h-[16px]">
+                                 <div className="flex flex-wrap gap-1 mt-1.5 min-h-[16px]">
                                     {item.selectedCustomizations?.map((cust, idx) => (
-                                        <span key={idx} className="text-[9px] font-bold bg-[#FAF7F2] text-[#8D7F75] px-2 py-0.5 rounded-full border border-[#F0EDE8]">
+                                        <span key={idx} className="text-[8px] font-medium bg-[#FAF7F2] text-[#8D7F75] px-2 py-0.5 rounded-md border border-[#F0EDE8]/60">
                                             {cust.optionName}
                                         </span>
                                     ))}
@@ -198,19 +219,19 @@ export default function CartPage() {
                                     </p>
                                     
                                     {/* Controls Integrated */}
-                                    <div className="flex items-center gap-3 bg-[#FAF7F2] border border-[#F0EDE8] rounded-2xl p-1">
+                                     <div className="flex items-center gap-3 bg-[#FAF7F2] rounded-2xl p-1 shadow-inner">
                                         <button 
                                             onClick={() => updateQty(item.uniqueId || item._id, -1)}
-                                            className="h-8 w-8 rounded-xl flex items-center justify-center text-[#6F4E37] hover:bg-white hover:shadow-sm active:scale-90 transition-all"
+                                            className="h-9 w-9 rounded-xl flex items-center justify-center text-[#6F4E37] hover:bg-white hover:shadow-sm active:scale-90 transition-all"
                                         >
-                                            {item.qty === 1 ? <Trash2 className="w-3.5 h-3.5 text-red-400" /> : <Minus className="w-3.5 h-3.5" />}
+                                            {item.qty === 1 ? <Trash2 className="w-4 h-4 text-red-400" /> : <Minus className="w-4 h-4" />}
                                         </button>
-                                        <span className="font-black text-sm w-4 text-center">{item.qty}</span>
+                                        <span className="font-bold text-base w-5 text-center">{item.qty}</span>
                                         <button 
                                             onClick={() => updateQty(item.uniqueId || item._id, 1)}
-                                            className="h-8 w-8 rounded-xl flex items-center justify-center bg-[#6F4E37] text-white shadow-sm hover:bg-[#5A3E2B] active:scale-95 transition-all"
+                                            className="h-9 w-9 rounded-xl flex items-center justify-center bg-[#6F4E37] text-white shadow-md hover:bg-[#5A3E2B] active:scale-95 transition-all"
                                         >
-                                            <Plus className="w-3.5 h-3.5" />
+                                            <Plus className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </div>
@@ -224,83 +245,84 @@ export default function CartPage() {
 
           {/* Details Form Card */}
           <section className="space-y-4">
-              <h2 className="text-xs font-black text-[#A68966] uppercase tracking-[0.2em] pl-1">Personal Touch</h2>
-              <div className="bg-white p-7 rounded-[2.5rem] border border-[#F0EDE8] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.03)] space-y-6">
+              <h2 className="text-[11px] font-black text-[#6F4E37]/60 uppercase tracking-[0.25em] pl-2">Personal Touch</h2>
+              <div className="bg-white p-8 rounded-[3rem] border border-[#F0EDE8] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.03)] space-y-8">
                   
-                  <div className="space-y-2">
-                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75] ml-1 tracking-wider">
-                          <UserIcon className="w-3 h-3" /> Full Name
+                  <div className="space-y-3">
+                      <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75]/70 ml-1 tracking-[0.1em]">
+                          <UserIcon className="w-3.5 h-3.5 text-[#6F4E37]" /> Full Name
                       </div>
                       <Input 
                         value={customerName}
                         onChange={e => setCustomerName(e.target.value)}
-                        className="h-14 rounded-2xl bg-[#FAF7F2] border-transparent focus:bg-white focus:ring-2 focus:ring-[#D4A373]/20 focus:border-[#D4A373]/40 transition-all font-bold px-5"
+                        className="h-16 rounded-2xl bg-[#FAF7F2] border-2 border-[#E7DCCA]/50 focus:bg-white focus:border-[#6F4E37]/20 focus:ring-4 focus:ring-[#6F4E37]/5 transition-all font-bold px-6 text-lg placeholder:text-[#8D7F75]/30"
                         placeholder="e.g. John Doe"
                       />
                   </div>
 
-                  <div className="grid grid-cols-5 gap-4">
-                    <div className="col-span-2 space-y-2">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75] ml-1 tracking-wider">
-                            <MapPin className="w-3 h-3" /> Table
+                  <div className="grid grid-cols-12 gap-5">
+                    <div className="col-span-4 space-y-3">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75]/70 ml-1 tracking-[0.1em]">
+                            <MapPin className="w-3.5 h-3.5 text-[#6F4E37]" /> Table
                         </div>
                         <Input 
                             type="number" 
                             value={tableNo}
                             onChange={e => setTableNo(e.target.value)}
-                            className="h-14 rounded-2xl bg-[#FAF7F2] border-transparent focus:bg-white focus:ring-2 focus:ring-[#D4A373]/20 text-center font-black text-xl"
+                            className="h-16 rounded-2xl bg-[#FAF7F2] border-2 border-[#E7DCCA]/50 focus:bg-white focus:border-[#6F4E37]/20 focus:ring-4 focus:ring-[#6F4E37]/5 text-center font-black text-2xl p-0"
                             placeholder="00"
                             disabled={!!tableId}
                         />
                     </div>
-                    <div className="col-span-3 space-y-2">
-                        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75] ml-1 tracking-wider">
-                            <Phone className="w-3 h-3" /> WhatsApp
+                    <div className="col-span-8 space-y-3">
+                        <div className="flex items-center gap-2 text-[10px] font-black uppercase text-[#8D7F75]/70 ml-1 tracking-[0.1em]">
+                            <Phone className="w-3.5 h-3.5 text-[#6F4E37]" /> WhatsApp
                         </div>
                         <Input 
                             type="tel"
                             value={customerMobile}
                             onChange={e => setCustomerMobile(e.target.value)}
-                            className="h-14 rounded-2xl bg-[#FAF7F2] border-transparent focus:bg-white focus:ring-2 focus:ring-[#D4A373]/20 transition-all font-bold"
-                            placeholder="+1..."
+                            className="h-16 rounded-2xl bg-[#FAF7F2] border-2 border-[#E7DCCA]/50 focus:bg-white focus:border-[#6F4E37]/20 focus:ring-4 focus:ring-[#6F4E37]/5 transition-all font-bold px-6 text-lg placeholder:text-[#8D7F75]/30"
+                            placeholder="+91..."
                         />
                     </div>
                   </div>
               </div>
           </section>
 
-          {/* Luxury Bill Summary */}
-          <section className="bg-[#5D4037] p-8 rounded-[3rem] text-white relative overflow-hidden shadow-2xl">
-              <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Sparkles className="w-20 h-20" />
+          {/* Updated Light Bill Summary */}
+          <section className="bg-white p-8 sm:p-10 rounded-[3rem] border border-[#F0EDE8] shadow-[0_40px_80px_-20px_rgba(111,78,55,0.08)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-6 opacity-[0.03] text-[#6F4E37]">
+                  <Sparkles className="w-24 h-24" />
               </div>
               
-              <div className="space-y-3 relative z-10">
-                <div className="flex justify-between items-center opacity-60 text-xs font-bold uppercase tracking-widest">
-                    <span>Subtotal</span>
-                    <span>₹{totalPrice.toFixed(2)}</span>
+              <div className="space-y-5 relative z-10">
+                <div className="space-y-3">
+                    <div className="flex justify-between items-center text-[#8D7F75] text-[11px] font-black uppercase tracking-[0.2em]">
+                        <span>Service Value</span>
+                        <span className="font-bold">₹{totalPrice.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-[#8D7F75] text-[11px] font-black uppercase tracking-[0.2em] opacity-40">
+                        <span>Convenience Fee</span>
+                        <span className="font-bold">₹0.00</span>
+                    </div>
                 </div>
-                <div className="flex justify-between items-center opacity-40 text-[10px] italic border-b border-white/10 pb-3">
-                    <span>Complimentary Service</span>
-                    <span>$0.00</span>
-                </div>
-                
-                <div className="pt-3 flex justify-between items-end">
+
+                <div className="pt-5 border-t-2 border-[#FAF7F2] flex justify-between items-end">
                     <div>
-                        <p className="text-xs font-black uppercase text-white/40 tracking-[0.2em]">Grand Total</p>
-                        <h3 className="text-4xl font-black mt-1 leading-none tracking-tighter">
-                            ₹{totalPrice.toFixed(2)}
+                        <p className="text-[11px] font-black uppercase text-[#6F4E37]/50 tracking-[0.3em] mb-2">Total Amount</p>
+                        <h3 className="text-5xl font-black text-[#6F4E37] tracking-tighter leading-none">
+                            <span className="text-xl font-medium mr-1">₹</span>
+                            {totalPrice.toFixed(2)}
                         </h3>
                     </div>
                     <div className="text-right pb-1">
-                        <p className="text-[10px] font-medium text-white/50 tracking-wide uppercase italic">Tax Included ✓</p>
+                        <p className="text-[10px] font-bold text-green-600/70 tracking-tight uppercase flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3" /> All Inclusive
+                        </p>
                     </div>
                 </div>
               </div>
-
-              {/* Decorative Hole Punches */}
-              <div className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-[#FAF7F2] rounded-full"></div>
-              <div className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-[#FAF7F2] rounded-full"></div>
           </section>
 
           <p className="text-center text-[#A68966] text-[10px] font-black uppercase tracking-[0.3em] py-4">

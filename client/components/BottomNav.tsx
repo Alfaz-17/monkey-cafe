@@ -61,8 +61,10 @@ export default function BottomNav() {
 
         {/* Orders Button (Future feature) */}
         <button
-          disabled
-          className="flex flex-col items-center justify-center flex-1 h-full space-y-1 text-[#A68966]/40 opacity-50"
+          onClick={() => router.push('/orders')}
+          className={`flex flex-col items-center justify-center flex-1 h-full space-y-1 transition-all ${
+            pathname === '/orders' ? 'text-[#6F4E37]' : 'text-[#A68966]'
+          }`}
         >
           <Clock className="w-6 h-6" />
           <span className="text-[10px] font-bold">Orders</span>

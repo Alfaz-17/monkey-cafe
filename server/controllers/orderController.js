@@ -61,6 +61,20 @@ const getOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Public
+const getOrderById = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate('table', 'tableNo');
+
+    if (order) {
+        res.json(order);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+});
+
 // @desc    Update order status
 // @route   PUT /api/orders/:id/status
 // @access  Private/Admin
@@ -85,4 +99,4 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     }
 });
 
-export { addOrderItems, getOrders, updateOrderStatus };
+export { addOrderItems, getOrders, getOrderById, updateOrderStatus };

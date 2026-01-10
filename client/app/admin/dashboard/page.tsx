@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import api from '@/lib/api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { DollarSign, ShoppingBag, Utensils, TrendingUp, Sparkles, Activity } from 'lucide-react';
+import { IndianRupee, ShoppingBag, Utensils, TrendingUp, Sparkles, Activity } from 'lucide-react';
 import StatsCard from '@/components/admin/StatsCard';
 import RecentOrdersWidget from '@/components/admin/RecentOrdersWidget';
 import { motion } from 'framer-motion';
@@ -50,8 +50,8 @@ export default function Dashboard() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatsCard 
             title="Total Revenue" 
-            value={`$${stats.totalRevenue.toFixed(2)}`} 
-            icon={DollarSign} 
+            value={`₹${stats.totalRevenue.toFixed(2)}`} 
+            icon={IndianRupee} 
             description="Lifetime earnings"
         />
         <StatsCard 
@@ -68,7 +68,7 @@ export default function Dashboard() {
         />
         <StatsCard 
             title="Avg Order" 
-            value={`$${stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(2) : '0.00'}`} 
+            value={`₹${stats.totalOrders > 0 ? (stats.totalRevenue / stats.totalOrders).toFixed(2) : '0.00'}`} 
             icon={TrendingUp} 
             description="Per ticket"
         />

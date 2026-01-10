@@ -74,6 +74,28 @@ function OrderTrackingContent() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        const savedOrder = localStorage.getItem('lastOrder');
+        if (savedOrder) {
+            const orderData = JSON.parse(savedOrder);
+            setOrder(orderData);
+            setLoading(false); // If we have a saved order, we're not loading from API initially
+
+            // Save to order history
+            const existingOrders = localStorage.getItem('userOrders');
+            const orders = existingOrders ? JSON.parse(existingOrders) : [];
+            
+            // Add this order if not already exists
+            const orderExists = orders.some((o: any) => o._id === orderData._id);
+            if (!orderExists) {
+                orders.unshift(orderData); // Add to beginning
+                localStorage.setItem('userOrders', JSON.stringify(orders));
+            }
+            // Clear lastOrder from localStorage after processing
+            localStorage.removeItem('lastOrder');
+        }
+    }, []);
+
+    useEffect(() => {
         if (!orderId) return;
 
         const fetchOrder = async () => {
@@ -147,8 +169,8 @@ function OrderTrackingContent() {
                 <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-4">
                         <button 
-                            onClick={() => router.push(tableId ? `/menu/${tableId}` : '/')} 
-                            className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#6F4E37] hover:bg-[#6F4E37] hover:text-white transition-all active:scale-90 border border-[#F0EDE8]"
+                            onClick={() => router.push(tableId ? `/menu/${tableId}` : '/')}
+                            className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center text-[#6F4E37] border border-[#F0EDE8] hover:bg-[#FAF7F2] transition-all"
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
@@ -157,6 +179,12 @@ function OrderTrackingContent() {
                             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A68966] mt-1">Live Updates</p>
                         </div>
                     </div>
+                    <button 
+                        onClick={() => router.push('/orders')}
+                        className="px-4 py-2 bg-[#6F4E37]/10 text-[#6F4E37] rounded-xl font-bold text-xs hover:bg-[#6F4E37]/20 transition-all"
+                    >
+                        View History
+                    </button>
                 </div>
             </header>
 

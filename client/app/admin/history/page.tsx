@@ -136,7 +136,7 @@ export default function HistoryPage() {
                                   </div>
                               </td>
                               <td className="px-6 py-4 font-bold text-[#6F4E37]">
-                                  ${order.totalAmount.toFixed(2)}
+                                  ₹{order.totalAmount.toFixed(2)}
                               </td>
                               <td className="px-6 py-4 text-right">
                                   <Badge className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none shadow-none", 
@@ -180,7 +180,7 @@ export default function HistoryPage() {
                           </div>
                           <div className="flex items-center justify-between pt-3 border-t border-gray-50">
                               <div>
-                                  <span className="text-sm font-bold text-[#6F4E37]">${order.totalAmount.toFixed(2)}</span>
+                                  <span className="text-sm font-bold text-[#6F4E37]">₹{order.totalAmount.toFixed(2)}</span>
                                   <span className="text-[10px] text-[#A68966] ml-2 font-medium">Table {order.tableNo}</span>
                               </div>
                               <div className="text-right text-[10px] text-[#A68966] font-medium">

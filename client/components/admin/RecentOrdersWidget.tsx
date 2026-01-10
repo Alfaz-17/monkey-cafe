@@ -29,7 +29,7 @@ export default function RecentOrdersWidget({ orders }: { orders: OrderMock[] }) 
                             <p className="text-sm font-bold text-[#3E2723]">{order.customerName}</p>
                             <p className="text-[9px] font-medium text-[#A68966] uppercase">{new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                         </div>
-                        <div className="ml-auto font-bold text-sm text-[#3E2723]">+${order.totalAmount.toFixed(2)}</div>
+                        <div className="ml-auto font-bold text-sm text-[#3E2723]">+₹{order.totalAmount.toFixed(2)}</div>
                     </div>
                 ))}
                 {orders.length === 0 && (
