@@ -143,16 +143,16 @@ export default function CartPage() {
           </div>
       </header>
 
-      <main className="px-6 space-y-10 scrollbar-hide">
+      <main className="px-4 sm:px-6 space-y-6 sm:space-y-10 scrollbar-hide">
           
           {/* Order Items Section */}
-          <section className="space-y-4">
+          <section className="space-y-3 sm:space-y-4">
               <div className="flex items-center justify-between px-1">
                   <h2 className="text-xs font-black text-[#A68966] uppercase tracking-[0.2em]">Selected Delights</h2>
                   <span className="text-[10px] font-bold bg-[#E7DCCA] text-[#6F4E37] px-2 py-0.5 rounded-full">{cartItems.length} ITEMS</span>
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                   <AnimatePresence mode="popLayout">
                   {cartItems.map((item) => (
                       <motion.div 
@@ -193,7 +193,7 @@ export default function CartPage() {
 
                                 <div className="flex items-center justify-between mt-3">
                                     <p className="text-[#6F4E37] font-black text-lg">
-                                        <span className="text-xs font-medium mr-0.5 opacity-60">$</span>
+                                        <span className="text-xs font-medium mr-0.5 opacity-60">₹</span>
                                         {(item.price * item.qty).toFixed(2)}
                                     </p>
                                     
@@ -278,7 +278,7 @@ export default function CartPage() {
               <div className="space-y-3 relative z-10">
                 <div className="flex justify-between items-center opacity-60 text-xs font-bold uppercase tracking-widest">
                     <span>Subtotal</span>
-                    <span>${totalPrice.toFixed(2)}</span>
+                    <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center opacity-40 text-[10px] italic border-b border-white/10 pb-3">
                     <span>Complimentary Service</span>
@@ -289,7 +289,7 @@ export default function CartPage() {
                     <div>
                         <p className="text-xs font-black uppercase text-white/40 tracking-[0.2em]">Grand Total</p>
                         <h3 className="text-4xl font-black mt-1 leading-none tracking-tighter">
-                            ${totalPrice.toFixed(2)}
+                            ₹{totalPrice.toFixed(2)}
                         </h3>
                     </div>
                     <div className="text-right pb-1">

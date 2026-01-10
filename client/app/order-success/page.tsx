@@ -130,7 +130,7 @@ function OrderTrackingContent() {
     const currentStep = statusMap[order.status] ?? 0;
 
     return (
-        <div className="min-h-screen bg-[#FAF7F2] font-['Outfit'] pb-20">
+        <div className="min-h-screen min-h-[100vh] min-h-[100dvh] bg-[#FAF7F2] font-['Outfit'] pb-20">
             {/* Achievement Toast-style Header */}
             <motion.div 
                 initial={{ y: -50, opacity: 0 }}
@@ -204,7 +204,7 @@ function OrderTrackingContent() {
                             </div>
                             <div className="text-right">
                                 <h3 className="text-xs font-black uppercase text-white/40 tracking-[0.2em] mb-1">Amount</h3>
-                                <p className="text-xl font-black tracking-tight">${order.totalAmount?.toFixed(2)}</p>
+                                <p className="text-xl font-black tracking-tight">₹{order.totalAmount?.toFixed(2)}</p>
                             </div>
                         </div>
                         

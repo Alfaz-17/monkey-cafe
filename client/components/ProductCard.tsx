@@ -116,7 +116,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <div>
                     <span className="text-[9px] font-black text-[#A68966] block uppercase tracking-tighter">Price</span>
                     <div className="text-lg font-black text-[#3E2723] font-['Outfit'] leading-none">
-                        <span className="text-xs font-medium mr-0.5 opacity-60">$</span>
+                        <span className="text-xs font-medium mr-0.5 opacity-60">₹</span>
                         {product.price.toFixed(2)}
                     </div>
                 </div>

@@ -92,7 +92,7 @@ export default function MenuPage() {
     <div className="flex flex-col min-h-screen min-h-[100vh] min-h-[100dvh] bg-[#FAF7F2] font-['Outfit'] text-[#3E2723] relative">
       
       {/* Premium Header Aligned with Cart */}
- <header className="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-xl z-30 px-4 sm:px-6 py-3 sm:py-5 border-b border-[#E7DCCA]/40 flex-shrink-0">
+ <header className="sticky top-0 bg-[#FAF7F2]/95 backdrop-blur-xl z-30 px-4 sm:px-6 py-2 sm:py-4 border-b border-[#E7DCCA]/40 flex-shrink-0">
   <div className="flex items-center justify-between">
     <div className="flex items-center gap-4">
       <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/menu/${tableIdParam}`)}>
@@ -127,11 +127,11 @@ export default function MenuPage() {
 </header>
 
       <div className="flex-1 overflow-y-auto scrollbar-hide -webkit-overflow-scrolling-touch">
-        <div className="px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-36 sm:pb-40">
+        <div className="px-4 sm:px-6 py-3 sm:py-6 space-y-3 sm:space-y-5 pb-36 sm:pb-40">
           {/* Dynamic Greeting */}
           <div className="space-y-1">
             <span className="text-[10px] font-black text-[#A68966] uppercase tracking-[0.3em] ml-1">{greeting}</span>
-            <h2 className="text-4xl font-black leading-[0.85] tracking-tighter text-[#3E2723] font-serif uppercase">
+            <h2 className="text-2xl sm:text-4xl font-black leading-[0.9] tracking-tighter text-[#3E2723] font-serif uppercase">
               WHAT WOULD YOU <br /> LIKE TO TASTE?
             </h2>
           </div>
@@ -141,14 +141,14 @@ export default function MenuPage() {
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-[#A68966] group-focus-within:text-[#6F4E37] transition-colors" />
             <Input 
               placeholder="Search for coffee, burgers..." 
-              className="h-16 pl-14 pr-6 bg-white rounded-[2rem] border-transparent shadow-[0_10px_30px_rgba(0,0,0,0.03)] focus:bg-white focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all text-sm font-bold placeholder:text-[#A68966]/60 placeholder:font-medium"
+              className="h-12 sm:h-16 pl-11 sm:pl-14 pr-4 sm:pr-6 bg-white rounded-[2rem] border-transparent shadow-[0_10px_30px_rgba(0,0,0,0.03)] focus:bg-white focus:ring-2 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37]/20 transition-all text-sm font-bold placeholder:text-[#A68966]/60 placeholder:font-medium"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
 
           {/* Native-App Style Categories (Story Mode) */}
-          <section className="space-y-4">
+          <section className="space-y-2">
             <div className="flex items-center justify-between px-1">
                 <h3 className="text-[11px] font-black text-[#6F4E37]/50 uppercase tracking-[0.3em]">Kitchen Segments</h3>
             </div>
@@ -257,7 +257,7 @@ export default function MenuPage() {
                         </div>
                         <div className="flex flex-col items-start leading-none">
                             <span className="text-[10px] font-black uppercase tracking-widest text-white/50">Your Tray</span>
-                            <span className="text-lg font-black tracking-tight">${totalPrice.toFixed(2)}</span>
+                            <span className="text-lg font-black tracking-tight">₹{totalPrice.toFixed(2)}</span>
                         </div>
                     </div>
                     <div className="flex items-center gap-3">

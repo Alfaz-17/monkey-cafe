@@ -193,7 +193,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                                                     <span className="truncate pr-2">{opt.name}</span>
                                                     {opt.price > 0 && (
                                                         <span className={`text-[10px] ${isSelected ? 'text-white/60' : 'text-[#6F4E37]'}`}>
-                                                            +${opt.price}
+                                                            +₹{opt.price}
                                                         </span>
                                                     )}
                                                 </button>
@@ -235,7 +235,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                                 <span className="text-lg font-black tracking-tight uppercase">Add to Tray</span>
                                 <div className="flex items-center gap-3">
                                     <div className="h-6 w-px bg-white/20" />
-                                    <span className="text-xl font-black">${totalPrice.toFixed(2)}</span>
+                                    <span className="text-xl font-black">₹{totalPrice.toFixed(2)}</span>
                                 </div>
                             </Button>
                          </div>
