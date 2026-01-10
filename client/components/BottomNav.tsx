@@ -22,7 +22,7 @@ export default function BottomNav() {
     <motion.nav
       initial={{ y: 100 }}
       animate={{ y: 0 }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E7DCCA] pb-safe"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#E7DCCA] pb-safe md:hidden"
     >
       <div className="flex items-center justify-around h-16 max-w-screen-xl mx-auto px-4">
         

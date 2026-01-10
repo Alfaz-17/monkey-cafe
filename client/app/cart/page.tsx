@@ -71,11 +71,25 @@ export default function CartPage() {
         const { data } = await api.post('/orders', orderData);
         
         // Save to order history immediately for tracking
-        const existingOrders = localStorage.getItem('userOrders');
-        const orders = existingOrders ? JSON.parse(existingOrders) : [];
-        if (!orders.some((o: any) => o._id === data._id)) {
-            orders.unshift(data);
-            localStorage.setItem('userOrders', JSON.stringify(orders));
+        try {
+            const existingOrdersStr = localStorage.getItem('userOrders');
+            let orders = [];
+            try {
+                orders = existingOrdersStr ? JSON.parse(existingOrdersStr) : [];
+                if (!Array.isArray(orders)) orders = [];
+            } catch (e) {
+                console.error("Failed to parse userOrders", e);
+                orders = [];
+            }
+
+            if (!orders.some((o: any) => o._id === data._id)) {
+                orders.unshift(data);
+                // Keep only last 20 orders to prevent localStorage bloat
+                if (orders.length > 20) orders = orders.slice(0, 20);
+                localStorage.setItem('userOrders', JSON.stringify(orders));
+            }
+        } catch (error) {
+            console.error("Error saving to local storage:", error);
         }
         
         clearCart();

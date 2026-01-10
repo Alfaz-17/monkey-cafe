@@ -11,10 +11,10 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchLiveStatus = async (savedOrders: any[]) => {
+  const fetchLiveStatus = async (ordersToUpdate: any[]) => {
     try {
       const updatedOrders = await Promise.all(
-        savedOrders.map(async (order) => {
+        ordersToUpdate.map(async (order) => {
           if (!order._id) return order;
           try {
             const { data } = await api.get(`/orders/${order._id}`);
@@ -25,28 +25,62 @@ export default function OrdersPage() {
           }
         })
       );
-      setOrders(updatedOrders);
-      // Update localStorage with latest data
-      localStorage.setItem('userOrders', JSON.stringify(updatedOrders));
+
+      // Merge with latest localStorage data to avoid overwriting new orders from other tabs
+      try {
+          const currentStr = localStorage.getItem('userOrders');
+          const currentOrders = currentStr ? JSON.parse(currentStr) : [];
+          
+          if (Array.isArray(currentOrders)) {
+              const mergedOrders = currentOrders.map(curr => {
+                  const updated = updatedOrders.find(u => u._id === curr._id);
+                  return updated ? { ...curr, ...updated } : curr;
+              });
+              
+              setOrders(mergedOrders);
+              localStorage.setItem('userOrders', JSON.stringify(mergedOrders));
+          } else {
+              // Fallback if localStorage is corrupt
+              setOrders(updatedOrders);
+              localStorage.setItem('userOrders', JSON.stringify(updatedOrders));
+          }
+      } catch (e) {
+          console.error("Error merging orders", e);
+          setOrders(updatedOrders);
+      }
+      
     } catch (error) {
       console.error('Error polling order status', error);
     }
   };
 
   useEffect(() => {
-    const savedOrdersStr = localStorage.getItem('userOrders');
-    if (savedOrdersStr) {
-      const savedOrders = JSON.parse(savedOrdersStr);
-      setOrders(savedOrders);
-      fetchLiveStatus(savedOrders);
+    try {
+        const savedOrdersStr = localStorage.getItem('userOrders');
+        if (savedOrdersStr) {
+          const savedOrders = JSON.parse(savedOrdersStr);
+          if (Array.isArray(savedOrders)) {
+            setOrders(savedOrders);
+            fetchLiveStatus(savedOrders);
+          }
+        }
+    } catch (e) {
+        console.error("Error parsing initial orders", e);
     }
     setLoading(false);
 
     // Set up polling interval
     const interval = setInterval(() => {
-      const currentOrdersStr = localStorage.getItem('userOrders');
-      if (currentOrdersStr) {
-        fetchLiveStatus(JSON.parse(currentOrdersStr));
+      try {
+          const currentOrdersStr = localStorage.getItem('userOrders');
+          if (currentOrdersStr) {
+            const currentOrders = JSON.parse(currentOrdersStr);
+            if (Array.isArray(currentOrders)) {
+                fetchLiveStatus(currentOrders);
+            }
+          }
+      } catch (e) {
+          console.error("Error polling orders", e);
       }
     }, 5000); // Poll every 5 seconds
 

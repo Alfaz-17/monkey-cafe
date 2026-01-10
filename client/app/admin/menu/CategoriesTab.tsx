@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Pencil, Trash2, Plus, X } from 'lucide-react';
+import { Pencil, Trash2, Plus, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import api from '@/lib/api';
@@ -12,6 +12,7 @@ export default function CategoriesTab() {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     order: '',
@@ -55,6 +56,7 @@ export default function CategoriesTab() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSaving(true);
     try {
       if (editingId) {
         await api.put(`/categories/${editingId}`, formData);
@@ -65,6 +67,8 @@ export default function CategoriesTab() {
       handleCloseModal();
     } catch (error) {
       console.error('Failed to save');
+    } finally {
+        setSaving(false);
     }
   };
 
@@ -246,7 +250,9 @@ export default function CategoriesTab() {
                   )}
                   {uploading && (
                     <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-lg">
-                      <span className="text-sm font-medium text-[#6F4E37]">Uploading...</span>
+                      <span className="text-sm font-medium text-[#6F4E37] flex items-center gap-2">
+                        <Loader2 className="animate-spin w-4 h-4" /> Uploading...
+                      </span>
                     </div>
                   )}
                 </div>
@@ -259,8 +265,15 @@ export default function CategoriesTab() {
                 />
                 <span className="text-sm">Active</span>
               </label>
-              <Button type="submit" className="w-full bg-[#6F4E37] text-white">
-                {editingId ? 'Update' : 'Create'} Category
+              <Button type="submit" className="w-full bg-[#6F4E37] text-white" disabled={saving || uploading}>
+                {saving ? (
+                    <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Saving...
+                    </>
+                ) : (
+                    editingId ? 'Update Category' : 'Create Category'
+                )}
               </Button>
             </form>
           </div>

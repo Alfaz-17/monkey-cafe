@@ -73,27 +73,28 @@ function OrderTrackingContent() {
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const savedOrder = localStorage.getItem('lastOrder');
-        if (savedOrder) {
-            const orderData = JSON.parse(savedOrder);
-            setOrder(orderData);
-            setLoading(false); // If we have a saved order, we're not loading from API initially
-
-            // Save to order history
-            const existingOrders = localStorage.getItem('userOrders');
-            const orders = existingOrders ? JSON.parse(existingOrders) : [];
+    const addToHistory = (orderData: any) => {
+        try {
+            const existingOrdersStr = localStorage.getItem('userOrders');
+            let orders = [];
+            try {
+                orders = existingOrdersStr ? JSON.parse(existingOrdersStr) : [];
+                if (!Array.isArray(orders)) orders = [];
+            } catch (e) {
+                console.error("Failed to parse userOrders", e);
+                orders = [];
+            }
             
-            // Add this order if not already exists
-            const orderExists = orders.some((o: any) => o._id === orderData._id);
-            if (!orderExists) {
-                orders.unshift(orderData); // Add to beginning
+            // Check if already exists to avoid duplicates
+            if (!orders.some((o: any) => o._id === orderData._id)) {
+                orders.unshift(orderData);
+                if (orders.length > 20) orders = orders.slice(0, 20);
                 localStorage.setItem('userOrders', JSON.stringify(orders));
             }
-            // Clear lastOrder from localStorage after processing
-            localStorage.removeItem('lastOrder');
+        } catch (error) {
+            console.error("Error saving to history:", error);
         }
-    }, []);
+    };
 
     useEffect(() => {
         if (!orderId) return;
@@ -102,6 +103,7 @@ function OrderTrackingContent() {
             try {
                 const { data } = await api.get(`/orders/${orderId}`);
                 setOrder(data);
+                addToHistory(data);
             } catch (err) {
                 console.error(err);
             } finally {
