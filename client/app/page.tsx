@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/context/CartContext';
 import { motion } from 'framer-motion';
-import { Coffee, ArrowRight, Sparkles, MapPin } from 'lucide-react';
+import { Coffee, ArrowRight, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -61,13 +61,6 @@ export default function LandingPage() {
         >
             <div className="w-24 h-24 bg-white rounded-[2.5rem] shadow-2xl flex items-center justify-center mx-auto border border-[#F0EDE8] relative">
                 <Coffee className="w-12 h-12 text-[#6F4E37]" />
-                <motion.div 
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute -top-1 -right-1"
-                >
-                    <Sparkles className="w-6 h-6 text-orange-400" />
-                </motion.div>
             </div>
             <div>
                 <h1 className="text-5xl font-black tracking-tighter italic font-serif leading-none">MonkeyCafe</h1>

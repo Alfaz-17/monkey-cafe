@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import api from '@/lib/api';
-import { RefreshCcw, Sparkles } from 'lucide-react';
+import { RefreshCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import KitchenOrderCard from '@/components/admin/KitchenOrderCard';
 import { AnimatePresence, motion } from 'framer-motion';
