@@ -309,7 +309,7 @@ export default function CartPage() {
 
       </main>
 
-      <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2] to-transparent z-40">
+      <div className="fixed bottom-16 sm:bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-[#FAF7F2] via-[#FAF7F2] to-transparent z-40">
         <div className="w-full">
              <Button 
                 onClick={handlePlaceOrder}
