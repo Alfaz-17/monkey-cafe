@@ -1,37 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import api from '@/lib/api';
-import { Trash2, Plus, Pencil, X, Save } from 'lucide-react';
-import ImageUpload from '@/components/ui/ImageUpload';
+import { Pencil, Trash2, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import api from '@/lib/api';
 import { getImageUrl } from '@/lib/utils/resolveImage';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
-
-interface Category {
-  _id: string;
-  name: string;
-  image?: string;
-  isActive: boolean;
-  order: number;
-}
 
 export default function CategoriesTab() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(false);
-  
-  // Add Mode State
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [newCategoryImage, setNewCategoryImage] = useState('');
-
-  // Edit Mode State
+  const [categories, setCategories] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editName, setEditName] = useState('');
-  const [editImage, setEditImage] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    order: '',
+    image: '',
+    isActive: true,
+  });
 
   useEffect(() => {
     fetchCategories();
@@ -39,177 +25,247 @@ export default function CategoriesTab() {
 
   const fetchCategories = async () => {
     try {
-        const { data } = await api.get('/categories');
-        setCategories(data);
+      const { data } = await api.get('/categories');
+      setCategories(data);
     } catch (error) {
-        console.error('Failed to fetch categories:', error);
+      console.error('Failed to fetch categories');
     }
   };
 
-  const handleAdd = async () => {
-    if (!newCategoryName.trim()) return;
-
-    try {
-      await api.post('/categories', { 
-          name: newCategoryName, 
-          image: newCategoryImage,
-          order: categories.length + 1 
-      });
-      setNewCategoryName('');
-      setNewCategoryImage('');
-      fetchCategories();
-    } catch (error) {
-      console.error(error);
-      alert('Failed to add category');
-    }
+  const handleEdit = (category: any) => {
+    setEditingId(category._id);
+    setFormData({
+      name: category.name,
+      order: category.order,
+      image: category.image || '',
+      isActive: category.isActive,
+    });
+    setShowModal(true);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure? This will hide products in this category.')) return;
+    if (!confirm('Delete this category?')) return;
     try {
-        await api.delete(`/categories/${id}`);
-        fetchCategories();
+      await api.delete(`/categories/${id}`);
+      fetchCategories();
     } catch (error) {
-        console.error(error);
-        alert('Failed to delete category');
+      console.error('Failed to delete');
     }
   };
 
-  const startEdit = (cat: Category) => {
-      setEditingId(cat._id);
-      setEditName(cat.name);
-      setEditImage(cat.image || '');
-  };
-
-  const cancelEdit = () => {
-      setEditingId(null);
-      setEditName('');
-      setEditImage('');
-  };
-
-  const saveEdit = async (id: string) => {
-      try {
-          await api.put(`/categories/${id}`, {
-              name: editName,
-              image: editImage
-          });
-          setEditingId(null);
-          fetchCategories();
-      } catch (error) {
-          console.error(error);
-          alert('Failed to update category');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      if (editingId) {
+        await api.put(`/categories/${editingId}`, formData);
+      } else {
+        await api.post('/categories', formData);
       }
+      fetchCategories();
+      handleCloseModal();
+    } catch (error) {
+      console.error('Failed to save');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingId(null);
+    setFormData({
+      name: '',
+      order: '',
+      image: '',
+      isActive: true,
+    });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formDataUpload = new FormData();
+    formDataUpload.append('image', file);
+    
+    setUploading(true);
+    try {
+      const { data } = await api.post('/upload', formDataUpload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setFormData({...formData, image: data.url});
+    } catch (error) {
+      console.error('Upload failed');
+      alert('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex justify-between items-center">
         <div>
-            <h2 className="text-2xl font-black text-[#3E2723]">Categories</h2>
-            <p className="text-xs font-medium text-[#A68966] mt-1">Organize your menu into collections</p>
+          <h2 className="text-lg sm:text-xl font-bold text-[#3E2723]">Categories</h2>
+          <p className="text-xs text-[#A68966] mt-1">Manage menu categories</p>
+        </div>
+        <Button
+          onClick={() => setShowModal(true)}
+          className="h-10 sm:h-12 px-4 sm:px-6 bg-[#6F4E37] text-white rounded-lg font-bold text-xs"
+        >
+          <Plus className="w-4 h-4 mr-2" /> Add Category
+        </Button>
+      </div>
+
+      {/* Compact Table */}
+      <div className="bg-white rounded-lg border border-[#F0EDE8] overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-[#FAF7F2] border-b border-[#F0EDE8]">
+              <tr>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Category</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Order</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37] hidden sm:table-cell">Status</th>
+                <th className="px-3 sm:px-4 py-3 text-right text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#F0EDE8]">
+              {categories.length > 0 ? (
+                categories.map((category) => (
+                  <tr key={category._id} className="hover:bg-[#FAF7F2]/30 transition-colors">
+                    <td className="px-3 sm:px-4 py-3">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-[#FAF7F2] flex-shrink-0">
+                          {category.image ? (
+                            <img src={getImageUrl(category.image)} alt={category.name} className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-2xl">
+                              📁
+                            </div>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm font-bold text-[#3E2723] truncate">{category.name}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3">
+                      <span className="inline-flex px-2 py-1 text-xs font-medium rounded-md bg-[#E7DCCA] text-[#6F4E37]">
+                        #{category.order}
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3 hidden sm:table-cell">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${category.isActive ? 'bg-green-500' : 'bg-gray-300'}`}></span>
+                        <span className="text-xs font-medium text-[#A68966]">
+                          {category.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3">
+                      <div className="flex items-center justify-end gap-1 sm:gap-2">
+                        <button
+                          onClick={() => handleEdit(category)}
+                          className="p-1.5 sm:p-2 rounded-lg hover:bg-[#F0EDE8] text-[#6F4E37] transition-colors"
+                        >
+                          <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(category._id)}
+                          className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="px-4 py-12 text-center">
+                    <p className="text-xs font-bold uppercase text-[#A68966]">No categories found</p>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* Add New Section */}
-      <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm">
-        <div className="p-6">
-            <h3 className="text-xs font-bold uppercase tracking-widest text-[#A68966] mb-6">Create New Category</h3>
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
-                <div className="flex-1 space-y-4 w-full">
-                    <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1">Category Name</label>
-                        <Input
-                            value={newCategoryName}
-                            onChange={(e) => setNewCategoryName(e.target.value)}
-                            placeholder="e.g. Hot Drinks"
-                            className="h-12 rounded-lg bg-[#FAF7F2] border-[#F0EDE8] text-sm font-bold"
-                        />
-                    </div>
-                    <Button
-                        onClick={handleAdd}
-                        className="h-12 px-8 bg-[#6F4E37] text-white rounded-lg font-bold uppercase tracking-widest text-[10px]"
-                        disabled={loading || !newCategoryName}
-                    >
-                        <Plus className="w-4 h-4 mr-2" /> Create Category
-                    </Button>
-                </div>
-                <div className="w-full lg:w-64 shrink-0">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-[#A68966] ml-1 mb-2 block">Cover Image</label>
-                    <ImageUpload 
-                        value={newCategoryImage} 
-                        onChange={setNewCategoryImage}
-                        label=""
-                    />
-                </div>
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/40" onClick={handleCloseModal}></div>
+          <div className="relative z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between px-6 py-4 border-b">
+              <h3 className="text-lg font-bold">{editingId ? 'Edit Category' : 'New Category'}</h3>
+              <button onClick={handleCloseModal}><X className="w-5 h-5" /></button>
             </div>
-        </div>
-      </Card>
-
-      {/* Categories Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <AnimatePresence mode='popLayout'>
-            {categories.map((cat) => (
-                <motion.div 
-                    layout
-                    key={cat._id}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <Input 
+                placeholder="Category Name" 
+                value={formData.name} 
+                onChange={(e) => setFormData({...formData, name: e.target.value})} 
+                required 
+              />
+              <Input 
+                type="number" 
+                placeholder="Display Order" 
+                value={formData.order} 
+                onChange={(e) => setFormData({...formData, order: e.target.value})} 
+                required 
+              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Category Image</label>
+                <div 
+                  className="relative border-2 border-dashed border-[#E7DCCA] rounded-lg p-6 hover:border-[#6F4E37] transition-colors cursor-pointer bg-[#FAF7F2]/30"
+                  onClick={() => document.getElementById('category-image-upload')?.click()}
                 >
-                    <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white h-full flex flex-col">
-                        <div className="h-40 relative bg-[#FAF7F2]">
-                             {cat.image ? (
-                                 <img src={getImageUrl(cat.image)} alt={cat.name} className="h-full w-full object-cover" />
-                             ) : (
-                                 <div className="h-full w-full flex items-center justify-center text-[#A68966]/20">
-                                     <Plus className="w-8 h-8" />
-                                 </div>
-                             )}
-                             <div className="absolute top-3 right-3">
-                                 <Badge className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none", 
-                                     cat.isActive ? "bg-green-500 text-white" : "bg-gray-400 text-white"
-                                 )}>
-                                     {cat.isActive ? 'Active' : 'Hidden'}
-                                 </Badge>
-                             </div>
-                        </div>
-
-                        <div className="p-5 flex-1 flex flex-col">
-                            {editingId === cat._id ? (
-                                <div className="space-y-3">
-                                    <Input 
-                                        value={editName}
-                                        onChange={(e) => setEditName(e.target.value)}
-                                        className="h-10 rounded-lg text-sm font-bold"
-                                    />
-                                    <div className="flex gap-2">
-                                        <Button size="sm" onClick={() => saveEdit(cat._id)} className="flex-1 bg-green-600 rounded-lg text-[10px]">Save</Button>
-                                        <Button size="sm" variant="outline" onClick={cancelEdit} className="rounded-lg text-[10px]">Cancel</Button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <div className="flex-1">
-                                        <h3 className="text-lg font-bold text-[#3E2723]">{cat.name}</h3>
-                                        <p className="text-[10px] font-bold text-[#A68966] uppercase mt-1">Category</p>
-                                    </div>
-                                    <div className="flex gap-2 mt-4">
-                                        <Button variant="outline" size="sm" onClick={() => startEdit(cat)} className="h-9 w-9 p-0 rounded-lg border-gray-100 text-[#6F4E37]"><Pencil className="w-3.5 h-3.5" /></Button>
-                                        <Button variant="outline" size="sm" onClick={() => handleDelete(cat._id)} className="h-9 w-9 p-0 rounded-lg border-red-50 text-red-500 hover:bg-red-50 ml-auto"><Trash2 className="w-3.5 h-3.5" /></Button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </Card>
-                </motion.div>
-            ))}
-        </AnimatePresence>
-        
-        {categories.length === 0 && (
-            <div className="col-span-full py-16 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No categories found</p>
-            </div>
-        )}
-      </div>
+                  <input 
+                    id="category-image-upload"
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                  {formData.image ? (
+                    <div className="space-y-2">
+                      <img src={getImageUrl(formData.image)} alt="Preview" className="w-full h-40 object-cover rounded-lg" onError={(e) => { (e.target as HTMLImageElement).src = ''; }} />
+                      <p className="text-xs text-center text-[#A68966]">Click to change image</p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-6">
+                      <div className="w-12 h-12 mx-auto mb-3 text-[#A68966]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-medium text-[#3E2723] mb-1">Click to upload</p>
+                      <p className="text-xs text-[#A68966]">PNG, JPG, WEBP up to 10MB</p>
+                    </div>
+                  )}
+                  {uploading && (
+                    <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-lg">
+                      <span className="text-sm font-medium text-[#6F4E37]">Uploading...</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <label className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={formData.isActive} 
+                  onChange={(e) => setFormData({...formData, isActive: e.target.checked})} 
+                />
+                <span className="text-sm">Active</span>
+              </label>
+              <Button type="submit" className="w-full bg-[#6F4E37] text-white">
+                {editingId ? 'Update' : 'Create'} Category
+              </Button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

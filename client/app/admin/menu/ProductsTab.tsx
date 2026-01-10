@@ -1,50 +1,28 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import api from '@/lib/api';
-import { Trash2, Plus, Star, Pencil, X, Coffee } from 'lucide-react';
+import { Coffee, Pencil, Trash2, Plus, X, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { getImageUrl } from '@/lib/utils/resolveImage';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import ImageUpload from '@/components/ui/ImageUpload';
-import { AnimatePresence, motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  category: { _id: string; name: string };
-  image?: string;
-  isPopular: boolean;
-  isActive: boolean;
-  isVeg: boolean;
-}
-
-interface Category {
-  _id: string;
-  name: string;
-}
+import { Textarea } from '@/components/ui/textarea';
+import api from '@/lib/api';
+import { getImageUrl } from '@/lib/utils/resolveImage';
 
 export default function ProductsTab() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  
-  // New Product Form State
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     price: '',
-    description: '',
     category: '',
+    description: '',
     image: '',
-    isPopular: false,
-    isActive: true,
     isVeg: true,
+    isActive: true,
+    isPopular: false,
   });
 
   useEffect(() => {
@@ -54,317 +32,268 @@ export default function ProductsTab() {
 
   const fetchProducts = async () => {
     try {
-        const { data } = await api.get('/products');
-        setProducts(data);
+      const { data } = await api.get('/products');
+      setProducts(data);
     } catch (error) {
-        console.error('Failed to fetch products:', error);
+      console.error('Failed to fetch products');
     }
   };
 
   const fetchCategories = async () => {
-      try {
-          const { data } = await api.get('/categories');
-          setCategories(data);
-      } catch (error) {
-          console.error('Failed to fetch categories:', error);
-      }
-  };
-
-  const handleTogglePopular = async (id: string) => {
-      try {
-          await api.put(`/products/${id}/popular`);
-          fetchProducts();
-      } catch (error) {
-          console.error(error);
-          alert('Failed to update status');
-      }
-  };
-
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure?')) return;
     try {
-        await api.delete(`/products/${id}`);
-        fetchProducts();
+      const { data } = await api.get('/categories');
+      setCategories(data);
     } catch (error) {
-        console.error(error);
-        alert('Failed to delete product');
+      console.error('Failed to fetch categories');
     }
   };
 
-  const handleEdit = (product: Product) => {
-      setEditingId(product._id);
-      setFormData({
-          name: product.name,
-          price: product.price.toString(),
-          description: product.description,
-          category: product.category?._id || '',
-          image: product.image || '',
-          isPopular: product.isPopular,
-          isActive: product.isActive,
-          isVeg: product.isVeg !== undefined ? product.isVeg : true,
-      });
-      setIsModalOpen(true);
+  const handleEdit = (product: any) => {
+    setEditingId(product._id);
+    setFormData({
+      name: product.name,
+      price: product.price,
+      category: product.category,
+      description: product.description || '',
+      image: product.image || '',
+      isVeg: product.isVeg,
+      isActive: product.isActive,
+      isPopular: product.isPopular,
+    });
+    setShowModal(true);
   };
 
-  const handleCloseModal = () => {
-      setIsModalOpen(false);
-      setEditingId(null);
-      setFormData({ name: '', price: '', description: '', category: '', image: '', isPopular: false, isActive: true, isVeg: true });
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this product?')) return;
+    try {
+      await api.delete(`/products/${id}`);
+      fetchProducts();
+    } catch (error) {
+      console.error('Failed to delete');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      try {
-          if (editingId) {
-             await api.put(`/products/${editingId}`, {
-                 ...formData,
-                 price: Number(formData.price)
-             });
-          } else {
-             await api.post('/products', {
-                 ...formData,
-                 price: Number(formData.price)
-             });
-          }
-          handleCloseModal();
-          fetchProducts();
-      } catch (error) {
-          console.error(error);
-          alert('Failed to save product');
+    e.preventDefault();
+    try {
+      if (editingId) {
+        await api.put(`/products/${editingId}`, formData);
+      } else {
+        await api.post('/products', formData);
       }
+      fetchProducts();
+      handleCloseModal();
+    } catch (error) {
+      console.error('Failed to save');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setEditingId(null);
+    setFormData({
+      name: '',
+      price: '',
+      category: '',
+      description: '',
+      image: '',
+      isVeg: true,
+      isActive: true,
+      isPopular: false,
+    });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formDataUpload = new FormData();
+    formDataUpload.append('image', file);
+    
+    setUploading(true);
+    try {
+      const { data } = await api.post('/upload', formDataUpload, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      setFormData({...formData, image: data.url});
+    } catch (error) {
+      console.error('Upload failed');
+      alert('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 font-['Outfit']">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-4">
+      {/* Header */}
+      <div className="flex justify-between items-center">
         <div>
-            <h2 className="text-2xl font-black text-[#3E2723]">Products</h2>
-            <p className="text-xs font-medium text-[#A68966] mt-1">Add and manage your menu items</p>
+          <h2 className="text-lg sm:text-xl font-bold text-[#3E2723]">Products</h2>
+          <p className="text-xs text-[#A68966] mt-1">Manage menu items</p>
         </div>
-        <Button 
-            onClick={() => {
-                setEditingId(null);
-                setFormData({ name: '', price: '', description: '', category: '', image: '', isPopular: false, isActive: true, isVeg: true });
-                setIsModalOpen(true);
-            }}
-            className="w-full md:w-auto h-12 px-6 bg-[#6F4E37] text-white rounded-lg font-bold uppercase tracking-widest text-[10px]"
+        <Button
+          onClick={() => setShowModal(true)}
+          className="h-10 sm:h-12 px-4 sm:px-6 bg-[#6F4E37] text-white rounded-lg font-bold text-xs"
         >
-          <Plus className="w-4 h-4 mr-2" /> New Product
+          <Plus className="w-4 h-4 mr-2" /> Add Product
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <AnimatePresence mode='popLayout'>
-            {products.map((product) => (
-              <motion.div 
-                layout
-                key={product._id}
-                initial={{ opacity: 0, scale: 0.98 }}
-                animate={{ opacity: 1, scale: 1 }}
-              >
-                  <Card className="rounded-2xl border border-[#F0EDE8] shadow-sm hover:shadow-md transition-shadow overflow-hidden bg-white h-full flex flex-col">
-                      <div className="h-44 relative bg-[#FAF7F2]">
+      {/* Compact Table */}
+      <div className="bg-white rounded-lg border border-[#F0EDE8] overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-[#FAF7F2] border-b border-[#F0EDE8]">
+              <tr>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Product</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37] hidden sm:table-cell">Category</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Price</th>
+                <th className="px-3 sm:px-4 py-3 text-left text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37] hidden md:table-cell">Status</th>
+                <th className="px-3 sm:px-4 py-3 text-right text-[10px] sm:text-xs font-bold uppercase text-[#6F4E37]">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#F0EDE8]">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <tr key={product._id} className="hover:bg-[#FAF7F2]/30 transition-colors">
+                    <td className="px-3 sm:px-4 py-3">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-[#FAF7F2] flex-shrink-0">
                           {product.image ? (
-                              <img src={getImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover" />
+                            <img src={getImageUrl(product.image)} alt={product.name} className="w-full h-full object-cover" />
                           ) : (
-                              <div className="h-full w-full flex items-center justify-center text-[#A68966]/20">
-                                  <Coffee className="w-10 h-10" />
-                              </div>
+                            <div className="w-full h-full flex items-center justify-center text-[#A68966]/30">
+                              <Coffee className="w-4 h-4 sm:w-5 sm:h-5" />
+                            </div>
                           )}
-                          
-                          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                             <Badge variant="outline" className={cn("px-2 py-0.5 rounded-md font-bold text-[9px] uppercase tracking-wider border-none", 
-                                product.isActive ? "bg-white/90 text-[#6F4E37]" : "bg-red-500 text-white"
-                             )}>
-                                {product.isActive ? 'Active' : 'Hidden'}
-                             </Badge>
-                          </div>
-
-                          <button 
-                            onClick={(e) => { e.stopPropagation(); handleTogglePopular(product._id); }}
-                            className="absolute top-3 right-3 w-8 h-8 rounded-lg bg-white/90 flex items-center justify-center shadow-sm"
-                          >
-                              <Star className={cn("w-4 h-4", product.isPopular ? "fill-yellow-400 text-yellow-400" : "text-gray-300")} />
-                          </button>
-                          
-                          <div className="absolute bottom-3 left-3">
-                             <div className="bg-white/90 px-3 py-1.5 rounded-lg border border-gray-100 shadow-sm">
-                                <span className="text-sm font-bold text-[#3E2723]">${product.price.toFixed(2)}</span>
-                             </div>
-                          </div>
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm font-bold text-[#3E2723] truncate">{product.name}</p>
+                          <p className="text-[10px] sm:text-xs text-[#A68966] truncate">{product.isVeg ? '🌱' : '🍖'}</p>
+                        </div>
                       </div>
-
-                      <div className="p-5 flex-1 flex flex-col">
-                          <div className="flex-1">
-                              <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest text-[#A68966] mb-2">
-                                  {product.category?.name || 'Uncategorized'}
-                              </Badge>
-                              <h3 className="text-lg font-bold text-[#3E2723] leading-tight">{product.name}</h3>
-                              <p className="text-[11px] text-[#A68966] mt-2 line-clamp-2 leading-relaxed font-medium">
-                                  {product.description || 'No description.'}
-                              </p>
-                          </div>
-
-                          <div className="flex gap-2 mt-4">
-                              <Button 
-                                variant="outline" 
-                                size="sm"
-                                onClick={() => handleEdit(product)} 
-                                className="flex-1 h-9 rounded-lg border-[#F0EDE8] text-[#6F4E37] font-bold uppercase text-[9px]"
-                              >
-                                  Edit
-                              </Button>
-                              <Button 
-                                variant="outline" 
-                                size="sm" 
-                                onClick={() => handleDelete(product._id)} 
-                                className="h-9 w-9 p-0 rounded-lg border-red-50 text-red-500 hover:bg-red-50"
-                              >
-                                  <Trash2 className="w-3.5 h-3.5" />
-                              </Button>
-                          </div>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3 hidden sm:table-cell">
+                      <span className="inline-flex px-2 py-1 text-[10px] font-medium rounded-md bg-[#E7DCCA] text-[#6F4E37]">
+                        {categories.find(c => c._id === product.category)?.name || 'N/A'}
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3">
+                      <span className="text-xs sm:text-sm font-bold text-[#3E2723]">₹{product.price.toFixed(2)}</span>
+                    </td>
+                    <td className="px-3 sm:px-4 py-3 hidden md:table-cell">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${product.isActive ? 'bg-green-500' : 'bg-gray-300'}`}></span>
+                        {product.isPopular && <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />}
                       </div>
-                  </Card>
-              </motion.div>
-            ))}
-        </AnimatePresence>
-        
-        {products.length === 0 && (
-            <div className="col-span-full py-16 text-center border-2 border-dashed border-[#F0EDE8] rounded-2xl">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#A68966]">No products found</p>
-            </div>
-        )}
+                    </td>
+                    <td className="px-3 sm:px-4 py-3">
+                      <div className="flex items-center justify-end gap-1 sm:gap-2">
+                        <button
+                          onClick={() => handleEdit(product)}
+                          className="p-1.5 sm:p-2 rounded-lg hover:bg-[#F0EDE8] text-[#6F4E37] transition-colors"
+                        >
+                          <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(product._id)}
+                          className="p-1.5 sm:p-2 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                        >
+                          <Trash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-4 py-12 text-center">
+                    <p className="text-xs font-bold uppercase text-[#A68966]">No products found</p>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* Modern Modal Overlay */}
-      <AnimatePresence>
-      {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={handleCloseModal}
-                className="fixed inset-0 bg-black/40 backdrop-blur-sm"
-              />
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                className="relative z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
-              >
-                  <div className="flex items-center justify-between px-6 py-4 border-b border-stone-100">
-                      <h3 className="text-lg font-bold tracking-tight">{editingId ? 'Edit Product' : 'New Product'}</h3>
-                      <button onClick={handleCloseModal} className="text-stone-400 hover:text-stone-600 transition-colors">
-                          <X className="w-5 h-5" />
-                      </button>
-                  </div>
-                  
-                  <div className="overflow-y-auto p-6">
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      <div className="space-y-2">
-                          <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Product Name</label>
-                          <Input 
-                            required
-                            placeholder="e.g. Iced Vanilla Latte"
-                            value={formData.name}
-                            onChange={e => setFormData({...formData, name: e.target.value})}
-                          />
+      {/* Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/40" onClick={handleCloseModal}></div>
+          <div className="relative z-50 w-full max-w-lg bg-white rounded-xl shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between px-6 py-4 border-b">
+              <h3 className="text-lg font-bold">{editingId ? 'Edit Product' : 'New Product'}</h3>
+              <button onClick={handleCloseModal}><X className="w-5 h-5" /></button>
+            </div>
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <Input placeholder="Product Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} required />
+              <div className="grid grid-cols-2 gap-4">
+                <Input type="number" step="0.01" placeholder="Price (₹)" value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} required />
+                <select className="flex h-9 w-full rounded-md border px-3" value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} required>
+                  <option value="">Select Category</option>
+                  {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Product Image</label>
+                <div 
+                  className="relative border-2 border-dashed border-[#E7DCCA] rounded-lg p-6 hover:border-[#6F4E37] transition-colors cursor-pointer bg-[#FAF7F2]/30"
+                  onClick={() => document.getElementById('product-image-upload')?.click()}
+                >
+                  <input 
+                    id="product-image-upload"
+                    type="file" 
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                  {formData.image ? (
+                    <div className="space-y-2">
+                      <img src={getImageUrl(formData.image)} alt="Preview" className="w-full h-48 object-cover rounded-lg" onError={(e) => { (e.target as HTMLImageElement).src = ''; }} />
+                      <p className="text-xs text-center text-[#A68966]">Click to change image</p>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <div className="w-12 h-12 mx-auto mb-3 text-[#A68966]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                       </div>
-                      
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none">Price ($)</label>
-                            <Input 
-                                required
-                                type="number"
-                                placeholder="0.00"
-                                value={formData.price}
-                                onChange={e => setFormData({...formData, price: e.target.value})}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium leading-none">Category</label>
-                            <select 
-                                required
-                                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                                value={formData.category}
-                                onChange={e => setFormData({...formData, category: e.target.value})}
-                            >
-                                <option value="">Select Category...</option>
-                                {categories.map(c => (
-                                    <option key={c._id} value={c._id}>{c.name}</option>
-                                ))}
-                            </select>
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2">
-                          <label className="text-sm font-medium leading-none">Description</label>
-                          <textarea 
-                            className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Describe the taste, ingredients, etc."
-                            value={formData.description}
-                            onChange={e => setFormData({...formData, description: e.target.value})}
-                          />
-                      </div>
-
-                       <div className="space-y-3 pt-2">
-                          <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                              <input 
-                                type="checkbox"
-                                className="h-4 w-4 rounded border-stone-300 text-blue-600 focus:ring-blue-600"
-                                checked={formData.isPopular}
-                                onChange={e => setFormData({...formData, isPopular: e.target.checked})}
-                              />
-                              <div className="space-y-0.5">
-                                  <span className="text-sm font-medium text-stone-900 block">Mark as Popular</span>
-                                  <span className="text-xs text-stone-500 block">Highlights this item on the menu.</span>
-                              </div>
-                          </label>
-                          <label className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-stone-50 transition-colors cursor-pointer">
-                              <input 
-                                type="checkbox"
-                                className="h-4 w-4 rounded border-stone-300 text-blue-600 focus:ring-blue-600"
-                                checked={formData.isActive}
-                                onChange={e => setFormData({...formData, isActive: e.target.checked})}
-                              />
-                              <div className="space-y-0.5">
-                                  <span className="text-sm font-medium text-stone-900 block">Available (Active)</span>
-                                  <span className="text-xs text-stone-500 block">Uncheck to hide from customer menu without deleting.</span>
-                              </div>
-                          </label>
-                       </div>
-                       
-                       <div className="pt-2">
-                           <label className="text-sm font-medium leading-none mb-3 block">Product Image</label>
-                           <ImageUpload 
-                                value={formData.image} 
-                                onChange={(url) => setFormData({...formData, image: url})} 
-                           />
-                       </div>
-
-                      <div className="flex justify-end gap-3 pt-4 border-t border-stone-100 mt-4">
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={handleCloseModal}
-                          >
-                              Cancel
-                          </Button>
-                          <Button 
-                            type="submit"
-                            className="bg-blue-600 hover:bg-blue-700 w-32"
-                          >
-                              {editingId ? 'Update' : 'Save Item'}
-                          </Button>
-                      </div>
-                    </form>
-                  </div>
-              </motion.div>
+                      <p className="text-sm font-medium text-[#3E2723] mb-1">Click to upload</p>
+                      <p className="text-xs text-[#A68966]">PNG, JPG, WEBP up to 10MB</p>
+                    </div>
+                  )}
+                  {uploading && (
+                    <div className="absolute inset-0 bg-white/80 flex items-center justify-center rounded-lg">
+                      <span className="text-sm font-medium text-[#6F4E37]">Uploading...</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={formData.isVeg} onChange={(e) => setFormData({...formData, isVeg: e.target.checked})} />
+                  <span className="text-sm">Vegetarian</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={formData.isActive} onChange={(e) => setFormData({...formData, isActive: e.target.checked})} />
+                  <span className="text-sm">Active</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input type="checkbox" checked={formData.isPopular} onChange={(e) => setFormData({...formData, isPopular: e.target.checked})} />
+                  <span className="text-sm">Popular</span>
+                </label>
+              </div>
+              <Button type="submit" className="w-full bg-[#6F4E37] text-white">
+                {editingId ? 'Update' : 'Create'} Product
+              </Button>
+            </form>
           </div>
+        </div>
       )}
-      </AnimatePresence>
     </div>
   );
 }

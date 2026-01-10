@@ -26,11 +26,12 @@ const getCategoryById = asyncHandler(async (req, res) => {
 // @route   POST /api/categories
 // @access  Private/Admin
 const createCategory = asyncHandler(async (req, res) => {
-    const { name, order, isActive } = req.body;
+    const { name, order, image, isActive } = req.body;
 
     const category = new Category({
         name,
         order,
+        image,
         isActive,
     });
 
@@ -42,13 +43,14 @@ const createCategory = asyncHandler(async (req, res) => {
 // @route   PUT /api/categories/:id
 // @access  Private/Admin
 const updateCategory = asyncHandler(async (req, res) => {
-    const { name, order, isActive } = req.body;
+    const { name, order, image, isActive } = req.body;
 
     const category = await Category.findById(req.params.id);
 
     if (category) {
         category.name = name || category.name;
         category.order = order !== undefined ? order : category.order;
+        category.image = image !== undefined ? image : category.image;
         category.isActive = isActive !== undefined ? isActive : category.isActive;
 
         const updatedCategory = await category.save();

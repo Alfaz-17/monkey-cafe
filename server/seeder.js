@@ -27,7 +27,7 @@ const importData = async () => {
 
         await User.create({
             name: 'Monkey_Cafe',
-            email: 'monkey@.com',
+            email: 'monkey@gmail.com',
             password: hashedPassword,
             isAdmin: true,
         });
