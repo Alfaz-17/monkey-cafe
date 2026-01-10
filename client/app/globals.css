@@ -183,4 +183,20 @@
       transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
+
+  /* Global fix for "sticky" hover on mobile */
+  @media (hover: none) {
+    .hover\:scale-105:hover,
+    .hover\:scale-110:hover,
+    .hover\:scale-\[1\.02\]:hover,
+    .hover\:scale-\[1\.03\]:hover,
+    .group:hover .group-hover\:scale-110,
+    .group:hover .group-hover\:translate-x-1 {
+      transform: none !important;
+    }
+    
+    .hover\:bg-primary\/90:hover {
+      background-color: var(--color-primary) !important;
+    }
+  }
 }

@@ -69,6 +69,7 @@ export default function ProductCard({ product }: { product: Product }) {
         bg-white rounded-[2rem] shadow-[0_10px_30px_rgba(0,0,0,0.03)] border border-[#F0EDE8] 
         overflow-hidden flex flex-col h-full relative select-none transition-all
         ${!isAvailable ? 'opacity-60 grayscale' : ''}
+        active:scale-[0.98] active:shadow-inner
       `}
       onClick={() => isAvailable && setIsModalOpen(true)}
     >
@@ -125,9 +126,9 @@ export default function ProductCard({ product }: { product: Product }) {
                 {isAvailable ? (
                     (qty === 0 || hasCustomizations) ? (
                         <motion.button
-                            whileTap={{ scale: 0.9 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={handleAdd}
-                            className="bg-[#6F4E37] hover:bg-[#5A3E2B] text-white font-black text-[10px] uppercase tracking-widest h-9 px-4 rounded-xl shadow-[0_8px_16px_rgba(111,78,55,0.15)] transition-all flex-shrink-0"
+                            className="bg-[#6F4E37] hover:bg-[#5A3E2B] text-white font-black text-[10px] uppercase tracking-widest h-9 px-4 rounded-xl shadow-[0_8px_16px_rgba(111,78,55,0.15)] transition-all flex-shrink-0 active:bg-[#3E2723]"
                         >
                             {qty > 0 && hasCustomizations ? 'Add +' : 'Add'}
                         </motion.button>

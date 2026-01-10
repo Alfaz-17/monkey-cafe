@@ -116,7 +116,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                          <div className="absolute top-6 left-6 z-20">
                             <button 
                                 onClick={onClose} 
-                                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-xl rounded-2xl text-white flex items-center justify-center transition-all active:scale-90 border border-white/20"
+                                className="w-12 h-12 bg-white/20 hover:bg-white/40 backdrop-blur-xl rounded-2xl text-white flex items-center justify-center transition-all active:scale-90 border border-white/20 active:bg-white/30"
                             >
                                 <ArrowLeft className="w-6 h-6" />
                             </button>
@@ -186,8 +186,9 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                                                         relative h-14 flex items-center justify-between px-4 rounded-2xl transition-all border font-bold text-sm
                                                         ${isSelected 
                                                             ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-xl shadow-[#6F4E37]/20 scale-[1.02]' 
-                                                            : 'bg-white text-[#8D7F75] border-[#F0EDE8] hover:border-[#D4A373]/30'
+                                                            : 'bg-white text-[#8D7F75] border-[#F0EDE8] hover:border-[#D4A373]/30 active:bg-[#FAF7F2]'
                                                         }
+                                                        active:scale-[0.97]
                                                     `}
                                                 >
                                                     <span className="truncate pr-2">{opt.name}</span>
@@ -210,7 +211,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                             <div className="flex items-center gap-5">
                                 <button 
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                    className="w-10 h-10 rounded-xl bg-[#FAF7F2] border border-[#F0EDE8] flex items-center justify-center text-[#6F4E37] hover:bg-white transition-all active:scale-90"
+                                    className="w-10 h-10 rounded-xl bg-[#FAF7F2] border border-[#F0EDE8] flex items-center justify-center text-[#6F4E37] hover:bg-white transition-all active:scale-90 active:bg-[#F0EDE8]"
                                 >
                                     <Minus className="w-5 h-5" />
                                 </button>
@@ -230,7 +231,7 @@ export default function ProductModal({ product, isOpen, onClose }: ProductModalP
                          <div className="max-w-[460px] mx-auto">
                             <Button 
                                 onClick={handleAddToCart}
-                                className="w-full h-16 rounded-[2rem] bg-[#6F4E37] hover:bg-[#5A3E2B] text-white shadow-[0_20px_50px_rgba(111,78,55,0.3)] flex items-center justify-between px-8 group transition-all hover:scale-[1.02] active:scale-95 border-b-4 border-[#3E2723]/30"
+                                className="w-full h-16 rounded-[2rem] bg-[#6F4E37] hover:bg-[#5A3E2B] text-white shadow-[0_20px_50px_rgba(111,78,55,0.3)] flex items-center justify-between px-8 group transition-all hover:scale-[1.02] active:scale-95 border-b-4 border-[#3E2723]/30 active:bg-[#3E2723]"
                             >
                                 <span className="text-lg font-black tracking-tight uppercase">Add to Tray</span>
                                 <div className="flex items-center gap-3">
