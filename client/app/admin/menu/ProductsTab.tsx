@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import { Trash2, Plus, Star, Pencil, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { getImageUrl } from '@/lib/utils/resolveImage';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -162,7 +163,7 @@ export default function ProductsTab() {
                 <td className="p-4 align-middle">
                    {product.image ? (
                        <div className="h-10 w-10 rounded-md overflow-hidden bg-stone-100 border border-stone-200">
-                           <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
+                           <img src={getImageUrl(product.image)} alt={product.name} className="h-full w-full object-cover" />
                        </div>
                    ) : (
                        <div className="h-10 w-10 rounded-md bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] font-medium border border-stone-200">No IMG</div>

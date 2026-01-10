@@ -6,6 +6,7 @@ import { Trash2, Plus, Pencil, X, Save } from 'lucide-react';
 import ImageUpload from '@/components/ui/ImageUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { getImageUrl } from '@/lib/utils/resolveImage';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
@@ -155,7 +156,7 @@ export default function CategoriesTab() {
                    ) : (
                        cat.image ? (
                            <div className="h-10 w-10 rounded-md overflow-hidden bg-stone-100 border border-stone-200">
-                               <img src={cat.image} alt={cat.name} className="h-full w-full object-cover" />
+                               <img src={getImageUrl(cat.image)} alt={cat.name} className="h-full w-full object-cover" />
                            </div>
                        ) : (
                            <div className="h-10 w-10 rounded-md bg-stone-100 flex items-center justify-center text-stone-400 text-[10px] font-medium border border-stone-200">No IMG</div>

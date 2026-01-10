@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-// import users from './data/users.js'; // Not used in this version
 import User from './models/User.js';
 import Product from './models/Product.js';
 import Category from './models/Category.js';
 import Table from './models/Table.js';
+import Order from './models/Order.js';
 import connectDB from './config/db.js';
 import bcrypt from 'bcryptjs';
 
@@ -25,70 +25,85 @@ const importData = async () => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash('123456', salt);
 
-        const adminUser = await User.create({
+        await User.create({
             name: 'Admin User',
             email: 'admin@example.com',
             password: hashedPassword,
             isAdmin: true,
         });
 
-        console.log('Admin User Created: admin@example.com / 123456');
+        console.log('Admin User Created');
 
         // 2. Create Categories
         const categories = await Category.insertMany([
             { name: 'Coffee', order: 1, isActive: true },
-            { name: 'Snacks', order: 2, isActive: true },
+            { name: 'Burgers', order: 2, isActive: true },
             { name: 'Desserts', order: 3, isActive: true },
+            { name: 'Beverages', order: 4, isActive: true },
         ]);
 
         console.log('Categories Created');
 
         // 3. Create Products
         const coffeeCat = categories[0]._id;
-        const snacksCat = categories[1]._id;
+        const burgerCat = categories[1]._id;
+        const dessertCat = categories[2]._id;
 
-        const products = await Product.insertMany([
+        await Product.insertMany([
             {
                 name: 'Caramel Latte',
-                image: 'https://images.unsplash.com/photo-1599398054066-271a79b71622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                description: 'Rich espresso with steamed milk and caramel syrup',
+                image: '/uploads/caramel-latte.png',
+                description: 'Rich espresso with steamed milk and premium caramel syrup.',
                 price: 4.50,
                 category: coffeeCat,
                 isPopular: true,
-                isActive: true
+                isActive: true,
+                isVeg: true
             },
             {
-                name: 'Americano',
-                image: 'https://images.unsplash.com/photo-1551033406-611cf9a28f67?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                description: 'Espresso shots topped with hot water',
-                price: 3.00,
+                name: 'Hot Cappuccino',
+                image: '/uploads/cappuccino.png',
+                description: 'Classic italian style cappuccino with velvety foam.',
+                price: 3.80,
                 category: coffeeCat,
                 isPopular: false,
-                isActive: true
+                isActive: true,
+                isVeg: true
             },
             {
-                name: 'Butter Croissant',
-                image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                description: 'Flaky and buttery fresh croissant',
-                price: 3.50,
-                category: snacksCat,
+                name: 'Spicy Zinger Burger',
+                image: '/uploads/spicy-burger.png',
+                description: 'Crunchy chicken fillet with spicy sauce and fresh lettuce.',
+                price: 6.50,
+                category: burgerCat,
                 isPopular: true,
-                isActive: true
+                isActive: true,
+                isVeg: false
+            },
+            {
+                name: 'Double Choco Brownie',
+                image: '/uploads/brownie.png',
+                description: 'Warm chocolate brownie served with a scoop of vanilla ice cream.',
+                price: 5.20,
+                category: dessertCat,
+                isPopular: true,
+                isActive: true,
+                isVeg: true
             }
         ]);
 
         console.log('Products Created');
 
-        // 4. Create Tables
-        await Table.insertMany([
-            { tableNo: 1 },
-            { tableNo: 2 },
-            { tableNo: 3 },
-        ]);
+        // 4. Create 15 Tables
+        const tables = [];
+        for (let i = 1; i <= 15; i++) {
+            tables.push({ tableNo: i, isActive: true, status: 'free' });
+        }
+        await Table.insertMany(tables);
         
-        console.log('Tables Created');
+        console.log('15 Tables Created');
 
-        console.log('Data Imported!');
+        console.log('Demo Data Imported Successfully!');
         process.exit();
     } catch (error) {
         console.error(`${error}`);
@@ -111,10 +126,6 @@ const destroyData = async () => {
         process.exit(1);
     }
 };
-
-// We need to import Order model if we want to delete orders, 
-// even though we aren't seeding them.
-import Order from './models/Order.js';
 
 if (process.argv[2] === '-d') {
     destroyData();

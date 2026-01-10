@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 };
 
 import { CartProvider } from '@/context/CartContext';
+import AppWrapper from '@/components/AppWrapper';
 
 export default function RootLayout({
   children,
@@ -34,10 +35,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} ${outfit.variable} font-sans antialiased bg-[#F9F6F2]`}>
+    <html lang="en" className="scrollbar-hide">
+      <body className={`${inter.variable} ${playfair.variable} ${outfit.variable} font-sans antialiased bg-[#FAF7F2] overflow-x-hidden selection:bg-[#6F4E37] selection:text-white`}>
         <CartProvider>
-            {children}
+            <AppWrapper>
+                {children}
+            </AppWrapper>
         </CartProvider>
       </body>
     </html>

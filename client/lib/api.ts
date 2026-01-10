@@ -7,6 +7,8 @@ const api = axios.create({
     },
 });
 
+export const IMAGE_BASE_URL = 'http://localhost:5000';
+
 // Add a request interceptor to attach the token
 api.interceptors.request.use(
     (config) => {

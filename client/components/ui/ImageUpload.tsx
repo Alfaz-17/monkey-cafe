@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Upload, X, Loader2, Image as ImageIcon } from 'lucide-react';
 import axios from 'axios'; // Direct axios or use lib/api
 import api from '@/lib/api';
+import { getImageUrl } from '@/lib/utils/resolveImage';
 
 interface ImageUploadProps {
     value: string;
@@ -43,7 +44,7 @@ export default function ImageUpload({ value, onChange, label = "Upload Image" }:
         
         {value ? (
             <div className="relative w-32 h-32 rounded-lg border border-gray-200 overflow-hidden group">
-                <img src={value} alt="Uploaded" className="w-full h-full object-cover" />
+                <img src={getImageUrl(value)} alt="Uploaded" className="w-full h-full object-cover" />
                 <button
                     type="button"
                     onClick={() => onChange('')}
