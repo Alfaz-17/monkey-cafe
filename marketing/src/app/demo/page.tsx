@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 import { Smartphone, LayoutDashboard, QrCode, Zap, TrendingUp, Sparkles, ChevronLeft, ChevronRight, Plus, ShoppingCart, CheckCircle2, History, Coffee, IndianRupee, Bell, MessageCircle, X, Clock } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ export default function DemoPage() {
     const { setTableId } = useCart();
     const [manualTable, setManualTable] = useState('');
     const [currentStep, setCurrentStep] = useState(0); // Master Flow State
+    const managementSuiteRef = useRef<HTMLDivElement>(null);
     
     const steps = [
         { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'The Master Showcase', desc: 'Experience the entire Media Masala ecosystem in one cohesive journey.' },
@@ -232,6 +233,13 @@ export default function DemoPage() {
                                                         onClick={() => {
                                                             setOrderPlaced(true);
                                                             setKitchenStatus('Pending');
+                                                            
+                                                            // Cinematic Scroll to Management Suite
+                                                            managementSuiteRef.current?.scrollIntoView({ 
+                                                                behavior: 'smooth', 
+                                                                block: 'center' 
+                                                            });
+
                                                             setTimeout(() => {
                                                                 setCurrentStep(2);
                                                                 setKitchenStatus('In Progress');
@@ -325,7 +333,10 @@ export default function DemoPage() {
                         </div>
 
                         {/* Right Side: Operational Intelligence */}
-                        <div className={`space-y-8 transition-all duration-500 ${currentStep >= 2 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}>
+                        <div 
+                            ref={managementSuiteRef}
+                            className={`space-y-8 transition-all duration-500 ${currentStep >= 2 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}
+                        >
                             <div className="flex justify-between items-end flex-row-reverse">
                                 <div className="space-y-2 text-right">
                                     <h2 className="text-2xl font-black font-outfit">Management Suite</h2>
