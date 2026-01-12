@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(20 14.3% 4.1%);
+  
+  --color-primary: hsl(24 9.8% 10%);
+  --color-primary-foreground: hsl(60 9.1% 97.8%);
+  
+  --color-secondary: hsl(60 4.8% 95.9%);
+  --color-secondary-foreground: hsl(24 9.8% 10%);
+  
+  --color-muted: hsl(60 4.8% 95.9%);
+  --color-muted-foreground: hsl(25 5.3% 44.7%);
+  
+  --color-accent: hsl(60 4.8% 95.9%);
+  --color-accent-foreground: hsl(24 9.8% 10%);
+  
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(60 9.1% 97.8%);
+  
+  --color-border: hsl(20 5.9% 90%);
+  --color-input: hsl(20 5.9% 90%);
+  --color-ring: hsl(20 14.3% 4.1%);
+  
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: #FAFAFA;
+    color: #18181b; /* zinc-900 hex */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500;
+}

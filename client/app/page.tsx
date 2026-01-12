@@ -63,8 +63,8 @@ export default function LandingPage() {
                 <Coffee className="w-12 h-12 text-[#6F4E37]" />
             </div>
             <div>
-                <h1 className="text-5xl font-black tracking-tighter italic font-serif leading-none">MonkeyCafe</h1>
-                <p className="text-[#A68966] text-[10px] font-black uppercase tracking-[0.4em] mt-3">Artisan Roastery & Kitchen</p>
+                <h1 className="text-5xl font-black tracking-tighter italic font-serif leading-none">Media Masala</h1>
+                <p className="text-[#A68966] text-[10px] font-black uppercase tracking-[0.4em] mt-3">Precision Operations & Kitchen</p>
             </div>
         </motion.div>
 

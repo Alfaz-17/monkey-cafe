@@ -170,6 +170,7 @@ Standard API responses follow this pattern:
 
 ---
 
+
 ## 7. Frontend Integration Checklist
 1.  **Images**: Use the `/api/upload` endpoint for all images (Products/Categories). Returns a stable Cloudinary URL.
 2.  **Cart Logic**: The Frontend must calculate `totalAmount` before sending to `/api/orders`, but Backend should ideally re-verify. (Current implementation trusts frontend total - suitable for MVP).

@@ -100,7 +100,7 @@ export default function MenuPage() {
     <div className="flex items-center gap-4">
       <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/menu/${tableIdParam}`)}>
         <h1 className="text-2xl font-black tracking-tighter leading-none font-serif italic text-[#3E2723]">
-          MonkeyCafe
+          Media Masala
         </h1>
         <div className="flex items-center gap-2 mt-1">
           <div className="flex items-center gap-1 bg-[#FDF1E6] px-1.5 py-0.5 rounded-lg border border-[#F0EDE8]">

@@ -31,12 +31,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Monkey Cafe | Premium Digital Menu",
+  title: "Media Masala | Premium Digital Menu",
   description: "Order your favorites instantly.",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Monkey Cafe',
+    title: 'Media Masala',
   },
 };
 

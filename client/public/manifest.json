@@ -1,6 +1,6 @@
 {
-  "name": "Monkey Cafe",
-  "short_name": "MonkeyCafe",
+  "name": "Media Masala",
+  "short_name": "MediaMasala",
   "description": "Order your favorites instantly",
   "start_url": "/",
   "display": "standalone",
