@@ -91,20 +91,146 @@ export default function LandingPage() {
           </motion.div>
 
 
-          {/* Hero Image/Mockup Placeholder */}
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="mt-20 relative rounded-[3rem] overflow-hidden border border-zinc-200 shadow-2xl shadow-zinc-200/50 bg-white aspect-[16/9]"
-          >
-            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-50 to-white flex items-center justify-center">
-                 <div className="text-center p-8">
-                    <LayoutDashboard className="w-16 h-16 text-zinc-200 mx-auto mb-4" />
-                    <p className="text-zinc-400 font-black uppercase tracking-[0.2em] text-[10px]">Real-time Command Center</p>
-                 </div>
+          {/* High-Fidelity Hero Showcase */}
+          <div className="mt-24 relative max-w-5xl mx-auto">
+            {/* Background Glows */}
+            <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#6F4E37]/10 blur-[100px] rounded-full" />
+            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-amber-200/20 blur-[100px] rounded-full" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              
+              {/* Laptop Display (Admin Perspective) */}
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                className="lg:col-span-8 group"
+              >
+                <div className="relative">
+                  <LaptopFrame className="shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.01] duration-700">
+                    <div className="bg-zinc-50 h-full flex flex-col">
+                      {/* Mock Admin UI */}
+                      <div className="p-4 bg-white border-b border-zinc-100 flex justify-between items-center">
+                         <div className="flex items-center gap-2">
+                           <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center text-white text-[10px] font-bold">MM</div>
+                           <div className="w-24 h-2 bg-zinc-100 rounded" />
+                         </div>
+                         <div className="w-20 h-6 bg-green-50 rounded-full border border-green-100 flex items-center justify-center">
+                            <span className="text-[8px] font-black text-green-600 uppercase">Live: 14 Orders</span>
+                         </div>
+                      </div>
+                      <div className="flex-1 p-6 grid grid-cols-3 gap-4">
+                        <div className="col-span-2 space-y-4">
+                           <div className="h-40 bg-white rounded-3xl border border-zinc-100 shadow-sm p-4 flex flex-col justify-end">
+                              <div className="flex items-end gap-1 h-20">
+                                {[40, 70, 45, 90, 65, 80, 55, 100].map((h, i) => (
+                                  <motion.div 
+                                    key={i} 
+                                    initial={{ height: 0 }}
+                                    animate={{ height: `${h}%` }}
+                                    transition={{ delay: 1 + (i * 0.1) }}
+                                    className="flex-1 bg-[#6F4E37]/20 rounded-t-sm" 
+                                  />
+                                ))}
+                              </div>
+                              <p className="text-[10px] font-black text-zinc-400 mt-4 uppercase">Revenue Intelligence</p>
+                           </div>
+                           <div className="grid grid-cols-2 gap-4">
+                              <div className="h-24 bg-white rounded-3xl border border-zinc-100 shadow-sm" />
+                              <div className="h-24 bg-white rounded-3xl border border-zinc-100 shadow-sm" />
+                           </div>
+                        </div>
+                        <div className="space-y-4">
+                           {[1,2,3].map(i => (
+                             <div key={i} className="h-20 bg-white rounded-2xl border border-zinc-100 shadow-sm p-3 flex gap-3">
+                                <div className="w-10 h-10 bg-zinc-50 rounded-lg" />
+                                <div className="flex-1 space-y-2">
+                                  <div className="w-full h-2 bg-zinc-100 rounded" />
+                                  <div className="w-1/2 h-2 bg-zinc-50 rounded" />
+                                </div>
+                             </div>
+                           ))}
+                        </div>
+                      </div>
+                    </div>
+                  </LaptopFrame>
+
+                  {/* Floating Feature Badges */}
+                  <motion.div 
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                    className="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-zinc-100 flex items-center gap-3 z-20"
+                  >
+                    <div className="w-10 h-10 bg-[#6F4E37] rounded-full flex items-center justify-center text-white shadow-lg shadow-[#6F4E37]/20">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">Order Sync</p>
+                      <p className="text-xs font-bold text-zinc-900">20ms Real-time</p>
+                    </div>
+                  </motion.div>
+                </div>
+              </motion.div>
+
+              {/* Phone Display (Guest Perspective) */}
+              <motion.div 
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="lg:col-span-4 relative group"
+              >
+                <PhoneFrame className="scale-90 lg:scale-100 lg:-ml-12 shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.03] active:scale-95 duration-700">
+                   <div className="bg-[#FAF7F2] h-full flex flex-col">
+                      <div className="p-4 bg-white border-b border-zinc-100 flex justify-between items-center">
+                         <div className="w-6 h-6 bg-[#6F4E37] rounded flex items-center justify-center text-white text-[8px] font-black">M</div>
+                         <ShoppingCart className="w-4 h-4 text-zinc-300" />
+                      </div>
+                      <div className="flex-1 p-5 space-y-6">
+                         <div className="aspect-[4/5] bg-white rounded-[2.5rem] shadow-xl border border-zinc-100 overflow-hidden flex flex-col">
+                            <div className="flex-1 flex items-center justify-center text-6xl">🍛</div>
+                            <div className="p-4 space-y-2">
+                               <div className="flex justify-between items-center">
+                                  <div className="w-24 h-3 bg-zinc-200 rounded" />
+                                  <div className="w-12 h-3 bg-[#6F4E37]/20 rounded" />
+                               </div>
+                               <div className="w-full h-8 bg-[#6F4E37] rounded-xl" />
+                            </div>
+                         </div>
+                         <div className="grid grid-cols-2 gap-4">
+                            <div className="aspect-square bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center justify-center text-2xl">☕</div>
+                            <div className="aspect-square bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center justify-center text-2xl">🍰</div>
+                         </div>
+                      </div>
+                   </div>
+                </PhoneFrame>
+
+                {/* Floating Feature Badges */}
+                <motion.div 
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 1 }}
+                  className="absolute -bottom-6 -right-6 lg:-right-12 bg-white p-4 rounded-2xl shadow-xl border border-zinc-100 flex items-center gap-3 z-20"
+                >
+                  <div className="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center text-amber-900 shadow-lg shadow-amber-400/20">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">AI Engine</p>
+                    <p className="text-xs font-bold text-zinc-900">+12% Upsell Lift</p>
+                  </div>
+                </motion.div>
+
+                <motion.div 
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                  className="absolute top-1/2 -left-12 lg:-left-20 bg-zinc-900 p-3 rounded-xl shadow-2xl border border-white/10 hidden lg:flex items-center gap-3 z-20"
+                >
+                   <QrCode className="w-5 h-5 text-[#D4A373]" />
+                   <div className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Digital Concierge</div>
+                </motion.div>
+              </motion.div>
+
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
