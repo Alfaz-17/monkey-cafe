@@ -80,12 +80,15 @@ export default function LandingPage() {
             transition={{ delay: 0.2 }}
             className="flex flex-col md:flex-row items-center justify-center gap-4"
           >
-            <button className="w-full md:w-auto bg-zinc-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+            <Link 
+              href="#features"
+              className="w-full md:w-auto bg-zinc-900 text-white px-10 py-5 rounded-full font-bold text-lg hover:bg-zinc-800 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-zinc-900/10"
+            >
               Start Scaling Today <ArrowRight className="w-5 h-5" />
-            </button>
+            </Link>
             <Link 
               href="/demo"
-              className="w-full md:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 rounded-full font-bold text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group"
+              className="w-full md:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-10 py-5 rounded-full font-bold text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 group"
             >
             See The Demo <Sparkles className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
@@ -95,22 +98,33 @@ export default function LandingPage() {
           {/* High-Fidelity Hero Showcase */}
           <div className="mt-24 relative max-w-5xl mx-auto">
             {/* Infinite Momentum Hero Background */}
-            <div className="absolute inset-0 pointer-events-none -z-10">
+            <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
                <motion.div 
                  animate={{ 
-                   scale: [1, 1.2, 1],
-                   opacity: [0.3, 0.5, 0.3]
+                    scale: [1, 1.1, 1],
+                    opacity: [0.3, 0.4, 0.3]
                  }}
-                 transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                 className="absolute -top-40 -left-20 w-[120%] h-[120%] bg-[#6F4E37]/5 blur-[120px] rounded-full"
+                 transition={{ 
+                    duration: 20, 
+                    repeat: Infinity, 
+                    ease: "linear",
+                    // Disable heavy scaling on mobile to prevent lag
+                    repeatType: "mirror"
+                 }}
+                 className="absolute -top-40 -left-20 w-[120%] h-[120%] bg-[#6F4E37]/5 blur-[80px] md:blur-[120px] rounded-full will-change-transform"
                />
                <motion.div 
                  animate={{ 
-                   scale: [1, 1.3, 1],
-                   opacity: [0.2, 0.4, 0.2]
+                    scale: [1, 1.15, 1],
+                    opacity: [0.2, 0.3, 0.2]
                  }}
-                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                 className="absolute -bottom-40 -right-20 w-[100%] h-[100%] bg-amber-100/30 blur-[150px] rounded-full"
+                 transition={{ 
+                    duration: 25, 
+                    repeat: Infinity, 
+                    ease: "linear",
+                    repeatType: "mirror"
+                 }}
+                 className="absolute -bottom-40 -right-20 w-[100%] h-[100%] bg-amber-100/20 blur-[100px] md:blur-[150px] rounded-full hidden md:block will-change-transform"
                />
             </div>
 
@@ -163,9 +177,13 @@ export default function LandingPage() {
 
                   {/* Floating Feature Badges */}
                   <motion.div 
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                    className="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-zinc-100 flex items-center gap-3 z-20"
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 4, 
+                      ease: "easeInOut" 
+                    }}
+                    className="absolute -top-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-zinc-100 flex items-center gap-3 z-20 will-change-transform"
                   >
                     <div className="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center text-white shadow-lg shadow-black/10">
                       <TrendingUp className="w-5 h-5 text-[#D4A373]" />
@@ -180,12 +198,12 @@ export default function LandingPage() {
 
               {/* Phone Display (Guest Perspective) */}
               <motion.div 
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 50, y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 30 : 0 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="lg:col-span-4 relative group flex justify-center lg:block"
               >
-                <PhoneFrame className="scale-75 sm:scale-90 lg:scale-100 lg:-ml-12 shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.03] active:scale-95 duration-700">
+                <PhoneFrame className="scale-85 sm:scale-95 lg:scale-100 lg:-ml-12 shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.01] active:scale-95 duration-700">
                    <div className="bg-[#FAF7F2] h-full flex flex-col pt-12">
                       <div className="flex-1 px-5 space-y-6 flex flex-col items-center">
                          <div className="w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center mb-2">
@@ -397,25 +415,23 @@ export default function LandingPage() {
 
       {/* Cinematic Feature Universe */}
       <section id="features" className="py-48 px-6 bg-white relative overflow-hidden">
-        {/* Infinite Momentum Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        {/* Infinite Momentum Background Elements - Optimized for Mobile */}
+        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
           <motion.div 
             animate={{ 
-              scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, 30, 0]
+              opacity: [0.03, 0.06, 0.03],
+              scale: [1, 1.05, 1]
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-[#6F4E37]/5 blur-[120px] rounded-full"
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-[#6F4E37]/5 blur-[80px] md:blur-[120px] rounded-full will-change-transform"
           />
           <motion.div 
             animate={{ 
-              scale: [1, 1.3, 1],
-              x: [0, -40, 0],
-              y: [0, -50, 0]
+              opacity: [0.1, 0.2, 0.1],
+              scale: [1, 1.1, 1]
             }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-amber-100/30 blur-[150px] rounded-full"
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] bg-amber-100/20 blur-[100px] md:blur-[150px] rounded-full hidden md:block will-change-transform"
           />
         </div>
 
@@ -713,9 +729,12 @@ export default function LandingPage() {
           <div className="container mx-auto max-w-4xl text-center">
               <h2 className="font-outfit font-bold text-4xl mb-6">Ready to transform your business?</h2>
               <p className="text-zinc-500 text-lg mb-10">Join 500+ restaurants using Media Masala to power their ordering.</p>
-              <button className="bg-zinc-900 text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-zinc-900/10 hover:shadow-2xl hover:scale-105 transition-all">
+              <Link 
+                href="#features"
+                className="inline-block bg-zinc-900 text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-zinc-900/10 hover:shadow-2xl hover:scale-105 transition-all text-center"
+              >
                   Get Started for Free
-              </button>
+              </Link>
           </div>
       </section>
 

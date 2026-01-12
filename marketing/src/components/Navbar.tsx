@@ -25,9 +25,12 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <button className="bg-zinc-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95">
+          <Link 
+            href="#features"
+            className="bg-zinc-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95"
+          >
             Get Started
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -49,9 +52,13 @@ export default function Navbar() {
             <Link href="/#features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
             <Link href="/#pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
             <Link href="/demo" onClick={() => setIsMenuOpen(false)} className="block text-zinc-900 font-bold">Interactive Demo</Link>
-            <button className="w-full bg-zinc-900 text-white py-3 rounded-xl font-bold">
+            <Link 
+                href="#features" 
+                onClick={() => setIsMenuOpen(false)} 
+                className="block w-full bg-zinc-900 text-white py-3 rounded-xl font-bold text-center"
+            >
                 Get Started
-            </button>
+            </Link>
         </motion.div>
       )}
     </nav>
