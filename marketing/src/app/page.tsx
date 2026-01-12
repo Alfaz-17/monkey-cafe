@@ -673,10 +673,10 @@ export default function LandingPage() {
                     desc="Everything you need to scale up."
                     features={[
                         "Everything in Essential",
-                        "Unlimited Orders",
+                        "In-App Waiter Call",
+                        "Personalized 'Welcome Back'",
                         "Inventory Tracking",
-                        "Staff Management",
-                        "Priority Support"
+                        "Staff Management"
                     ]}
                 />
                 <PricingCard 
@@ -686,9 +686,9 @@ export default function LandingPage() {
                     desc="Powered by AI for maximum profit."
                     features={[
                         "Everything in Growth",
-                        "AI-Powered Upsells",
+                        "AI Helper Food Suggestions",
+                        "Dynamic AI 'Happy Hour'",
                         "Smart Analytics",
-                        "Customer Loyalty",
                         "WhatsApp Alerts"
                     ]}
                 />
@@ -698,10 +698,10 @@ export default function LandingPage() {
                     desc="Ultimate solution for chains."
                     features={[
                         "Everything in Elite",
+                        "AI Voice Ordering (Smart Mic)",
+                        "WhatsApp 'Win-Back' Logic",
                         "Multi-Outlet Sync",
-                        "AI Voice Assistant",
-                        "White Labeling",
-                        "24/7 Concierge"
+                        "White Labeling"
                     ]}
                 />
             </div>

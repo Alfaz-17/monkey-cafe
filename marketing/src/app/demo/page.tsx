@@ -491,13 +491,13 @@ export default function DemoPage() {
                                                                             <Button 
                                                                                 onClick={() => {
                                                                                     setOrderPlaced(false);
-                                                                                    setOrderStatus('Pending');
-                                                                                    setNotifications(prev => [...prev, "Order archived in system."]);
-                                                                                    setTimeout(() => setNotifications([]), 3000);
+                                                                                     setOrderStatus('Pending');
+                                                                                     setNotifications(prev => [...prev, "Order settled: Paid and Gone."]);
+                                                                                     setTimeout(() => setNotifications([]), 3000);
                                                                                 }}
                                                                                 className="h-8 px-4 bg-[#FAF7F2] text-[#6F4E37] text-[8px] font-black uppercase rounded-lg border border-[#6F4E37]/20"
                                                                             >
-                                                                                Archive
+                                                                                 Paid and Gone
                                                                             </Button>
                                                                         )}
                                                                     </div>

@@ -46,6 +46,24 @@ A complete end-to-end digital ordering solution designed to modernize the cafe e
 *   **Real-Time:** Socket.IO integration for instant order communication.
 *   **Scalable:** Cloud-ready architecture (MongoDB + Node.js) capable of handling high traffic.
 
-5. WHY THIS SYSTEM?
+5. FUTURE ROADMAP: THE EVOLUTION
+-------------------------------
+
+### 📱 GUEST (USER) EXPERIENCE
+*   **AI Voice Ordering:** Hands-free ordering via natural language.
+*   **Smart "Flavor Pairings":** AI-driven cross-sells (e.g., drinks that pair with specific meals).
+*   **One-Tap Integrated Payments:** Apple/Google Pay directly in the menu.
+*   **In-App Waiter Call:** Digital service requests (Water, Napkins, Help).
+*   **Scheduled Pre-Ordering:** Order ahead for morning pickups.
+
+### 🖥️ ADMIN & OPERATIONS CONSOLE
+*   **AI Demand Forecasting:** Predict rush hours to optimize labor and prep.
+*   **Dynamic AI "Happy Hour":** Automated flash deals for slow tables.
+*   **Pro Kitchen Display (KDS):** Chef-specific timers and priority management.
+*   **Inventory Auto-Pilot:** Real-time stock sync with automatic menu hiding.
+*   **Multi-Unit Command Center:** Master views for multiple cafe branches.
+*   **Staff Performance Analytics:** Track speed-to-serve and efficiency.
+
+6. WHY THIS SYSTEM?
 -------------------
 Manual ordering is slow and prone to errors. This system puts the control in the customer's hands, increasing average order value through visual upselling and customizations, while freeing up staff to focus on service and preparation.
