@@ -32,6 +32,8 @@ export default function DemoPage() {
     const [selectedItem, setSelectedItem] = useState<any>(null);
     const [orderStatus, setOrderStatus] = useState<'Pending' | 'Preparing' | 'Ready' | 'Served'>('Pending');
     const [notifications, setNotifications] = useState<string[]>([]);
+    const [showWaiterCall, setShowWaiterCall] = useState(false);
+    const [waiterRequests, setWaiterRequests] = useState<string[]>([]);
 
     const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
     const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -229,30 +231,75 @@ export default function DemoPage() {
                                                 )}
                                             </AnimatePresence>
 
-                                            {cartCount > 0 && (
-                                                <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="pt-4 sticky bottom-0">
-                                                    <Button 
-                                                        onClick={() => {
-                                                            setOrderPlaced(true);
-                                                            setKitchenStatus('Pending');
-                                                            
-                                                            // Cinematic Scroll to Management Suite
-                                                            managementSuiteRef.current?.scrollIntoView({ 
-                                                                behavior: 'smooth', 
-                                                                block: 'center' 
-                                                            });
+                                             {/* Waiter Call Button - Always visible */}
+                                             <div className="pt-4 sticky bottom-0 space-y-3">
+                                                 <Button 
+                                                     onClick={() => setShowWaiterCall(true)}
+                                                     variant="outline"
+                                                     className="w-full h-12 rounded-xl border-2 border-[#6F4E37] text-[#6F4E37] font-bold text-xs hover:bg-[#6F4E37] hover:text-white transition-all"
+                                                 >
+                                                     <Bell className="w-4 h-4 mr-2" />
+                                                     Call Waiter
+                                                 </Button>
+                                                 
+                                                 {cartCount > 0 && (
+                                                     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+                                                         <Button 
+                                                             onClick={() => {
+                                                                 setOrderPlaced(true);
+                                                                 setKitchenStatus('Pending');
+                                                                 
+                                                                 // Cinematic Scroll to Management Suite
+                                                                 managementSuiteRef.current?.scrollIntoView({ 
+                                                                     behavior: 'smooth', 
+                                                                     block: 'center' 
+                                                                 });
 
-                                                            setTimeout(() => {
-                                                                setCurrentStep(2);
-                                                                setKitchenStatus('In Progress');
-                                                            }, 1500);
-                                                        }}
-                                                        className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-[#6F4E37]/30 border-b-4 border-[#3E2723]/30"
-                                                    >
-                                                        Place Order (₹{cartCount * 450})
-                                                    </Button>
-                                                </motion.div>
-                                            )}
+                                                                 setTimeout(() => {
+                                                                     setCurrentStep(2);
+                                                                     setKitchenStatus('In Progress');
+                                                                 }, 1500);
+                                                             }}
+                                                             className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-[#6F4E37]/30 border-b-4 border-[#3E2723]/30"
+                                                         >
+                                                             Place Order (₹{cartCount * 450})
+                                                         </Button>
+                                                     </motion.div>
+                                                 )}
+                                             </div>
+
+                                             {/* Waiter Call Drawer */}
+                                             <AnimatePresence>
+                                                 {showWaiterCall && (
+                                                     <motion.div 
+                                                         initial={{ y: "100%" }}
+                                                         animate={{ y: 0 }}
+                                                         exit={{ y: "100%" }}
+                                                         className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-50 p-6 space-y-6"
+                                                     >
+                                                         <div className="flex justify-between items-center">
+                                                             <h4 className="font-black text-lg text-[#3E2723]">Call Waiter</h4>
+                                                             <button onClick={() => setShowWaiterCall(false)} className="p-2 bg-[#FAF7F2] rounded-full"><X className="w-4 h-4"/></button>
+                                                         </div>
+                                                         <div className="grid grid-cols-2 gap-3">
+                                                             {['💧 Water', '🧻 Tissue', '🍴 Cutlery', '🧾 Bill'].map((req) => (
+                                                                 <Button
+                                                                     key={req}
+                                                                     onClick={() => {
+                                                                         setWaiterRequests(prev => [...prev, req]);
+                                                                         setNotifications(prev => [...prev, `Waiter request: ${req}`]);
+                                                                         setShowWaiterCall(false);
+                                                                         setTimeout(() => setNotifications([]), 3000);
+                                                                     }}
+                                                                     className="h-16 rounded-xl bg-[#FAF7F2] text-[#3E2723] text-sm font-bold hover:bg-[#6F4E37] hover:text-white border border-[#6F4E37]/10"
+                                                                 >
+                                                                     {req}
+                                                                 </Button>
+                                                             ))}
+                                                         </div>
+                                                     </motion.div>
+                                                 )}
+                                             </AnimatePresence>
                                         </div>
                                     ) : (
                                         <div className="flex-1 flex flex-col bg-[#FAF7F2] overflow-hidden">
@@ -506,6 +553,51 @@ export default function DemoPage() {
                                                                 </motion.div>
                                                             )}
                                                         </div>
+
+                                                        {/* Waiter Requests Section */}
+                                                        {waiterRequests.length > 0 && (
+                                                            <div className="bg-white border-2 border-dashed border-orange-200 rounded-[2.5rem] p-6 space-y-4">
+                                                                <div className="flex justify-between items-center">
+                                                                    <h4 className="text-xs font-black text-orange-600 uppercase tracking-[0.2em] flex items-center gap-2">
+                                                                        <Bell className="w-4 h-4" />
+                                                                        Waiter Requests
+                                                                    </h4>
+                                                                    <span className="px-2 py-0.5 bg-orange-100 text-orange-600 text-[8px] font-bold rounded-md">{waiterRequests.length} PENDING</span>
+                                                                </div>
+                                                                
+                                                                <div className="space-y-2">
+                                                                    {waiterRequests.map((request, idx) => (
+                                                                        <motion.div
+                                                                            key={idx}
+                                                                            initial={{ x: -20, opacity: 0 }}
+                                                                            animate={{ x: 0, opacity: 1 }}
+                                                                            className="bg-orange-50 p-4 rounded-xl border border-orange-100 flex items-center justify-between"
+                                                                        >
+                                                                            <div className="flex items-center gap-3">
+                                                                                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm text-sm">
+                                                                                    {request.split(' ')[0]}
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p className="text-sm font-bold text-zinc-900">{request}</p>
+                                                                                    <p className="text-[10px] text-zinc-500">Table #12</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <Button
+                                                                                onClick={() => {
+                                                                                    setWaiterRequests(prev => prev.filter((_, i) => i !== idx));
+                                                                                    setNotifications(prev => [...prev, `Completed: ${request}`]);
+                                                                                    setTimeout(() => setNotifications([]), 3000);
+                                                                                }}
+                                                                                className="h-8 px-4 bg-green-500 text-white text-[8px] font-black uppercase rounded-lg"
+                                                                            >
+                                                                                Done
+                                                                            </Button>
+                                                                        </motion.div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+
                                                         <div className="p-5 bg-[#3E2723] text-white rounded-[2rem] space-y-4 border-b-4 border-black/20">
                                                             <div className="flex justify-between items-center">
                                                                 <p className="text-[10px] font-black uppercase text-[#D4A373]">Live Intelligence</p>

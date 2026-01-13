@@ -44,34 +44,44 @@ export default function LandingPage() {
       <Navbar />
 
 
-      {/* Hero Section */}
+      {/* Hero Section - Problem-Focused */}
       <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
-        <div className="container mx-auto max-w-4xl text-center">
+        <div className="container mx-auto max-w-5xl text-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 bg-white border border-zinc-200 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-1.5 mb-8 shadow-sm"
           >
-            <span className="w-2 h-2 rounded-full bg-[#6F4E37] animate-pulse" />
-            <span className="text-xs font-semibold tracking-wide uppercase text-zinc-500">The ROI-Focussed OS for Restaurants</span>
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="text-xs font-black tracking-wide uppercase text-red-600">Scale Your Bussiness With MEDIA MASALA </span>
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-outfit font-black text-4xl sm:text-5xl md:text-8xl leading-[0.95] tracking-tighter mb-6 md:mb-8 italic"
+            className="font-outfit font-black text-3xl sm:text-4xl md:text-7xl leading-[1.1] tracking-tight mb-6 md:mb-8"
           >
-            THE OS FOR <br className="hidden md:block"/>
-            <span className="text-[#6F4E37] not-italic">PROFITABLE</span> DINING.
+            Losing <span className="text-red-600">Customers</span> to<br className="hidden md:block" />
+            missed orders, confused staff,<br className="hidden md:block" />
+            and walk-aways?
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-base md:text-2xl text-zinc-500 mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed font-medium px-4 md:px-0"
+            className="text-lg md:text-2xl text-zinc-600 mb-4 max-w-3xl mx-auto leading-relaxed font-medium px-4 md:px-0"
           >
-            Stop losing revenue to manual errors and friction. Media Masala is the high-fidelity system that turns your menu into a <span className="text-zinc-900 font-black">Conversion Machine</span>.
+            <span className="text-[#6F4E37] font-black">Media Masala</span> turns chaos into <span className="text-green-600 font-black"> extra revenue.</span>
+          </motion.p>
+          
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="text-sm md:text-base text-zinc-500 mb-10 max-w-2xl mx-auto px-4 md:px-0"
+          >
+            Zero manual entry. Zero errors. 100% trackable orders.
           </motion.p>
           
           <motion.div 
@@ -81,16 +91,17 @@ export default function LandingPage() {
             className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0"
           >
             <Link 
-              href="#features"
-              className="w-full sm:w-auto bg-zinc-900 text-white px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:bg-zinc-800 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-zinc-900/10 min-h-[56px]"
+              href="/demo"
+              className="w-full sm:w-auto bg-[#6F4E37] text-white px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:bg-[#5A3E2B] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-[#6F4E37]/20 min-h-[56px]"
             >
-              Start Scaling Today <ArrowRight className="w-5 h-5" />
+              See How It Works <ArrowRight/>
+
             </Link>
             <Link 
-              href="/demo"
+              href="/pricing"
               className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 group min-h-[56px]"
             >
-            See The Demo <Sparkles className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
+            Calculate Your ROI - Pricing  <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0  transition-opacity" />
             </Link>
           </motion.div>
 
@@ -203,6 +214,12 @@ export default function LandingPage() {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="lg:col-span-4 relative group flex justify-center lg:block"
               >
+                <Link href="/demo" className="absolute inset-0 z-50 cursor-pointer group/demo flex items-center justify-center" aria-label="Try Demo">
+                  <div className="opacity-0 group-hover/demo:opacity-100 transition-opacity bg-[#6F4E37] text-white px-6 py-3 rounded-full font-bold text-sm flex items-center gap-2 shadow-2xl">
+                    <Sparkles className="w-4 h-4" />
+                    Try Interactive Demo
+                  </div>
+                </Link>
                 <PhoneFrame className="scale-85 sm:scale-95 lg:scale-100 lg:-ml-12 shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.01] active:scale-95 duration-700">
                    <div className="bg-[#FAF7F2] h-full flex flex-col pt-12">
                       <div className="flex-1 px-5 space-y-6 flex flex-col items-center">
@@ -399,6 +416,8 @@ export default function LandingPage() {
       </section>
 
 
+
+
       {/* Social Proof */}
       <section className="py-12 border-y border-zinc-100 bg-white">
         <div className="container mx-auto px-6 text-center">
@@ -412,249 +431,47 @@ export default function LandingPage() {
       </section>
 
 
-      {/* Cinematic Feature Universe */}
-      <section id="features" className="py-48 px-6 bg-white relative overflow-hidden">
-        {/* Infinite Momentum Background Elements - Optimized for Mobile */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-          <motion.div 
-            animate={{ 
-              opacity: [0.03, 0.06, 0.03],
-              scale: [1, 1.05, 1]
-            }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-[#6F4E37]/5 blur-[80px] md:blur-[120px] rounded-full will-change-transform"
-          />
-          <motion.div 
-            animate={{ 
-              opacity: [0.1, 0.2, 0.1],
-              scale: [1, 1.1, 1]
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-[-10%] right-[-10%] w-[70%] h-[70%] bg-amber-100/20 blur-[100px] md:blur-[150px] rounded-full hidden md:block will-change-transform"
-          />
-        </div>
 
-        <div className="container mx-auto max-w-7xl relative z-10">
-          
-          <div className="text-center mb-40">
-            <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 bg-zinc-900 text-white px-4 py-2 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-8 shadow-2xl"
-            >
-                <Sparkles className="w-3 h-3 text-amber-400" /> System Architecture
-            </motion.div>
-            <h3 className="font-outfit font-black text-5xl md:text-9xl tracking-tighter leading-none">
-              ZERO <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6F4E37] to-amber-200">WAIT.</span><br/>
-              MAX PROFIT.
-            </h3>
-            <p className="text-zinc-400 text-xl md:text-2xl max-w-3xl mx-auto font-medium leading-relaxed">
-              Every touchpoint is designed for conversion. High-fidelity ordering mechanics that turn guests into loyal brand advocates.
-            </p>
+
+      {/* Brief Feature Highlights */}
+      <section className="py-32 px-6 bg-white">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 bg-zinc-100 border border-zinc-200 rounded-full text-xs font-black uppercase tracking-widest text-zinc-600 mb-6">What You Get</span>
+            <h2 className="font-outfit font-black text-4xl md:text-6xl mb-6">Everything You Need<br className="md:hidden" /> to Scale</h2>
+            <p className="text-zinc-500 text-lg max-w-2xl mx-auto">A complete system that handles everything from QR ordering to kitchen sync to AI-powered growth.</p>
           </div>
 
-          <div className="space-y-64">
-            
-            {/* Section 1: The Digital Gateway (QR Menu + Table Ordering) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div className="space-y-10 order-2 lg:order-1">
-                <div className="space-y-6">
-                   <div className="w-16 h-16 bg-[#6F4E37] rounded-[2rem] flex items-center justify-center text-white shadow-2xl shadow-[#6F4E37]/30 mb-8">
-                      <QrCode className="w-8 h-8" />
-                   </div>
-                   <h3 className="font-outfit font-black text-4xl md:text-6xl tracking-tight">The Digital Gateway.</h3>
-                   <div className="space-y-4">
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">Digital QR Menu</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          A high-fidelity digital menu that loads instantly upon scan. No apps to download, no friction.
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">Table-Based Ordering</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          Orders are automatically tied to table IDs, ensuring your staff knows exactly where to serve.
-                        </p>
-                      </div>
-                   </div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-14 h-14 bg-[#6F4E37] rounded-2xl flex items-center justify-center mb-6">
+                <QrCode className="w-7 h-7 text-white" />
               </div>
+              <h3 className="font-black text-xl mb-3 text-zinc-900">Digital Gateway</h3>
+              <p className="text-zinc-600 leading-relaxed">QR menu, table ordering, zero app downloads. Instant ordering for guests.</p>
+            </motion.div>
 
-              <div className="relative h-[400px] lg:h-[600px] flex items-center justify-center order-1 lg:order-2 group">
-                 {/* 3D Angled Phone Frame */}
-                 <motion.div 
-                  style={{ perspective: 1000 }}
-                  whileHover={{ rotateY: -15, rotateX: 5 }}
-                  className="relative transition-transform duration-700 ease-out z-20 w-full flex justify-center"
-                 >
-                    <PhoneFrame className="scale-75 sm:scale-90 lg:scale-100 shadow-[30px_50px_100px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
-                      <div className="bg-[#FAF7F2] h-full p-4 flex flex-col pt-12 items-center">
-                        <div className="w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center mb-6">
-                           <QrCode className="w-10 h-10 text-[#6F4E37]" />
-                        </div>
-                        <div className="w-32 h-2 bg-zinc-200 rounded-full mb-2" />
-                        <div className="w-24 h-2 bg-zinc-100 rounded-full" />
-                      </div>
-                    </PhoneFrame>
-                 </motion.div>
-
-                 {/* Exploding UI Layers */}
-                 {[
-                   { text: "Table #12", color: "bg-zinc-900 text-white", top: "5%", left: "0%", delay: 0.2, isTag: true, mobileOnly: false },
-                   { text: "Scan Success", color: "bg-green-500 text-white", top: "0%", right: "0%", delay: 0.4, isTag: true, mobileOnly: false },
-                   { icon: <CheckCircle2 className="w-6 h-6 text-green-500" />, color: "bg-white", bottom: "10%", left: "0%", delay: 0.6, mobileOnly: true }
-                 ].map((layer: any, i) => (
-                   <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    whileHover={{ scale: 1.1, zIndex: 50 }}
-                    transition={{ delay: layer.delay }}
-                    className={`absolute z-30 shadow-2xl p-3 lg:p-4 rounded-2xl border border-zinc-100 backdrop-blur-md ${layer.color} ${layer.isTag ? 'px-4 lg:px-6 py-2 lg:py-3 font-black text-[8px] lg:text-[10px] uppercase tracking-widest' : ''} ${layer.mobileOnly ? 'lg:block' : 'block'}`}
-                    style={{ 
-                      top: layer.top, bottom: layer.bottom, left: layer.left, right: layer.right,
-                      transform: `translateZ(${30 + (i * 20)}px)` 
-                    }}
-                   >
-                     {layer.icon || layer.text}
-                   </motion.div>
-                 ))}
-                 
-                 <div className="absolute inset-0 flex items-center justify-center -z-10">
-                    <div className="w-[500px] h-[500px] border border-zinc-100 rounded-full animate-pulse" />
-                 </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center mb-6">
+                <ShoppingCart className="w-7 h-7 text-white" />
               </div>
-            </div>
+              <h3 className="font-black text-xl mb-3 text-zinc-900">Conversion Engine</h3>
+              <p className="text-zinc-600 leading-relaxed">Customization, cart, checkout. Maximize order value with zero friction.</p>
+            </motion.div>
 
-            {/* Section 2: The Conversion Engine (Customisation + Cart/Checkout) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div className="relative h-[400px] lg:h-[600px] flex items-center justify-center group order-2 lg:order-1">
-                 {/* 3D Angled Phone */}
-                 <motion.div 
-                  style={{ perspective: 1000 }}
-                  whileHover={{ rotateY: 15, rotateX: 5 }}
-                  className="relative transition-transform duration-700 ease-out z-20"
-                 >
-                    <PhoneFrame className="scale-75 sm:scale-90 lg:scale-100 shadow-[30px_50px_100px_rgba(0,0,0,0.15)] ring-1 ring-black/5">
-                      <div className="bg-white h-full p-4 flex flex-col pt-12 items-center">
-                         <div className="text-4xl mb-6">☕</div>
-                         <div className="w-full h-8 bg-[#6F4E37] rounded-xl mb-4" />
-                         <div className="w-full h-24 border border-dashed border-zinc-200 rounded-2xl" />
-                      </div>
-                    </PhoneFrame>
-                 </motion.div>
-
-                 {/* Exploding Layers */}
-                 {[
-                    { text: "Extra Sugar?", color: "bg-white", top: "15%", right: "5%", delay: 0.2, isTag: true },
-                    { text: "Cart (2 items)", color: "bg-[#6F4E37] text-white", bottom: "15%", right: "2%", delay: 0.4, isTag: true },
-                    { icon: <Plus className="w-4 h-4" />, color: "bg-white", top: "10%", left: "2%", delay: 0.6 }
-                 ].map((layer: any, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      className={`absolute z-30 shadow-2xl p-3 lg:p-4 rounded-2xl border border-zinc-100 backdrop-blur-md ${layer.color} ${layer.isTag ? 'px-4 lg:px-6 py-2 lg:py-3 font-black text-[8px] lg:text-[10px] uppercase tracking-widest' : ''}`}
-                      style={{ top: layer.top, bottom: layer.bottom, left: layer.left, right: layer.right }}
-                    >
-                      {layer.icon || layer.text}
-                    </motion.div>
-                 ))}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-14 h-14 bg-[#6F4E37] rounded-2xl flex items-center justify-center mb-6">
+                <TrendingUp className="w-7 h-7 text-white" />
               </div>
+              <h3 className="font-black text-xl mb-3 text-zinc-900">Real-time Intelligence</h3>
+              <p className="text-zinc-600 leading-relaxed">Live tracking, AI upsells, instant kitchen sync. All in real-time.</p>
+            </motion.div>
+          </div>
 
-              <div className="space-y-10 order-1 lg:order-2">
-                <div className="space-y-6">
-                   <div className="w-16 h-16 bg-zinc-900 rounded-[2rem] flex items-center justify-center text-white shadow-2xl mb-8">
-                      <ShoppingCart className="w-8 h-8" />
-                   </div>
-                   <h3 className="font-outfit font-black text-4xl md:text-6xl tracking-tight">The Conversion<br/>Engine.</h3>
-                   <div className="space-y-4">
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">Customisation Engine</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          Allow guests to tailor their meals with intuitive selection cards, driving up average order value effortlessly.
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">Cart & Checkout</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          A fluid, one-tap checkout experience that minimizes abandonment and maximizes conversion.
-                        </p>
-                      </div>
-                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Section 3: Real-time Intelligence (Live Track + AI Upsells) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div className="space-y-10">
-                <div className="space-y-6">
-                   <div className="w-16 h-16 bg-[#6F4E37] rounded-[2rem] flex items-center justify-center text-white shadow-2xl shadow-[#6F4E37]/30 mb-8">
-                      <TrendingUp className="w-8 h-8" />
-                   </div>
-                   <h3 className="font-outfit font-black text-4xl md:text-6xl tracking-tight">Real-time <br/>Intelligence.</h3>
-                   <div className="space-y-4">
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">Live Status Tracking</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          Keep guests engaged with a real-time progress bar. Preparing, Ready, Served—all updated instantly.
-                        </p>
-                      </div>
-                      <div>
-                        <h4 className="font-black text-lg text-zinc-900">AI-Powered Upsells</h4>
-                        <p className="text-zinc-500 text-lg leading-relaxed font-medium max-w-lg">
-                          Our smart engine suggests the perfect sides based on trending combos and margin goals.
-                        </p>
-                      </div>
-                   </div>
-                </div>
-              </div>
-
-              <div className="relative h-[400px] lg:h-[600px] order-2 group">
-                 <motion.div 
-                  initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  className="z-10 relative h-full flex items-center justify-center"
-                 >
-                    <LaptopFrame className="scale-75 sm:scale-90 lg:scale-100 shadow-[0_50px_100px_rgba(111,78,55,0.15)] ring-1 ring-black/5">
-                       <div className="bg-zinc-900 h-full flex flex-col p-6 lg:p-8 overflow-hidden">
-                          <div className="flex justify-between items-center mb-6 lg:mb-10">
-                             <div className="flex items-center gap-2 lg:gap-3">
-                               <div className="w-8 h-8 lg:w-10 lg:h-10 bg-[#6F4E37] rounded-xl flex items-center justify-center text-white font-black text-xs lg:text-base">AI</div>
-                               <div className="text-[8px] lg:text-[10px] font-black text-white/40 uppercase tracking-widest">Engine</div>
-                             </div>
-                             <div className="px-3 py-1 bg-white/5 rounded-full border border-white/10 flex items-center justify-center text-[8px] lg:text-[10px] font-black text-green-400">LIVE SYNC</div>
-                          </div>
-                          <div className="space-y-4 lg:space-y-6">
-                             <div className="h-10 bg-white/5 rounded-xl border border-white/5 flex items-center px-4 justify-between">
-                                <div className="text-[8px] lg:text-[10px] font-black text-white/20 uppercase tracking-widest">Status: Preparing</div>
-                                <div className="w-1/3 lg:w-1/2 h-1 bg-white/10 rounded-full overflow-hidden">
-                                   <motion.div 
-                                    animate={{ x: ["-100%", "100%"] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                    className="w-full h-full bg-[#6F4E37]"
-                                   />
-                                </div>
-                             </div>
-                             <div className="grid grid-cols-2 gap-3 lg:gap-4">
-                                <div className="aspect-square bg-white/5 rounded-2xl border border-white/5 p-3 lg:p-4 flex flex-col justify-end">
-                                   <div className="text-xl lg:text-2xl mb-1 lg:mb-2">🍰</div>
-                                   <div className="text-[6px] lg:text-[8px] font-black text-[#D4A373] uppercase tracking-widest">+12% LIFT</div>
-                                </div>
-                                <div className="aspect-square bg-white/5 rounded-2xl border border-white/5 p-3 lg:p-4 flex flex-col justify-end">
-                                   <div className="text-xl lg:text-2xl mb-1 lg:mb-2">☕</div>
-                                   <div className="text-[6px] lg:text-[8px] font-black text-green-400 uppercase tracking-widest">BEST COMBO</div>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                    </LaptopFrame>
-                 </motion.div>
-              </div>
-            </div>
-
+          <div className="text-center">
+            <Link href="/features" className="inline-flex items-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-full font-bold hover:bg-zinc-800 transition-all hover:scale-105 shadow-xl">
+              Explore All Features <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>

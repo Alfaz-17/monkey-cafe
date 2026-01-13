@@ -19,7 +19,8 @@ export default function Navbar() {
         </Link>
         
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
-          <Link href="/#features" className="hover:text-zinc-900 transition-colors">Features</Link>
+          <Link href="/" className="hover:text-zinc-900 transition-colors">Home</Link>
+          <Link href="/features" className="hover:text-zinc-900 transition-colors">Features</Link>
           <Link href="/pricing" className="hover:text-zinc-900 transition-colors">Pricing</Link>
           <Link href="/demo" className="hover:text-zinc-900 transition-colors bg-zinc-100 px-3 py-1 rounded-full">Interactive Demo</Link>
         </div>
@@ -50,7 +51,8 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-zinc-200 p-6 space-y-4 shadow-xl"
         >
-            <Link href="/#features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
+            <Link href="/" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Home</Link>
+            <Link href="/features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
             <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
             <Link href="/demo" onClick={() => setIsMenuOpen(false)} className="block text-zinc-900 font-bold">Interactive Demo</Link>
             <Link 
