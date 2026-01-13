@@ -44,16 +44,15 @@ export default function LandingPage() {
       <Navbar />
 
 
-      {/* Hero Section - Problem-Focused */}
+      {/* Hero Section */}
       <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
         <div className="container mx-auto max-w-5xl text-center">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 bg-[#FAF0F4] text-[#8C5E6E] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 shadow-sm border border-[#EAD0DB]/50"
           >
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-xs font-black tracking-wide uppercase text-red-600">Scale Your Business With MEDIA MASALA </span>
+            POWERED BY MEDIAMASALA PVT LTD
           </motion.div>
           
           <motion.h1 
@@ -61,27 +60,16 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             className="font-outfit font-black text-3xl sm:text-4xl md:text-7xl leading-[1.1] tracking-tight mb-6 md:mb-8"
           >
-            Losing <span className="text-red-600">Customers</span> to<br className="hidden md:block" />
-            missed orders, confused staff,<br className="hidden md:block" />
-            and walk-aways?
+            Build the Right Restaurant System for Your Business Size
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl text-zinc-600 mb-4 max-w-3xl mx-auto leading-relaxed font-medium px-4 md:px-0"
+            className="text-lg md:text-2xl text-zinc-600 mb-10 max-w-3xl mx-auto leading-relaxed font-medium px-4 md:px-0"
           >
-            <span className="text-[#6F4E37] font-black">Media Masala</span> turns chaos into <span className="text-green-600 font-black"> extra revenue.</span>
-          </motion.p>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="text-sm md:text-base text-zinc-500 mb-10 max-w-2xl mx-auto px-4 md:px-0"
-          >
-            Zero manual entry. Zero errors. 100% trackable orders.
+            Tell us about your business. Choose what you need. Pricing adapts automatically.
           </motion.p>
           
           <motion.div 
@@ -95,13 +83,12 @@ export default function LandingPage() {
               className="w-full sm:w-auto bg-[#6F4E37] text-white px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:bg-[#5A3E2B] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-[#6F4E37]/20 min-h-[56px]"
             >
               See How It Works <ArrowRight/>
-
             </Link>
             <Link 
               href="/pricing"
               className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 group min-h-[56px]"
             >
-            Calculate Your ROI - Pricing  <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0  transition-opacity" />
+              Calculate Your Price <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
           </motion.div>
         </div>
@@ -123,7 +110,6 @@ export default function LandingPage() {
                     duration: 20, 
                     repeat: Infinity, 
                     ease: "linear",
-                    // Disable heavy scaling on mobile to prevent lag
                     repeatType: "mirror"
                  }}
                  className="absolute -top-40 -left-20 w-[120%] h-[120%] bg-[#6F4E37]/5 blur-[60px] md:blur-[120px] rounded-full will-change-transform"
@@ -142,10 +128,6 @@ export default function LandingPage() {
                  className="absolute -bottom-40 -right-20 w-[100%] h-[100%] bg-amber-100/20 blur-[100px] md:blur-[150px] rounded-full hidden md:block will-change-transform"
                />
             </div>
-
-            {/* Background Glows (Original static ones, kept for layering) */}
-            <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#6F4E37]/10 blur-[100px] rounded-full" />
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-amber-200/20 blur-[100px] rounded-full" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               
@@ -213,8 +195,8 @@ export default function LandingPage() {
 
               {/* Phone Display (Guest Perspective) */}
               <motion.div 
-                initial={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : 50, y: typeof window !== 'undefined' && window.innerWidth < 1024 ? 30 : 0 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="lg:col-span-4 relative group flex justify-center lg:block"
               >
@@ -235,9 +217,8 @@ export default function LandingPage() {
                             <div className="w-24 h-2 bg-zinc-100 rounded-full mx-auto" />
                          </div>
                          <div className="w-full h-10 bg-[#6F4E37] rounded-xl flex items-center justify-center text-white text-[10px] font-black uppercase tracking-widest">
-                            Scan to Order<ArrowRight/>
+                            See Demo<ArrowRight/>
                          </div>
-                          
                       </div>
                    </div>
                 </PhoneFrame>
@@ -284,7 +265,7 @@ export default function LandingPage() {
       </section>
 
 
-      {/* How it Works - Step by Step Visualization */}
+      {/* How it Works Section */}
       <section className="py-24 md:py-32 bg-[#FAF7F2] border-y border-[#F0EDE8]">
         <div className="container mx-auto max-w-6xl px-6">
           <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
@@ -296,7 +277,6 @@ export default function LandingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
-            {/* Connector Lines (Desktop) */}
             <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 border-t-2 border-dashed border-[#E7DCCA] -z-0" />
             
             {[
@@ -352,7 +332,6 @@ export default function LandingPage() {
 
       {/* Premium Demo CTA Section */}
       <section className="py-16 md:py-32 px-4 md:px-6 bg-zinc-900 text-white relative overflow-hidden">
-        {/* Background Gradients */}
         <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-l from-[#6F4E37]/10 to-transparent pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#6F4E37]/5 blur-[100px] rounded-full pointer-events-none" />
         
@@ -412,7 +391,6 @@ export default function LandingPage() {
             </div>
 
             <div className="relative group">
-              {/* Laptop Perspective */}
               <motion.div 
                 initial={{ opacity: 0, y: 40, rotateY: -10 }}
                 whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
@@ -442,7 +420,6 @@ export default function LandingPage() {
                 </LaptopFrame>
               </motion.div>
 
-              {/* Overlapping Phone Perspective */}
               <motion.div 
                 initial={{ opacity: 0, x: 40, rotate: 5 }}
                 whileInView={{ opacity: 1, x: 0, rotate: -5 }}
@@ -466,30 +443,13 @@ export default function LandingPage() {
                   </div>
                 </PhoneFrame>
               </motion.div>
-
-              {/* Floating Success Indicator */}
-              <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 3 }}
-                className="absolute top-10 -right-4 z-30 bg-white p-4 rounded-2xl shadow-2xl border border-zinc-100 hidden md:flex items-center gap-3"
-              >
-                <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-green-500/20">
-                  <CheckCircle2 className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="text-[8px] font-black text-zinc-400 uppercase tracking-widest leading-none">Status</p>
-                  <p className="text-[10px] font-bold text-zinc-900">Order Sent</p>
-                </div>
-              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
 
-
-
-      {/* Social Proof */}
+      {/* Social Proof Section */}
       <section className="py-12 border-y border-zinc-100 bg-white">
         <div className="container mx-auto px-6 text-center">
           <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-10">Trusted by modern hospitality leaders</p>
@@ -500,8 +460,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-
 
 
       {/* Brief Feature Highlights */}
@@ -548,8 +506,6 @@ export default function LandingPage() {
       </section>
 
 
-
-      {/* Pricing */}
       {/* Pricing Teaser */}
       <section className="py-24 px-6 bg-zinc-50 border-y border-zinc-200">
          <div className="container mx-auto max-w-4xl text-center">
@@ -565,7 +521,8 @@ export default function LandingPage() {
          </div>
       </section>
 
-      {/* FAQ / Final CTA */}
+
+      {/* Final CTA Section */}
       <section className="py-24 px-6 bg-white border-t border-zinc-100">
           <div className="container mx-auto max-w-4xl text-center">
               <h2 className="font-outfit font-bold text-4xl mb-6">Ready to transform your business?</h2>
@@ -578,6 +535,7 @@ export default function LandingPage() {
               </Link>
           </div>
       </section>
+
 
       {/* Footer */}
       <footer className="bg-[#FAFAFA] border-t border-zinc-200 pt-20 pb-10 px-6">
@@ -597,9 +555,9 @@ export default function LandingPage() {
                   <div>
                       <h4 className="font-bold mb-6">Product</h4>
                       <ul className="space-y-4 text-sm text-zinc-500">
-                          <li><a href="#" className="hover:text-zinc-900">Features</a></li>
-                          <li><a href="#" className="hover:text-zinc-900">Pricing</a></li>
-                          <li><a href="#" className="hover:text-zinc-900">Showcase</a></li>
+                          <li><Link href="/features" className="hover:text-zinc-900">Features</Link></li>
+                          <li><Link href="/pricing" className="hover:text-zinc-900">Pricing</Link></li>
+                          <li><Link href="/demo" className="hover:text-zinc-900">Showcase</Link></li>
                       </ul>
                   </div>
                   <div>
@@ -631,24 +589,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-
-
-function ShowcaseFeature({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
-    return (
-        <motion.div 
-            whileHover={{ y: -5 }}
-            className="p-8 rounded-3xl bg-white border border-zinc-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.1)] transition-all"
-        >
-            <div className="w-12 h-12 bg-zinc-50 rounded-2xl flex items-center justify-center text-zinc-900 mb-6 transition-transform hover:scale-110">
-                {icon}
-            </div>
-            <h3 className="font-bold text-xl mb-3 font-outfit">{title}</h3>
-            <p className="text-zinc-500 leading-relaxed text-sm font-medium">{desc}</p>
-        </motion.div>
-    );
-}
-
-
-
-

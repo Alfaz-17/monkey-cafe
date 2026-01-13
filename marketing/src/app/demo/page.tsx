@@ -17,6 +17,8 @@ export default function DemoPage() {
     const [currentStep, setCurrentStep] = useState(0); // Master Flow State
     const managementSuiteRef = useRef<HTMLDivElement>(null);
     
+    const [activePerspective, setActivePerspective] = useState<'guest' | 'staff'>('guest');
+    
     const steps = [
         { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'The Master Showcase', desc: 'Experience the entire Media Masala ecosystem in one cohesive journey.' },
         { id: 'order', label: 'Guest Order', icon: <Smartphone className="w-4 h-4"/>, title: '1. The Digital Concierge', desc: 'Your guests experience a frictionless, beautiful menu that drives up average order value.' },
@@ -106,12 +108,30 @@ export default function DemoPage() {
                     </motion.div>
                 </div>
 
+                {/* Perspective Switcher (Mobile Only) */}
+                <div className="lg:hidden sticky top-20 z-[60] px-4 mb-8">
+                    <div className="bg-white/80 backdrop-blur-md p-1.5 rounded-2xl shadow-xl border border-zinc-200 flex gap-2">
+                        <button 
+                            onClick={() => setActivePerspective('guest')}
+                            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activePerspective === 'guest' ? 'bg-[#6F4E37] text-white shadow-lg' : 'text-zinc-400 hover:text-zinc-600'}`}
+                        >
+                            Guest View
+                        </button>
+                        <button 
+                            onClick={() => setActivePerspective('staff')}
+                            className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${activePerspective === 'staff' ? 'bg-zinc-900 text-white shadow-lg' : 'text-zinc-400 hover:text-zinc-600'}`}
+                        >
+                            Admin Panel
+                        </button>
+                    </div>
+                </div>
+
                 {/* Interactive Demo Area */}
-                <div className="mt-20 px-4 md:px-0">
+                <div className="mt-12 md:mt-20 px-4 md:px-0">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
                         
                         {/* Left Side: Guest Experience */}
-                        <div className={`space-y-8 transition-all duration-500 ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-70 scale-95'}`}>
+                        <div className={`space-y-8 transition-all duration-500 ${activePerspective === 'guest' || (typeof window !== 'undefined' && window.innerWidth >= 1024) ? 'block' : 'hidden lg:block'} ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-70 scale-95'}`}>
                             <div className="flex justify-between items-end">
                                 <div className="space-y-2">
                                     <h2 className="text-2xl font-black font-outfit text-[#3E2723]">GUEST View</h2>
@@ -221,6 +241,10 @@ export default function DemoPage() {
                                                                  setKitchenStatus('Pending');
                                                                  setGuestScreen('status');
                                                                  
+                                                                 // Mobile: Auto-switch to Admin Panel
+                                                                 if (window.innerWidth < 1024) {
+                                                                     setActivePerspective('staff');
+                                                                 }
                                                                  // Cinematic Scroll to Management Suite
                                                                  managementSuiteRef.current?.scrollIntoView({ 
                                                                      behavior: 'smooth', 
@@ -408,7 +432,7 @@ export default function DemoPage() {
                         {/* Right Side: Operational Intelligence */}
                         <div 
                             ref={managementSuiteRef}
-                            className={`space-y-8 transition-all duration-500 ${currentStep >= 2 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}
+                            className={`space-y-8 transition-all duration-500 ${activePerspective === 'staff' || (typeof window !== 'undefined' && window.innerWidth >= 1024) ? 'block' : 'hidden lg:block'} ${currentStep >= 2 ? 'opacity-100 scale-100' : 'opacity-60 grayscale-[0.5] scale-95'}`}
                         >
                             <div className="flex justify-between items-end">
                                 <div className="space-y-2">
@@ -421,7 +445,7 @@ export default function DemoPage() {
                                 </div>
                             </div>
 
-                            <LaptopFrame className={currentStep >= 2 ? 'ring-8 ring-[#6F4E37]/10' : ''}>
+                            <LaptopFrame className={`${currentStep >= 2 ? 'ring-8 ring-[#6F4E37]/10' : ''} h-[300px] md:h-[450px]`}>
                                 <div className="bg-white h-full relative overflow-hidden flex flex-col">
                                     {/* Mock Dashboard Sidebar/Header */}
                                     <div className="h-full flex">
