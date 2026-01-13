@@ -114,8 +114,8 @@ export default function DemoPage() {
                         <div className={`space-y-8 transition-all duration-500 ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-70 scale-95'}`}>
                             <div className="flex justify-between items-end">
                                 <div className="space-y-2">
-                                    <h2 className="text-2xl font-black font-outfit">Guest Perspective</h2>
-                                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Mobile Menu Interface</p>
+                                    <h2 className="text-2xl font-black font-outfit text-[#3E2723]">GUEST View</h2>
+                                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none">Smartphone Experience</p>
                                 </div>
                                 <div className="flex gap-2">
                                     <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -410,14 +410,14 @@ export default function DemoPage() {
                             ref={managementSuiteRef}
                             className={`space-y-8 transition-all duration-500 ${currentStep >= 2 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}
                         >
-                            <div className="flex justify-between items-end flex-row-reverse">
-                                <div className="space-y-2 text-right">
-                                    <h2 className="text-2xl font-black font-outfit">Management Suite</h2>
-                                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Kitchen & Insights Dashboard</p>
+                            <div className="flex justify-between items-end">
+                                <div className="space-y-2">
+                                    <h2 className="text-2xl font-black font-outfit text-[#3E2723]">ADMIN Panel</h2>
+                                    <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest leading-none">Operational Command Center</p>
                                 </div>
-                                <div className="flex gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-                                    <span className="text-[10px] font-black text-zinc-400 uppercase">Command Center</span>
+                                <div className="flex gap-2 items-center bg-zinc-900 px-3 py-1.5 rounded-full">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+                                    <span className="text-[9px] font-black text-white uppercase tracking-wider">LIVE DATA</span>
                                 </div>
                             </div>
 

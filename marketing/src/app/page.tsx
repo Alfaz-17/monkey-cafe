@@ -53,7 +53,7 @@ export default function LandingPage() {
             className="inline-flex items-center gap-2 bg-red-50 border border-red-200 rounded-full px-4 py-1.5 mb-8 shadow-sm"
           >
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <span className="text-xs font-black tracking-wide uppercase text-red-600">Scale Your Bussiness With MEDIA MASALA </span>
+            <span className="text-xs font-black tracking-wide uppercase text-red-600">Scale Your Business With MEDIA MASALA </span>
           </motion.div>
           
           <motion.h1 
@@ -284,6 +284,72 @@ export default function LandingPage() {
       </section>
 
 
+      {/* How it Works - Step by Step Visualization */}
+      <section className="py-24 md:py-32 bg-[#FAF7F2] border-y border-[#F0EDE8]">
+        <div className="container mx-auto max-w-6xl px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
+            <div className="max-w-xl space-y-4">
+               <span className="inline-block px-4 py-1.5 bg-[#6F4E37]/10 border border-[#6F4E37]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#6F4E37]">The Workflow</span>
+               <h2 className="font-outfit font-black text-4xl md:text-6xl text-[#3E2723] leading-none">How It Works</h2>
+               <p className="text-[#A68966] text-sm md:text-lg font-medium">Three simple steps to transition your legacy service into a modern high-performance operation.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
+            {/* Connector Lines (Desktop) */}
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 border-t-2 border-dashed border-[#E7DCCA] -z-0" />
+            
+            {[
+              { 
+                step: "01", 
+                title: "Scan & Browse", 
+                desc: "Guest scans the table QR. No apps, no logins. Instant access to your premium digital menu.", 
+                icon: <QrCode className="w-8 h-8"/>,
+                color: "bg-white",
+                textColor: "text-[#6F4E37]"
+              },
+              { 
+                step: "02", 
+                title: "Order & Pay", 
+                desc: "Intuitive customization and secure checkout. Orders are placed in seconds with 0% error rate.", 
+                icon: <Smartphone className="w-8 h-8"/>,
+                color: "bg-[#6F4E37]",
+                textColor: "text-white"
+              },
+              { 
+                step: "03", 
+                title: "Live Kitchen Sync", 
+                desc: "Orders hit the kitchen display instantly. Staff gets notified and starts cooking with zero manual entry.", 
+                icon: <Zap className="w-8 h-8"/>,
+                color: "bg-white",
+                textColor: "text-[#6F4E37]"
+              }
+            ].map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+                className="relative z-10 flex flex-col items-center md:items-start text-center md:text-left group"
+              >
+                <div className={`w-20 h-20 ${item.color} ${item.textColor} rounded-[2rem] shadow-xl flex items-center justify-center mb-8 border border-[#F0EDE8] group-hover:scale-110 transition-transform duration-500`}>
+                  {item.icon}
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 justify-center md:justify-start">
+                    <span className="text-[10px] font-black text-[#6F4E37] bg-white border border-[#F0EDE8] px-2 py-0.5 rounded-full">{item.step}</span>
+                    <h3 className="font-outfit font-black text-xl md:text-2xl text-[#3E2723]">{item.title}</h3>
+                  </div>
+                  <p className="text-[#A68966]/80 text-sm md:text-base leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       {/* Premium Demo CTA Section */}
       <section className="py-16 md:py-32 px-4 md:px-6 bg-zinc-900 text-white relative overflow-hidden">
         {/* Background Gradients */}
@@ -439,7 +505,7 @@ export default function LandingPage() {
 
 
       {/* Brief Feature Highlights */}
-      <section className="py-16 md:py-32 px-4 md:px-6 bg-white">
+      <section id="features" className="py-16 md:py-32 px-4 md:px-6 bg-white">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12 md:mb-16">
             <span className="inline-block px-4 py-1.5 bg-zinc-100 border border-zinc-200 rounded-full text-xs font-black uppercase tracking-widest text-zinc-600 mb-6">What You Get</span>
@@ -505,10 +571,10 @@ export default function LandingPage() {
               <h2 className="font-outfit font-bold text-4xl mb-6">Ready to transform your business?</h2>
               <p className="text-zinc-500 text-lg mb-10">Join 500+ restaurants using Media Masala to power their ordering.</p>
               <Link 
-                href="#features"
-                className="inline-block bg-zinc-900 text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-zinc-900/10 hover:shadow-2xl hover:scale-105 transition-all text-center"
+                href="/demo"
+                className="inline-block bg-[#6F4E37] text-white px-10 py-5 rounded-full text-lg font-black shadow-xl shadow-[#6F4E37]/20 hover:shadow-2xl hover:scale-105 transition-all text-center"
               >
-                  Get Started for Free
+                  Launch Live Demo <ArrowRight className="inline-block ml-2 w-5 h-5" />
               </Link>
           </div>
       </section>
