@@ -13,7 +13,7 @@ export default function FeaturesPage() {
       <Navbar />
       
       {/* Cinematic Feature Universe */}
-      <section className="pt-32 pb-48 px-6 bg-white relative overflow-hidden">
+      <section className="pt-20 md:pt-32 pb-24 md:pb-48 px-4 md:px-6 bg-white relative overflow-hidden">
         {/* Infinite Momentum Background Elements - Optimized for Mobile */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
           <motion.div 
@@ -36,7 +36,7 @@ export default function FeaturesPage() {
 
         <div className="container mx-auto max-w-7xl relative z-10">
           
-          <div className="text-center mb-40">
+          <div className="text-center mb-20 md:mb-40">
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -45,25 +45,25 @@ export default function FeaturesPage() {
             >
                 <Sparkles className="w-3 h-3 text-amber-400" /> System Architecture
             </motion.div>
-            <h1 className="font-outfit font-black text-5xl md:text-9xl tracking-tighter leading-none">
+            <h1 className="font-outfit font-black text-4xl md:text-9xl tracking-tighter leading-none">
               ZERO <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6F4E37] to-amber-200">WAIT.</span><br/>
               MAX PROFIT.
             </h1>
-            <p className="text-zinc-400 text-xl md:text-2xl max-w-3xl mx-auto font-medium leading-relaxed mt-6">
+            <p className="text-zinc-400 text-base md:text-2xl max-w-3xl mx-auto font-medium leading-relaxed mt-4 md:mt-6">
               Every touchpoint is designed for conversion. High-fidelity ordering mechanics that turn guests into loyal brand advocates.
             </p>
           </div>
 
-          <div className="space-y-64">
+          <div className="space-y-32 md:space-y-64">
             
             {/* Section 1: The Digital Gateway (QR Menu + Table Ordering) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-              <div className="space-y-10 order-2 lg:order-1">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-24 items-center">
+              <div className="space-y-6 md:space-y-10 order-2 lg:order-1">
                 <div className="space-y-6">
                    <div className="w-16 h-16 bg-[#6F4E37] rounded-[2rem] flex items-center justify-center text-white shadow-2xl shadow-[#6F4E37]/30 mb-8">
                       <QrCode className="w-8 h-8" />
                    </div>
-                   <h3 className="font-outfit font-black text-4xl md:text-6xl tracking-tight">The Digital Gateway.</h3>
+                 <h3 className="font-outfit font-black text-3xl md:text-6xl tracking-tight">The Digital Gateway.</h3>
                    <div className="space-y-4">
                       <div>
                         <h4 className="font-black text-lg text-zinc-900">Digital QR Menu</h4>

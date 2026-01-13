@@ -104,9 +104,13 @@ export default function LandingPage() {
             Calculate Your ROI - Pricing  <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0  transition-opacity" />
             </Link>
           </motion.div>
+        </div>
+      </section>
 
 
-          {/* High-Fidelity Hero Showcase */}
+      {/* High-Fidelity Hero Showcase */}
+      <section className="pb-16 md:pb-32 px-6">
+        <div className="container mx-auto">
           <div className="mt-24 relative max-w-5xl mx-auto">
             {/* Infinite Momentum Hero Background */}
             <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
@@ -280,14 +284,14 @@ export default function LandingPage() {
 
 
       {/* Premium Demo CTA Section */}
-      <section className="py-32 px-6 bg-zinc-900 text-white relative overflow-hidden">
+      <section className="py-16 md:py-32 px-4 md:px-6 bg-zinc-900 text-white relative overflow-hidden">
         {/* Background Gradients */}
         <div className="absolute top-0 right-0 w-[50%] h-full bg-gradient-to-l from-[#6F4E37]/10 to-transparent pointer-events-none" />
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-[#6F4E37]/5 blur-[100px] rounded-full pointer-events-none" />
         
         <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="space-y-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-20 items-center">
+            <div className="space-y-6 md:space-y-10">
               <motion.div 
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -298,19 +302,19 @@ export default function LandingPage() {
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#D4A373]">Live Interactive Simulation</span>
               </motion.div>
               
-              <div className="space-y-6">
-                <h2 className="font-outfit font-black text-4xl md:text-6xl leading-[1.1]">
+              <div className="space-y-4 md:space-y-6">
+                <h2 className="font-outfit font-black text-3xl md:text-6xl leading-[1.1]">
                   Experience the <span className="text-[#D4A373]">Future</span> of Dining.
                 </h2>
-                <p className="text-zinc-400 text-lg md:text-xl leading-relaxed font-medium max-w-xl">
+                <p className="text-zinc-400 text-base md:text-xl leading-relaxed font-medium max-w-xl">
                   Don't just take our word for it. Step into our dual-perspective demo and see how orders flow seamlessly from customer to kitchen in real-time.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6">
+              <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
                 <Link 
                   href="/demo" 
-                  className="bg-[#D4A373] text-zinc-900 px-10 py-5 rounded-2xl font-black text-lg hover:bg-[#E5B585] transition-all flex items-center justify-center gap-3 shadow-2xl shadow-[#D4A373]/20 hover:scale-[1.02] active:scale-95 group"
+                  className="bg-[#D4A373] text-zinc-900 px-8 md:px-10 py-4 md:py-5 rounded-2xl font-black text-base md:text-lg hover:bg-[#E5B585] transition-all flex items-center justify-center gap-3 shadow-2xl shadow-[#D4A373]/20 hover:scale-[1.02] active:scale-95 group"
                 >
                   Launch Full Demo <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -434,37 +438,37 @@ export default function LandingPage() {
 
 
       {/* Brief Feature Highlights */}
-      <section className="py-32 px-6 bg-white">
+      <section className="py-16 md:py-32 px-4 md:px-6 bg-white">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 md:mb-16">
             <span className="inline-block px-4 py-1.5 bg-zinc-100 border border-zinc-200 rounded-full text-xs font-black uppercase tracking-widest text-zinc-600 mb-6">What You Get</span>
-            <h2 className="font-outfit font-black text-4xl md:text-6xl mb-6">Everything You Need<br className="md:hidden" /> to Scale</h2>
-            <p className="text-zinc-500 text-lg max-w-2xl mx-auto">A complete system that handles everything from QR ordering to kitchen sync to AI-powered growth.</p>
+            <h2 className="font-outfit font-black text-3xl md:text-6xl mb-4 md:mb-6">Everything You Need<br className="md:hidden" /> to Scale</h2>
+            <p className="text-zinc-500 text-sm md:text-lg max-w-2xl mx-auto">A complete system that handles everything from QR ordering to kitchen sync to AI-powered growth.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-14 h-14 bg-[#6F4E37] rounded-2xl flex items-center justify-center mb-6">
-                <QrCode className="w-7 h-7 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#6F4E37] rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
+                <QrCode className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
-              <h3 className="font-black text-xl mb-3 text-zinc-900">Digital Gateway</h3>
-              <p className="text-zinc-600 leading-relaxed">QR menu, table ordering, zero app downloads. Instant ordering for guests.</p>
+              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Digital Gateway</h3>
+              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">QR menu, table ordering, zero app downloads. Instant ordering for guests.</p>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center mb-6">
-                <ShoppingCart className="w-7 h-7 text-white" />
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-zinc-900 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
+                <ShoppingCart className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
-              <h3 className="font-black text-xl mb-3 text-zinc-900">Conversion Engine</h3>
-              <p className="text-zinc-600 leading-relaxed">Customization, cart, checkout. Maximize order value with zero friction.</p>
+              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Conversion Engine</h3>
+              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Customization, cart, checkout. Maximize order value with zero friction.</p>
             </motion.div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-14 h-14 bg-[#6F4E37] rounded-2xl flex items-center justify-center mb-6">
-                <TrendingUp className="w-7 h-7 text-white" />
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
+              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#6F4E37] rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
+                <TrendingUp className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
-              <h3 className="font-black text-xl mb-3 text-zinc-900">Real-time Intelligence</h3>
-              <p className="text-zinc-600 leading-relaxed">Live tracking, AI upsells, instant kitchen sync. All in real-time.</p>
+              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Real-time Intelligence</h3>
+              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Live tracking, AI upsells, instant kitchen sync. All in real-time.</p>
             </motion.div>
           </div>
 
