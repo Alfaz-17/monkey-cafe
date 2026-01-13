@@ -20,13 +20,13 @@ export default function Navbar() {
         
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
           <Link href="/#features" className="hover:text-zinc-900 transition-colors">Features</Link>
-          <Link href="/#pricing" className="hover:text-zinc-900 transition-colors">Pricing</Link>
+          <Link href="/pricing" className="hover:text-zinc-900 transition-colors">Pricing</Link>
           <Link href="/demo" className="hover:text-zinc-900 transition-colors bg-zinc-100 px-3 py-1 rounded-full">Interactive Demo</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
           <Link 
-            href="#features"
+            href="/pricing"
             className="bg-zinc-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95"
           >
             Get Started
@@ -35,10 +35,11 @@ export default function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <button 
-            className="md:hidden p-2 text-zinc-600"
+            className="md:hidden p-3 text-zinc-600 active:scale-95 transition-transform"
+            aria-label="Toggle menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-            {isMenuOpen ? <X /> : <Menu />}
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
@@ -50,10 +51,10 @@ export default function Navbar() {
             className="md:hidden absolute top-16 left-0 w-full bg-white border-b border-zinc-200 p-6 space-y-4 shadow-xl"
         >
             <Link href="/#features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
-            <Link href="/#pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
+            <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
             <Link href="/demo" onClick={() => setIsMenuOpen(false)} className="block text-zinc-900 font-bold">Interactive Demo</Link>
             <Link 
-                href="#features" 
+                href="/pricing" 
                 onClick={() => setIsMenuOpen(false)} 
                 className="block w-full bg-zinc-900 text-white py-3 rounded-xl font-bold text-center"
             >

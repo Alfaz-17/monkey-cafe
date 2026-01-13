@@ -51,34 +51,36 @@ export default function DemoPage() {
             <div className="container mx-auto px-6">
                 
                 {/* Demo Progress Bar */}
-                <div className="pt-32 mb-12 max-w-4xl mx-auto">
-                    <div className="flex justify-between items-center relative">
-                        <div className="absolute left-0 top-1/2 w-full h-0.5 bg-zinc-100 -z-10" />
-                        <div 
-                            className="absolute left-0 top-1/2 h-0.5 bg-[#6F4E37] -z-10 transition-all duration-700" 
-                            style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
-                        />
-                        
-                        {steps.map((step, i) => (
-                            <button 
-                                key={step.id} 
-                                onClick={() => setCurrentStep(i)}
-                                className="flex flex-col items-center gap-3 group relative z-10"
-                            >
-                                <motion.div 
-                                    className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${
-                                        i <= currentStep ? 'bg-[#6F4E37] border-[#6F4E37] text-white shadow-lg' : 'bg-white border-zinc-200 text-zinc-400 group-hover:border-zinc-300'
-                                    }`}
-                                    animate={i === currentStep ? { scale: [1, 1.1, 1] } : {}}
-                                    transition={{ repeat: i === currentStep ? Infinity : 0, duration: 2 }}
+                <div className="pt-24 md:pt-32 mb-12 max-w-4xl mx-auto">
+                    <div className="overflow-x-auto pb-4 px-2 -mx-2 no-scrollbar">
+                        <div className="flex justify-between items-center relative min-w-[600px]">
+                            <div className="absolute left-0 top-1/2 w-full h-0.5 bg-zinc-100 -z-10" />
+                            <div 
+                                className="absolute left-0 top-1/2 h-0.5 bg-[#6F4E37] -z-10 transition-all duration-700" 
+                                style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+                            />
+                            
+                            {steps.map((step, i) => (
+                                <button 
+                                    key={step.id} 
+                                    onClick={() => setCurrentStep(i)}
+                                    className="flex flex-col items-center gap-3 group relative z-10 flex-shrink-0"
                                 >
-                                    {step.icon}
-                                </motion.div>
-                                <div className="text-center absolute -bottom-8 w-max">
-                                    <p className={`text-[10px] font-black uppercase tracking-widest ${i <= currentStep ? 'text-[#6F4E37]' : 'text-zinc-400'}`}>{step.label}</p>
-                                </div>
-                            </button>
-                        ))}
+                                    <motion.div 
+                                        className={`w-12 h-12 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${
+                                            i <= currentStep ? 'bg-[#6F4E37] border-[#6F4E37] text-white shadow-lg' : 'bg-white border-zinc-200 text-zinc-400 group-hover:border-zinc-300'
+                                        }`}
+                                        animate={i === currentStep ? { scale: [1, 1.1, 1] } : {}}
+                                        transition={{ repeat: i === currentStep ? Infinity : 0, duration: 2 }}
+                                    >
+                                        {step.icon}
+                                    </motion.div>
+                                    <div className="text-center absolute -bottom-8 whitespace-nowrap">
+                                        <p className={`text-[10px] font-black uppercase tracking-widest ${i <= currentStep ? 'text-[#6F4E37]' : 'text-zinc-400'}`}>{step.label}</p>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
 
@@ -102,8 +104,8 @@ export default function DemoPage() {
                 </div>
 
                 {/* Interactive Demo Area */}
-                <div className="mt-20">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-stretch">
+                <div className="mt-20 px-4 md:px-0">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
                         
                         {/* Left Side: Guest Experience */}
                         <div className={`space-y-8 transition-all duration-500 ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}>
