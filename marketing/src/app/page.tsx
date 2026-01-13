@@ -235,8 +235,9 @@ export default function LandingPage() {
                             <div className="w-24 h-2 bg-zinc-100 rounded-full mx-auto" />
                          </div>
                          <div className="w-full h-10 bg-[#6F4E37] rounded-xl flex items-center justify-center text-white text-[10px] font-black uppercase tracking-widest">
-                            Scan to Order
+                            Scan to Order<ArrowRight/>
                          </div>
+                          
                       </div>
                    </div>
                 </PhoneFrame>

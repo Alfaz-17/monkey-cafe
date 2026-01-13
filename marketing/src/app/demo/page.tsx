@@ -34,6 +34,7 @@ export default function DemoPage() {
     const [notifications, setNotifications] = useState<string[]>([]);
     const [showWaiterCall, setShowWaiterCall] = useState(false);
     const [waiterRequests, setWaiterRequests] = useState<string[]>([]);
+    const [guestScreen, setGuestScreen] = useState<'menu' | 'status'>('menu');
 
     const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
     const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0));
@@ -110,7 +111,7 @@ export default function DemoPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
                         
                         {/* Left Side: Guest Experience */}
-                        <div className={`space-y-8 transition-all duration-500 ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-40 grayscale scale-95'}`}>
+                        <div className={`space-y-8 transition-all duration-500 ${currentStep === 1 || currentStep === 0 ? 'opacity-100 scale-100' : 'opacity-70 scale-95'}`}>
                             <div className="flex justify-between items-end">
                                 <div className="space-y-2">
                                     <h2 className="text-2xl font-black font-outfit">Guest Perspective</h2>
@@ -143,14 +144,29 @@ export default function DemoPage() {
                                                 <p className="text-xs text-[#A68966] font-medium leading-relaxed">Please scan the QR code on your table <br /> or click below to enter.</p>
                                             </div>
                                             <Button 
-                                                onClick={() => setCurrentStep(1)}
+                                                onClick={() => {
+                                                    setCurrentStep(1);
+                                                    setGuestScreen('menu');
+                                                }}
                                                 className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase tracking-widest text-[10px] shadow-lg shadow-[#6F4E37]/20 border-b-4 border-[#3E2723]/30"
                                             >
                                                 Enter Cafe
                                             </Button>
                                         </div>
-                                    ) : currentStep === 1 && !orderPlaced ? (
-                                        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-[#FAF7F2]">
+                                    ) : guestScreen === 'menu' ? (
+                                        <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-[#FAF7F2] relative">
+                                            {orderPlaced && (
+                                                <motion.button
+                                                    initial={{ scale: 0.8, opacity: 0 }}
+                                                    animate={{ scale: 1, opacity: 1 }}
+                                                    onClick={() => setGuestScreen('status')}
+                                                    className="absolute top-4 right-4 z-40 bg-zinc-900 text-white px-3 py-2 rounded-full text-[8px] font-black uppercase flex items-center gap-2 shadow-xl"
+                                                >
+                                                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                                    Track Status
+                                                </motion.button>
+                                            )}
+                                            
                                             <div className="flex gap-4 overflow-x-auto pb-2 no-scrollbar">
                                                 {['Coffee', 'Burgers', 'Desserts'].map((cat, i) => (
                                                     <span key={cat} className={`px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest whitespace-nowrap shadow-sm ${i === 0 ? 'bg-[#6F4E37] text-white' : 'bg-white text-[#A68966] border border-[#F0EDE8]'}`}>
@@ -187,56 +203,11 @@ export default function DemoPage() {
                                                 ))}
                                             </div>
 
-                                            {/* Customizer Drawer Mock */}
-                                            <AnimatePresence>
-                                                {showCustomizer && (
-                                                    <motion.div 
-                                                        initial={{ y: "100%" }}
-                                                        animate={{ y: 0 }}
-                                                        exit={{ y: "100%" }}
-                                                        className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-50 p-6 space-y-6"
-                                                    >
-                                                        <div className="flex justify-between items-center">
-                                                            <h4 className="font-black text-lg text-[#3E2723]">Customize Order</h4>
-                                                            <button onClick={() => setShowCustomizer(false)} className="p-2 bg-[#FAF7F2] rounded-full"><X className="w-4 h-4"/></button>
-                                                        </div>
-                                                        <div className="space-y-4">
-                                                            <div className="space-y-2">
-                                                                <p className="text-[10px] font-black text-[#A68966] uppercase tracking-widest">Milk Type</p>
-                                                                <div className="flex gap-2">
-                                                                    {['Whole', 'Oat', 'Almond'].map((m) => (
-                                                                        <span key={m} className="px-3 py-1.5 rounded-lg border border-[#F0EDE8] text-[9px] font-bold text-[#3E2723] bg-white">{m}</span>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                            <div className="space-y-2">
-                                                                <p className="text-[10px] font-black text-[#A68966] uppercase tracking-widest">Sugar Level</p>
-                                                                <div className="flex gap-2">
-                                                                    {['Low', 'Medium', 'High'].map((s) => (
-                                                                        <span key={s} className="px-3 py-1.5 rounded-lg border border-[#F0EDE8] text-[9px] font-bold text-[#3E2723] bg-white">{s}</span>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <Button 
-                                                            onClick={() => {
-                                                                setCartCount(prev => prev + 1);
-                                                                setShowCustomizer(false);
-                                                            }}
-                                                            className="w-full h-12 rounded-xl bg-[#6F4E37] text-white font-black uppercase text-[10px]"
-                                                        >
-                                                            Confirm & Add (Extra ₹40)
-                                                        </Button>
-                                                    </motion.div>
-                                                )}
-                                            </AnimatePresence>
-
                                              {/* Waiter Call Button - Always visible */}
                                              <div className="pt-4 sticky bottom-0 space-y-3">
                                                  <Button 
                                                      onClick={() => setShowWaiterCall(true)}
-                                                     variant="outline"
-                                                     className="w-full h-12 rounded-xl border-2 border-[#6F4E37] text-[#6F4E37] font-bold text-xs hover:bg-[#6F4E37] hover:text-white transition-all"
+                                                     className="w-full h-12 rounded-xl bg-[#6F4E37] text-white font-black text-[10px] uppercase tracking-wider hover:bg-[#5A3E2B] transition-all shadow-md active:scale-95"
                                                  >
                                                      <Bell className="w-4 h-4 mr-2" />
                                                      Call Waiter
@@ -248,6 +219,7 @@ export default function DemoPage() {
                                                              onClick={() => {
                                                                  setOrderPlaced(true);
                                                                  setKitchenStatus('Pending');
+                                                                 setGuestScreen('status');
                                                                  
                                                                  // Cinematic Scroll to Management Suite
                                                                  managementSuiteRef.current?.scrollIntoView({ 
@@ -267,62 +239,9 @@ export default function DemoPage() {
                                                      </motion.div>
                                                  )}
                                              </div>
-
-                                             {/* Waiter Call Drawer */}
-                                             <AnimatePresence>
-                                                 {showWaiterCall && (
-                                                     <motion.div 
-                                                         initial={{ y: "100%" }}
-                                                         animate={{ y: 0 }}
-                                                         exit={{ y: "100%" }}
-                                                         className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-50 p-6 space-y-6"
-                                                     >
-                                                         <div className="flex justify-between items-center">
-                                                             <h4 className="font-black text-lg text-[#3E2723]">Call Waiter</h4>
-                                                             <button onClick={() => setShowWaiterCall(false)} className="p-2 bg-[#FAF7F2] rounded-full"><X className="w-4 h-4"/></button>
-                                                         </div>
-                                                         <div className="grid grid-cols-2 gap-3">
-                                                             {['💧 Water', '🧻 Tissue', '🍴 Cutlery', '🧾 Bill'].map((req) => (
-                                                                 <Button
-                                                                     key={req}
-                                                                     onClick={() => {
-                                                                         setWaiterRequests(prev => [...prev, req]);
-                                                                         setNotifications(prev => [...prev, `Waiter request: ${req}`]);
-                                                                         setShowWaiterCall(false);
-                                                                         setTimeout(() => setNotifications([]), 3000);
-                                                                     }}
-                                                                     className="h-16 rounded-xl bg-[#FAF7F2] text-[#3E2723] text-sm font-bold hover:bg-[#6F4E37] hover:text-white border border-[#6F4E37]/10"
-                                                                 >
-                                                                     {req}
-                                                                 </Button>
-                                                             ))}
-                                                         </div>
-                                                     </motion.div>
-                                                 )}
-                                             </AnimatePresence>
                                         </div>
                                     ) : (
                                         <div className="flex-1 flex flex-col bg-[#FAF7F2] overflow-hidden">
-                                            {/* In-App Status Update Notification */}
-                                            <AnimatePresence>
-                                                {notifications.length > 0 && (
-                                                    <motion.div 
-                                                        initial={{ y: -50, opacity: 0 }}
-                                                        animate={{ y: 20, opacity: 1 }}
-                                                        exit={{ y: -50, opacity: 0 }}
-                                                        className="absolute top-4 left-4 right-4 bg-[#6F4E37] p-4 rounded-2xl shadow-xl z-[60] border border-white/20 flex items-center gap-3"
-                                                    >
-                                                        <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white">
-                                                            <Bell className="w-6 h-6" />
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <p className="text-[10px] font-black text-white/60 uppercase tracking-widest">Order Status Update</p>
-                                                            <p className="text-xs font-bold text-white line-clamp-1">{notifications[notifications.length-1]}</p>
-                                                        </div>
-                                                    </motion.div>
-                                                )}
-                                            </AnimatePresence>
-
                                             <div className="p-8 flex-1 flex flex-col items-center justify-center text-center space-y-10">
                                                 <div className="relative">
                                                     <div className="w-24 h-24 bg-white rounded-[2.5rem] shadow-xl flex items-center justify-center border border-[#F0EDE8]">
@@ -337,7 +256,7 @@ export default function DemoPage() {
                                                 </div>
 
                                                 <div className="space-y-4">
-                                                    <h3 className="text-2xl font-black font-outfit text-[#3E2723]">
+                                                    <h3 className="text-xl md:text-2xl font-black font-outfit text-[#3E2723]">
                                                         {orderStatus === 'Pending' && "Taking your order..."}
                                                         {orderStatus === 'Preparing' && "Chef is cooking..."}
                                                         {orderStatus === 'Ready' && "Order is Ready!"}
@@ -353,30 +272,135 @@ export default function DemoPage() {
                                                     </div>
                                                 </div>
 
-                                                {orderStatus === 'Served' ? (
-                                                    <Button 
-                                                        onClick={() => {
-                                                            setOrderPlaced(false);
-                                                            setOrderStatus('Pending');
-                                                            setCartCount(0);
-                                                            setNotifications([]);
-                                                        }}
-                                                        className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase text-[10px] tracking-widest shadow-xl shadow-[#6F4E37]/20 hover:scale-[1.02] active:scale-95 transition-all"
-                                                    >
-                                                        Place New Order
-                                                    </Button>
-                                                ) : (
-                                                    <Button 
-                                                        variant="outline"
-                                                        disabled
-                                                        className="w-full h-14 rounded-[1.5rem] border-2 border-[#F0EDE8] bg-white text-[#A68966] font-black uppercase text-[10px] tracking-widest"
-                                                    >
-                                                        Live Service Active
-                                                    </Button>
-                                                )}
+                                                 {orderStatus === 'Served' ? (
+                                                     <Button 
+                                                         onClick={() => {
+                                                             setOrderPlaced(false);
+                                                             setOrderStatus('Pending');
+                                                             setCartCount(0);
+                                                             setNotifications([]);
+                                                             setGuestScreen('menu');
+                                                         }}
+                                                         className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase text-[10px] tracking-widest shadow-xl shadow-[#6F4E37]/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                                     >
+                                                         Place New Order
+                                                     </Button>
+                                                 ) : (
+                                                     <div className="w-full space-y-3">
+                                                         <Button 
+                                                             onClick={() => setGuestScreen('menu')}
+                                                             className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase text-[10px] tracking-widest shadow-xl shadow-[#6F4E37]/20 active:scale-95"
+                                                         >
+                                                             Order More Items
+                                                         </Button>
+                                                         <Button 
+                                                             onClick={() => setShowWaiterCall(true)}
+                                                             variant="outline"
+                                                             className="w-full h-12 rounded-xl border-2 border-[#6F4E37] text-[#6F4E37] font-bold text-[10px] uppercase tracking-wider hover:bg-[#6F4E37] hover:text-white transition-all shadow-sm active:scale-95"
+                                                         >
+                                                             <Bell className="w-4 h-4 mr-2" />
+                                                             Call Waiter
+                                                         </Button>
+                                                     </div>
+                                                 )}
                                             </div>
                                         </div>
                                     )}
+
+                                    {/* SHARED OVERLAYS (Visible in both Menu & Status) */}
+                                    
+                                    {/* Waiter Call Drawer */}
+                                    <AnimatePresence>
+                                        {showWaiterCall && (
+                                            <motion.div 
+                                                initial={{ y: "100%" }}
+                                                animate={{ y: 0 }}
+                                                exit={{ y: "100%" }}
+                                                className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-[100] p-6 space-y-6"
+                                            >
+                                                <div className="flex justify-between items-center">
+                                                    <h4 className="font-black text-lg text-[#3E2723]">Call Waiter</h4>
+                                                    <button onClick={() => setShowWaiterCall(false)} className="p-2 bg-[#FAF7F2] rounded-full"><X className="w-4 h-4"/></button>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {['💧 Water', '🧻 Tissue', '🍴 Cutlery', '🧾 Bill'].map((req) => (
+                                                        <Button
+                                                            key={req}
+                                                            onClick={() => {
+                                                                setWaiterRequests(prev => [...prev, req]);
+                                                                setNotifications(prev => [...prev, `Waiter request: ${req}`]);
+                                                                setShowWaiterCall(false);
+                                                                setCurrentStep(3);
+                                                                setTimeout(() => {
+                                                                    managementSuiteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                                }, 300);
+                                                                setTimeout(() => setNotifications([]), 3000);
+                                                            }}
+                                                            className="h-16 rounded-xl bg-[#FAF7F2] text-[#3E2723] text-sm font-bold hover:bg-[#6F4E37] hover:text-white border border-[#6F4E37]/10"
+                                                        >
+                                                            {req}
+                                                        </Button>
+                                                    ))}
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
+                                    {/* Notifications */}
+                                    <AnimatePresence>
+                                        {notifications.length > 0 && (
+                                            <motion.div 
+                                                initial={{ y: -50, opacity: 0 }}
+                                                animate={{ y: 20, opacity: 1 }}
+                                                exit={{ y: -50, opacity: 0 }}
+                                                className="absolute top-4 left-4 right-4 bg-[#6F4E37] p-4 rounded-2xl shadow-xl z-[110] border border-white/20 flex items-center gap-3"
+                                            >
+                                                <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white">
+                                                    <Bell className="w-6 h-6" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <p className="text-[10px] font-black text-white/60 uppercase tracking-widest">Update</p>
+                                                    <p className="text-xs font-bold text-white line-clamp-1">{notifications[notifications.length-1]}</p>
+                                                </div>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+
+                                    {/* Customizer Drawer */}
+                                    <AnimatePresence>
+                                        {showCustomizer && (
+                                            <motion.div 
+                                                initial={{ y: "100%" }}
+                                                animate={{ y: 0 }}
+                                                exit={{ y: "100%" }}
+                                                className="absolute inset-x-0 bottom-0 bg-white rounded-t-[2.5rem] shadow-[0_-20px_50px_rgba(0,0,0,0.1)] z-[100] p-6 space-y-6"
+                                            >
+                                                <div className="flex justify-between items-center">
+                                                    <h4 className="font-black text-lg text-[#3E2723]">Customize Order</h4>
+                                                    <button onClick={() => setShowCustomizer(false)} className="p-2 bg-[#FAF7F2] rounded-full"><X className="w-4 h-4"/></button>
+                                                </div>
+                                                <div className="space-y-4">
+                                                    <div className="space-y-2">
+                                                        <p className="text-[10px] font-black text-[#A68966] uppercase tracking-widest">Options</p>
+                                                        <div className="flex gap-2">
+                                                            {['Extra Spicy', 'Less Oil', 'No Onion'].map((m) => (
+                                                                <span key={m} className="px-3 py-1.5 rounded-lg border border-[#F0EDE8] text-[9px] font-bold text-[#3E2723] bg-white">{m}</span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <Button 
+                                                    onClick={() => {
+                                                        setCartCount(prev => prev + 1);
+                                                        setShowCustomizer(false);
+                                                    }}
+                                                    className="w-full h-12 rounded-xl bg-[#6F4E37] text-white font-black uppercase text-[10px]"
+                                                >
+                                                    Add to Collection
+                                                </Button>
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
                                 </div>
                             </PhoneFrame>
                         </div>
@@ -416,7 +440,54 @@ export default function DemoPage() {
                                                 </div>
                                             </div>
 
-                                            <div className="flex-1 p-6 overflow-y-auto">
+                                             <div className="flex-1 p-6 overflow-y-auto">
+                                                {/* Global Waiter Requests - Visible in Steps 2 & 3 */}
+                                                {(currentStep === 2 || currentStep === 3) && waiterRequests.length > 0 && (
+                                                    <motion.div
+                                                        initial={{ y: -20, opacity: 0 }}
+                                                        animate={{ y: 0, opacity: 1 }}
+                                                        className="mb-6 bg-amber-50 border-2 border-amber-200 rounded-3xl p-5 shadow-lg shadow-amber-900/5"
+                                                    >
+                                                        <div className="flex items-center justify-between mb-4">
+                                                            <div className="flex items-center gap-2">
+                                                                <Bell className="w-4 h-4 text-amber-600 animate-bounce" />
+                                                                <h4 className="font-black text-xs uppercase tracking-wider text-amber-900">Live Table Service</h4>
+                                                            </div>
+                                                            <span className="px-2 py-1 bg-amber-200 text-amber-900 rounded-full text-[9px] font-black">
+                                                                {waiterRequests.length} PENDING
+                                                            </span>
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            {waiterRequests.map((req, i) => (
+                                                                <motion.div
+                                                                    key={i}
+                                                                    initial={{ x: -20, opacity: 0 }}
+                                                                    animate={{ x: 0, opacity: 1 }}
+                                                                    className="bg-white p-3 rounded-xl flex items-center justify-between border border-amber-100"
+                                                                >
+                                                                    <div className="flex items-center gap-2">
+                                                                        <div className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center text-base">
+                                                                            {req.split(' ')[0]}
+                                                                        </div>
+                                                                        <div>
+                                                                            <p className="text-[10px] font-bold text-zinc-900">{req}</p>
+                                                                            <p className="text-[8px] text-zinc-500">Table #5 • Priority</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <Button
+                                                                        onClick={() => {
+                                                                            setWaiterRequests(prev => prev.filter((_, idx) => idx !== i));
+                                                                        }}
+                                                                        className="bg-green-500 text-white text-[8px] font-black h-7 px-3 rounded-lg hover:bg-green-600"
+                                                                    >
+                                                                        DONE
+                                                                    </Button>
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    </motion.div>
+                                                )}
+
                                                 {currentStep < 2 ? (
                                                     <div className="h-full flex flex-col items-center justify-center text-center space-y-4 opacity-40">
                                                         <div className="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center text-zinc-300">
