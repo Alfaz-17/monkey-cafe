@@ -60,8 +60,10 @@ export default function AdminDashboard() {
   };
 
   const filteredTrials = trials.filter(t => 
+    t.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     t.restaurantName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    t.contactNumber.includes(searchTerm)
+    t.contactNumber.includes(searchTerm) ||
+    t.location?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
