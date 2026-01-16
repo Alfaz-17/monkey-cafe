@@ -51,7 +51,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await fetch("/api/admin/login", { method: "DELETE" });
-    router.push("/marketing");
+    router.push("/");
     router.refresh();
   };
 
