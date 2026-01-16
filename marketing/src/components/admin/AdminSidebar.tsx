@@ -19,6 +19,7 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     { href: '/demo/admin/history', label: 'History', icon: ClipboardList },
     { href: '/demo/admin/menu', label: 'Menu', icon: Coffee },
     { href: '/demo/admin/tables', label: 'Tables', icon: QrCode },
+    { href: '/admin', label: 'Trial Leads', icon: ClipboardList },
   ];
 
 

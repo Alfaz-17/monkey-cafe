@@ -21,16 +21,16 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
           <Link href="/" className="hover:text-zinc-900 transition-colors">Home</Link>
           <Link href="/features" className="hover:text-zinc-900 transition-colors">Features</Link>
-          <Link href="/pricing" className="hover:text-zinc-900 transition-colors">Pricing</Link>
+          <Link href="/trial" className="hover:text-zinc-900 transition-colors">Start Trial</Link>
           <Link href="/demo" className="hover:text-zinc-900 transition-colors bg-zinc-100 px-3 py-1 rounded-full">Interactive Demo</Link>
         </div>
 
         <div className="hidden md:flex items-center gap-4">
           <Link 
-            href="/pricing"
-            className="bg-zinc-900 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-zinc-800 transition-all hover:scale-105 active:scale-95"
+            href="/trial"
+            className="bg-[#6F4E37] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#5A3E2B] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#6F4E37]/20"
           >
-            Get Started
+            Start Free Trial
           </Link>
         </div>
 
@@ -53,14 +53,14 @@ export default function Navbar() {
         >
             <Link href="/" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Home</Link>
             <Link href="/features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
-            <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
+            <Link href="/trial" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Start Trial</Link>
             <Link href="/demo" onClick={() => setIsMenuOpen(false)} className="block text-zinc-900 font-bold">Interactive Demo</Link>
             <Link 
-                href="/pricing" 
+                href="/trial" 
                 onClick={() => setIsMenuOpen(false)} 
-                className="block w-full bg-zinc-900 text-white py-3 rounded-xl font-bold text-center"
+                className="block w-full bg-[#6F4E37] text-white py-3 rounded-xl font-bold text-center"
             >
-                Get Started
+                Start Free Trial
             </Link>
         </motion.div>
       )}

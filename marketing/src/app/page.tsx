@@ -85,10 +85,10 @@ export default function LandingPage() {
               See How It Works <ArrowRight/>
             </Link>
             <Link 
-              href="/pricing"
+              href="/trial"
               className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 group min-h-[56px]"
             >
-              Calculate Your Price <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
+              Start 7-Day Free Trial <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>
           </motion.div>
         </div>
@@ -398,22 +398,49 @@ export default function LandingPage() {
                 className="relative z-10"
               >
                 <LaptopFrame className="scale-90 md:scale-100 origin-right transition-transform group-hover:scale-[1.02] duration-700">
-                  <div className="bg-zinc-50 h-full p-4">
-                    <div className="flex gap-2 mb-4">
-                      <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-zinc-100" />
-                      <div className="flex-1 space-y-2">
-                        <div className="w-24 h-2 bg-zinc-200 rounded" />
-                        <div className="w-16 h-2 bg-zinc-100 rounded" />
+                  <div className="bg-[#FAF7F2] h-full p-6 flex flex-col font-outfit">
+                    <div className="flex justify-between items-center mb-6">
+                      <div>
+                        <p className="text-[8px] font-black uppercase tracking-widest text-[#A68966]">Live Dashboard</p>
+                        <h4 className="text-sm font-black text-[#3E2723]">Kitchen Display</h4>
                       </div>
+                      <div className="bg-[#6F4E37] text-white px-3 py-1 rounded-full text-[9px] font-black">₹44,250</div>
                     </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="h-24 bg-white rounded-2xl shadow-sm border border-zinc-100 flex items-center justify-center">
-                        <TrendingUp className="w-6 h-6 text-[#6F4E37] opacity-20" />
+                    
+                    <div className="grid grid-cols-2 gap-4 flex-1">
+                      <div className="bg-white rounded-2xl p-4 border border-[#F0EDE8] shadow-sm space-y-3">
+                         <div className="flex justify-between items-center">
+                            <span className="text-[7px] font-black text-[#6F4E37] uppercase">Active Ticket</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                         </div>
+                         <div className="space-y-1.5">
+                            <div className="flex justify-between items-center text-[9px] font-bold">
+                               <span className="text-zinc-600">Table #5</span>
+                               <span className="text-[#3E2723]">₹920</span>
+                            </div>
+                            <div className="h-0.5 bg-[#FAF7F2] w-full" />
+                            <p className="text-[8px] text-[#A68966] leading-tight font-medium">1x Kashmiri Chai<br/>1x Paneer Tikka</p>
+                         </div>
                       </div>
-                      <div className="h-24 bg-white rounded-2xl shadow-sm border border-zinc-100 p-3 space-y-2">
-                         <div className="w-full h-1 bg-green-100 rounded" />
-                         <div className="w-[80%] h-1 bg-green-100 rounded" />
-                         <div className="w-full h-1 bg-green-100 rounded" />
+                      <div className="space-y-3">
+                         <div className="bg-white rounded-2xl p-3 border border-[#F0EDE8] shadow-sm flex items-center gap-3">
+                            <div className="w-8 h-8 bg-amber-50 rounded-xl flex items-center justify-center">
+                               <TrendingUp className="w-4 h-4 text-amber-600" />
+                            </div>
+                            <div>
+                               <p className="text-[7px] font-black text-[#A68966] uppercase">Efficiency</p>
+                               <p className="text-xs font-black text-[#3E2723]">98.4%</p>
+                            </div>
+                         </div>
+                         <div className="bg-zinc-900 rounded-2xl p-3 shadow-xl flex items-center gap-3 border border-white/5">
+                            <div className="w-8 h-8 bg-[#6F4E37] rounded-xl flex items-center justify-center">
+                               <Zap className="w-4 h-4 text-white" />
+                            </div>
+                            <div>
+                               <p className="text-[7px] font-black text-white/40 uppercase">Growth</p>
+                               <p className="text-xs font-black text-white">+14.2%</p>
+                            </div>
+                         </div>
                       </div>
                     </div>
                   </div>
@@ -425,19 +452,33 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, x: 0, rotate: -5 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="absolute -left-12 -bottom-20 md:-left-20 md:-bottom-12 z-20 scale-75 md:scale-90"
+                className="absolute -left-10 -bottom-16 md:-left-16 md:-bottom-8 z-20 scale-75 md:scale-90"
               >
                 <PhoneFrame className="transition-transform group-hover:rotate-0 group-hover:scale-95 duration-700">
-                  <div className="bg-white h-full flex flex-col">
-                     <div className="p-4 border-b border-zinc-100 flex justify-between items-center">
-                        <div className="w-8 h-8 bg-zinc-900 rounded-lg" />
-                        <ShoppingCart className="w-4 h-4 text-zinc-300" />
+                  <div className="bg-white h-full flex flex-col font-outfit">
+                     <div className="p-5 border-b border-[#F0EDE8] flex justify-between items-center bg-[#FAF7F2]">
+                        <span className="text-[10px] font-black text-[#3E2723]">MEDIA MASALA</span>
+                        <div className="relative">
+                           <ShoppingCart className="w-4 h-4 text-[#A68966]" />
+                           <span className="absolute -top-1.5 -right-1.5 bg-[#6F4E37] text-white text-[7px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-black">2</span>
+                        </div>
                      </div>
-                     <div className="flex-1 p-4 space-y-4 bg-[#FAFAFA]">
-                        <div className="aspect-square bg-white rounded-3xl shadow-sm border border-zinc-100 flex items-center justify-center text-3xl">☕</div>
-                        <div className="space-y-1">
-                          <div className="w-20 h-2 bg-zinc-200 rounded" />
-                          <div className="w-full h-8 bg-[#6F4E37]/10 rounded-xl" />
+                     <div className="flex-1 p-5 space-y-5 bg-white">
+                        <div className="aspect-square bg-[#FAF7F2] rounded-[2rem] shadow-inner border border-[#F0EDE8] flex flex-col items-center justify-center p-6 text-center">
+                           <span className="text-5xl mb-4 drop-shadow-lg">☕</span>
+                           <h5 className="text-sm font-black text-[#3E2723]">Caramel Latte</h5>
+                           <p className="text-[9px] text-[#A68966] font-bold mt-1 uppercase tracking-widest">Premium Coffee</p>
+                        </div>
+                        <div className="space-y-3">
+                           <div className="flex justify-between items-center">
+                              <span className="text-xs font-black text-[#6F4E37]">₹380.00</span>
+                              <div className="flex gap-1">
+                                 {[1,2,3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-[#6F4E37]/10" />)}
+                              </div>
+                           </div>
+                           <div className="w-full h-12 bg-[#6F4E37] rounded-2xl flex items-center justify-center text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[#6F4E37]/20 border-b-4 border-[#3E2723]/30">
+                              Customize Order
+                           </div>
                         </div>
                      </div>
                   </div>
@@ -506,17 +547,25 @@ export default function LandingPage() {
       </section>
 
 
-      {/* Pricing Teaser */}
-      <section className="py-24 px-6 bg-zinc-50 border-y border-zinc-200">
+      {/* Trial Teaser */}
+      <section className="py-24 px-6 bg-[#FAF7F2] border-y border-[#F0EDE8]">
          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="font-outfit font-bold text-3xl md:text-5xl mb-6">Fair, Usage-Based Pricing</h2>
-            <p className="text-zinc-500 text-lg max-w-2xl mx-auto mb-10">We don't sell plans. We calculate a fair price based on your business size and needs.</p>
+            <motion.div 
+               initial={{ opacity: 0, y: 10 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
+               className="inline-flex items-center gap-2 bg-[#6F4E37]/10 text-[#6F4E37] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 border border-[#6F4E37]/20"
+            >
+               Zero Risk • Full Access
+            </motion.div>
+            <h2 className="font-outfit font-black text-3xl md:text-5xl mb-6 text-[#3E2723]">Experience the Difference Yourself</h2>
+            <p className="text-[#A68966] text-lg max-w-2xl mx-auto mb-10 font-medium">No plans, no complexity. Request your 7-day free trial today and see how our ecosystem scales your restaurant.</p>
             
             <Link 
-                href="/pricing"
-                className="inline-flex items-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-zinc-800 transition-all hover:scale-105 shadow-xl shadow-zinc-900/10"
+                href="/trial"
+                className="inline-flex items-center gap-2 bg-[#6F4E37] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#5A3E2B] transition-all hover:scale-105 shadow-xl shadow-[#6F4E37]/20"
             >
-                Calculate Your Price <ArrowRight className="w-4 h-4" />
+                Start Your 7-Day Free Trial <ArrowRight className="w-4 h-4" />
             </Link>
          </div>
       </section>
@@ -556,7 +605,7 @@ export default function LandingPage() {
                       <h4 className="font-bold mb-6">Product</h4>
                       <ul className="space-y-4 text-sm text-zinc-500">
                           <li><Link href="/features" className="hover:text-zinc-900">Features</Link></li>
-                          <li><Link href="/pricing" className="hover:text-zinc-900">Pricing</Link></li>
+                          <li><Link href="/trial" className="hover:text-zinc-900">Start Trial</Link></li>
                           <li><Link href="/demo" className="hover:text-zinc-900">Showcase</Link></li>
                       </ul>
                   </div>

@@ -10,6 +10,8 @@ import { Input } from "@/components/ui/input";
 import Navbar from "@/components/Navbar";
 import { LaptopFrame, PhoneFrame } from "@/components/DeviceFrames";
 
+
+
 export default function DemoPage() {
     const router = useRouter();
     const { setTableId } = useCart();
@@ -27,7 +29,8 @@ export default function DemoPage() {
         { id: 'roi', label: 'ROI Results', icon: <TrendingUp className="w-4 h-4"/>, title: '4. The Professional Result', desc: 'See how Media Masala transforms operational chaos into scalable profit.' },
     ];
 
-    const [cartCount, setCartCount] = useState(0);
+    const [cartItems, setCartItems] = useState<{name: string, price: string, img: string, modifiers: string[]}[]>([]);
+    const [selectedModifiers, setSelectedModifiers] = useState<string[]>([]);
     const [orderPlaced, setOrderPlaced] = useState(false);
     const [kitchenStatus, setKitchenStatus] = useState('Idle');
     const [showCustomizer, setShowCustomizer] = useState(false);
@@ -150,7 +153,7 @@ export default function DemoPage() {
                                         <div className="font-outfit font-black text-sm">Media Masala</div>
                                         <div className="relative">
                                             <ShoppingCart className="w-4 h-4 text-zinc-400" />
-                                            {cartCount > 0 && <span className="absolute -top-2 -right-2 bg-[#6F4E37] text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-bold">{cartCount}</span>}
+                                            {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-[#6F4E37] text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-bold">{cartItems.length}</span>}
                                         </div>
                                     </div>
 
@@ -233,7 +236,7 @@ export default function DemoPage() {
                                                      Call Waiter
                                                  </Button>
                                                  
-                                                 {cartCount > 0 && (
+                                                 {cartItems.length > 0 && (
                                                      <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
                                                          <Button 
                                                              onClick={() => {
@@ -258,7 +261,7 @@ export default function DemoPage() {
                                                              }}
                                                              className="w-full h-14 rounded-[1.5rem] bg-[#6F4E37] text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-[#6F4E37]/30 border-b-4 border-[#3E2723]/30"
                                                          >
-                                                             Place Order (₹{cartCount * 450})
+                                                             Place Order (₹{cartItems.reduce((acc, item) => acc + parseInt(item.price.replace('₹', '')), 0)})
                                                          </Button>
                                                      </motion.div>
                                                  )}
@@ -301,7 +304,7 @@ export default function DemoPage() {
                                                          onClick={() => {
                                                              setOrderPlaced(false);
                                                              setOrderStatus('Pending');
-                                                             setCartCount(0);
+                                                             setCartItems([]);
                                                              setNotifications([]);
                                                              setGuestScreen('menu');
                                                          }}
@@ -355,6 +358,10 @@ export default function DemoPage() {
                                                                 setNotifications(prev => [...prev, `Waiter request: ${req}`]);
                                                                 setShowWaiterCall(false);
                                                                 setCurrentStep(3);
+                                                                
+                                                                // Auto-switch to Admin Panel
+                                                                setActivePerspective('staff');
+                                                                
                                                                 setTimeout(() => {
                                                                     managementSuiteRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                                                 }, 300);
@@ -406,16 +413,29 @@ export default function DemoPage() {
                                                 <div className="space-y-4">
                                                     <div className="space-y-2">
                                                         <p className="text-[10px] font-black text-[#A68966] uppercase tracking-widest">Options</p>
-                                                        <div className="flex gap-2">
-                                                            {['Extra Spicy', 'Less Oil', 'No Onion'].map((m) => (
-                                                                <span key={m} className="px-3 py-1.5 rounded-lg border border-[#F0EDE8] text-[9px] font-bold text-[#3E2723] bg-white">{m}</span>
+                                                        <div className="flex flex-wrap gap-2">
+                                                            {[
+                                                               {id: 'spicy', label: 'Extra Spicy', emoji: '🔥'},
+                                                               {id: 'oil', label: 'Less Oil', emoji: '💧'},
+                                                               {id: 'onion', label: 'No Onion', emoji: '🚫'},
+                                                               {id: 'cheese', label: 'Extra Cheese', emoji: '🧀'}
+                                                            ].map((m) => (
+                                                                <button 
+                                                                   key={m.id} 
+                                                                   onClick={() => setSelectedModifiers(prev => prev.includes(m.label) ? prev.filter(x => x !== m.label) : [...prev, m.label])}
+                                                                   className={`px-4 py-3 rounded-2xl border transition-all text-xs font-bold flex items-center gap-2 ${selectedModifiers.includes(m.label) ? 'bg-[#6F4E37] text-white border-[#6F4E37] shadow-lg' : 'bg-white text-[#3E2723] border-[#F0EDE8]'}`}
+                                                                >
+                                                                   <span>{m.emoji}</span>
+                                                                   {m.label}
+                                                                </button>
                                                             ))}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <Button 
                                                     onClick={() => {
-                                                        setCartCount(prev => prev + 1);
+                                                        setCartItems(prev => [...prev, { ...selectedItem, modifiers: selectedModifiers }]);
+                                                        setSelectedModifiers([]);
                                                         setShowCustomizer(false);
                                                     }}
                                                     className="w-full h-12 rounded-xl bg-[#6F4E37] text-white font-black uppercase text-[10px]"
@@ -588,63 +608,84 @@ export default function DemoPage() {
                                                                     animate={{ x: 0, opacity: 1 }}
                                                                     className="bg-[#FAF7F2] p-4 rounded-2xl border border-[#F0EDE8] flex items-center justify-between"
                                                                 >
-                                                                    <div className="flex items-center gap-4">
-                                                                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                                                                            <Coffee className="w-5 h-5 text-[#6F4E37]" />
+                                                                        <div className="flex items-center justify-between">
+                                                                           <div className="flex items-center gap-4">
+                                                                               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                                                                   <Coffee className="w-5 h-5 text-[#6F4E37]" />
+                                                                               </div>
+                                                                               <div>
+                                                                                   <p className="text-xs font-black text-[#3E2723]">Table #5</p>
+                                                                                   <p className="text-[9px] font-bold text-[#A68966]">{cartItems.length} Items Total</p>
+                                                                               </div>
+                                                                           </div>
+                                                                           <div className="flex items-center gap-2">
+                                                                               {orderStatus === 'Pending' && (
+                                                                                   <Button
+                                                                                       onClick={() => setOrderStatus('Preparing')}
+                                                                                       className="h-8 px-4 bg-[#6F4E37] text-white text-[8px] font-black uppercase rounded-lg"
+                                                                                   >
+                                                                                       Start Prep
+                                                                                   </Button>
+                                                                               )}
+                                                                               {orderStatus === 'Preparing' && (
+                                                                                   <Button
+                                                                                       onClick={() => {
+                                                                                           setOrderStatus('Ready');
+                                                                                           setNotifications(prev => [...prev, "Order is ready for pickup!"]);
+                                                                                       }}
+                                                                                       className="h-8 px-4 bg-orange-400 text-white text-[8px] font-black uppercase rounded-lg"
+                                                                                   >
+                                                                                       Mark Ready
+                                                                                   </Button>
+                                                                               )}
+                                                                               {orderStatus === 'Ready' && (
+                                                                                   <Button
+                                                                                       onClick={() => {
+                                                                                           setOrderStatus('Served');
+                                                                                           setNotifications(prev => [...prev, "Order has been served!"]);
+                                                                                           // Auto-hide notification after 4s
+                                                                                           setTimeout(() => setNotifications([]), 4000);
+                                                                                       }}
+                                                                                       className="h-8 px-4 bg-green-500 text-white text-[8px] font-black uppercase rounded-lg"
+                                                                                   >
+                                                                                       Mark Served
+                                                                                   </Button>
+                                                                               )}
+                                                                               {orderStatus === 'Served' && (
+                                                                                   <Button 
+                                                                                       onClick={() => {
+                                                                                           setOrderPlaced(false);
+                                                                                           setOrderStatus('Pending');
+                                                                                           setNotifications(prev => [...prev, "Order settled: Paid and Gone."]);
+                                                                                           setTimeout(() => setNotifications([]), 3000);
+                                                                                       }}
+                                                                                       className="h-8 px-4 bg-[#FAF7F2] text-[#6F4E37] text-[8px] font-black uppercase rounded-lg border border-[#6F4E37]/20"
+                                                                                   >
+                                                                                       Paid and Gone
+                                                                                   </Button>
+                                                                               )}
+                                                                           </div>
                                                                         </div>
-                                                                        <div>
-                                                                            <p className="text-xs font-black text-[#3E2723]">Table #5</p>
-                                                                            <p className="text-[9px] font-bold text-[#A68966]">1x Caramel Latte + Oat Milk</p>
-                                                                        </div>
-                                                                    </div>
 
-                                                                    <div className="flex items-center gap-2">
-                                                                        {orderStatus === 'Pending' && (
-                                                                            <Button
-                                                                                onClick={() => setOrderStatus('Preparing')}
-                                                                                className="h-8 px-4 bg-[#6F4E37] text-white text-[8px] font-black uppercase rounded-lg"
-                                                                            >
-                                                                                Start Prep
-                                                                            </Button>
-                                                                        )}
-                                                                        {orderStatus === 'Preparing' && (
-                                                                            <Button
-                                                                                onClick={() => {
-                                                                                    setOrderStatus('Ready');
-                                                                                    setNotifications(prev => [...prev, "Order is ready for pickup!"]);
-                                                                                }}
-                                                                                className="h-8 px-4 bg-orange-400 text-white text-[8px] font-black uppercase rounded-lg"
-                                                                            >
-                                                                                Mark Ready
-                                                                            </Button>
-                                                                        )}
-                                                                        {orderStatus === 'Ready' && (
-                                                                            <Button
-                                                                                onClick={() => {
-                                                                                    setOrderStatus('Served');
-                                                                                    setNotifications(prev => [...prev, "Order has been served!"]);
-                                                                                    // Auto-hide notification after 4s
-                                                                                    setTimeout(() => setNotifications([]), 4000);
-                                                                                }}
-                                                                                className="h-8 px-4 bg-green-500 text-white text-[8px] font-black uppercase rounded-lg"
-                                                                            >
-                                                                                Mark Served
-                                                                            </Button>
-                                                                        )}
-                                                                        {orderStatus === 'Served' && (
-                                                                            <Button 
-                                                                                onClick={() => {
-                                                                                    setOrderPlaced(false);
-                                                                                     setOrderStatus('Pending');
-                                                                                     setNotifications(prev => [...prev, "Order settled: Paid and Gone."]);
-                                                                                     setTimeout(() => setNotifications([]), 3000);
-                                                                                }}
-                                                                                className="h-8 px-4 bg-[#FAF7F2] text-[#6F4E37] text-[8px] font-black uppercase rounded-lg border border-[#6F4E37]/20"
-                                                                            >
-                                                                                 Paid and Gone
-                                                                            </Button>
-                                                                        )}
-                                                                    </div>
+                                                                        <div className="space-y-2 border-t border-dashed border-[#E7DCCA] pt-3">
+                                                                           {cartItems.map((item, idx) => (
+                                                                               <div key={idx} className="flex justify-between items-start">
+                                                                                   <div className="flex gap-2 items-center">
+                                                                                       <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center text-[10px]">{item.img}</div>
+                                                                                       <div>
+                                                                                           <p className="text-[10px] font-bold text-[#3E2723]">{item.name}</p>
+                                                                                           <div className="flex flex-wrap gap-1 mt-0.5">
+                                                                                               {item.modifiers.map(m => (
+                                                                                                   <span key={m} className="px-1.5 py-0.5 rounded-md bg-[#6F4E37]/10 text-[#6F4E37] text-[7px] font-black uppercase tracking-tighter">{m}</span>
+                                                                                               ))}
+                                                                                               {item.modifiers.length === 0 && <span className="text-[7px] text-[#A68966] font-medium italic">No modifications</span>}
+                                                                                           </div>
+                                                                                       </div>
+                                                                                   </div>
+                                                                                   <span className="text-[9px] font-black text-[#6F4E37]">{item.price}</span>
+                                                                               </div>
+                                                                           ))}
+                                                                        </div>
                                                                 </motion.div>
                                                             )}
                                                         </div>
