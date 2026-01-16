@@ -523,7 +523,7 @@ export default function LandingPage() {
 
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
               <div className="w-12 h-12 md:w-14 md:h-14 bg-zinc-900 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
-                <ShoppingCart className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                <CreditCard className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
               <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Conversion Engine</h3>
               <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Customization, cart, checkout. Maximize order value with zero friction.</p>

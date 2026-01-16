@@ -69,7 +69,7 @@ export default function AdminDashboard() {
             <div className="w-8 h-8 bg-gray-900 rounded-lg flex items-center justify-center">
               <LayoutDashboard className="text-white w-4 h-4" />
             </div>
-            <h1 className="font-bold text-lg">Trial Requests</h1>
+            <h1 className="font-bold text-lg">Restaurant Trial Request</h1>
           </div>
           
           <div className="flex items-center gap-4">
