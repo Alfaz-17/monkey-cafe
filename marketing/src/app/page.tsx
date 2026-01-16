@@ -207,17 +207,38 @@ export default function LandingPage() {
                   </div>
                 </Link>
                 <PhoneFrame className="scale-85 sm:scale-95 lg:scale-100 lg:-ml-12 shadow-2xl shadow-zinc-300 transform transition-transform group-hover:scale-[1.01] active:scale-95 duration-700">
-                   <div className="bg-[#FAF7F2] h-full flex flex-col pt-12">
-                      <div className="flex-1 px-5 space-y-6 flex flex-col items-center">
-                         <div className="w-20 h-20 bg-white rounded-3xl shadow-xl flex items-center justify-center mb-2">
-                           <QrCode className="w-10 h-10 text-[#6F4E37]" />
+                   <div className="bg-white h-full flex flex-col">
+                      {/* Header */}
+                      <div className="p-4 border-b border-zinc-100 flex justify-between items-center bg-[#FAF7F2]">
+                         <span className="text-[10px] font-black text-[#3E2723]">MEDIA MASALA</span>
+                         <div className="relative">
+                            <ShoppingCart className="w-4 h-4 text-[#A68966]" />
+                            <span className="absolute -top-1.5 -right-1.5 bg-[#6F4E37] text-white text-[7px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-black">2</span>
                          </div>
-                         <div className="text-center space-y-2">
-                            <div className="w-32 h-2 bg-zinc-200 rounded-full mx-auto" />
-                            <div className="w-24 h-2 bg-zinc-100 rounded-full mx-auto" />
+                      </div>
+                      
+                      {/* Menu Item Card */}
+                      <div className="flex-1 p-5 space-y-5 bg-white overflow-hidden">
+                         <div className="bg-[#FAF7F2] rounded-[2rem] p-6 border border-[#F0EDE8] shadow-sm">
+                            <div className="text-center space-y-4">
+                               <div className="w-16 h-16 bg-white rounded-2xl shadow-md flex items-center justify-center mx-auto text-3xl">
+                                  ☕
+                               </div>
+                               <div>
+                                  <h5 className="text-sm font-black text-[#3E2723]">Caramel Latte</h5>
+                                  <p className="text-[9px] text-[#A68966] font-bold mt-1 uppercase tracking-widest">Premium Coffee</p>
+                               </div>
+                               <div className="flex justify-between items-center pt-2">
+                                  <span className="text-xs font-black text-[#6F4E37]">₹380.00</span>
+                                  <div className="flex gap-1">
+                                     {[1,2,3,4,5].map(i => <div key={i} className="w-1 h-1 rounded-full bg-[#6F4E37]/20" />)}
+                                  </div>
+                               </div>
+                            </div>
                          </div>
-                         <div className="w-full h-10 bg-[#6F4E37] rounded-xl flex items-center justify-center text-white text-[10px] font-black uppercase tracking-widest">
-                            See Demo<ArrowRight/>
+                         
+                         <div className="w-full h-12 bg-[#6F4E37] rounded-2xl flex items-center justify-center text-white text-[10px] font-black uppercase tracking-widest shadow-lg shadow-[#6F4E37]/20 border-b-4 border-[#3E2723]/30">
+                            Add to Order
                          </div>
                       </div>
                    </div>
@@ -523,7 +544,7 @@ export default function LandingPage() {
 
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
               <div className="w-12 h-12 md:w-14 md:h-14 bg-zinc-900 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
-                <CreditCard className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                <ShoppingCart className="w-6 h-6 md:w-7 md:h-7 text-white" />
               </div>
               <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Conversion Engine</h3>
               <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Customization, cart, checkout. Maximize order value with zero friction.</p>

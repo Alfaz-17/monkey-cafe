@@ -2,20 +2,52 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send, CheckCircle2, Calendar, Phone, Store, Clock } from "lucide-react";
+import { Send, CheckCircle2, Calendar, Phone, Store, Clock, MapPin, User } from "lucide-react";
 
 export default function TrialForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [formData, setFormData] = useState({
+    name: "",
     restaurantName: "",
     contactNumber: "",
+    location: "",
+    preferredDate: "",
     preferredTime: ""
   });
+
+  // Generate time slots with 30-minute intervals (9 AM to 8 PM)
+  const generateTimeSlots = () => {
+    const slots = [];
+    for (let hour = 9; hour <= 20; hour++) {
+      for (let minute of [0, 30]) {
+        if (hour === 20 && minute === 30) break;
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const displayHour = hour > 12 ? hour - 12 : hour === 0 ? 12 : hour;
+        slots.push({ value: time, label: `${displayHour}:${minute.toString().padStart(2, '0')} ${period}` });
+      }
+    }
+    return slots;
+  };
+
+  const timeSlots = generateTimeSlots();
+
+  // Get minimum date (today)
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
+    
+    // Combine date and time for submission
+    const submissionData = {
+      ...formData,
+      preferredTime: `${formData.preferredDate} at ${formData.preferredTime}`
+    };
     
     try {
       const response = await fetch("/api/trial", {
@@ -23,7 +55,7 @@ export default function TrialForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submissionData),
       });
 
       if (!response.ok) {
@@ -51,7 +83,7 @@ export default function TrialForm() {
         <div className="space-y-2">
           <h3 className="text-2xl font-black text-zinc-900">Request Received!</h3>
           <p className="text-zinc-500 font-medium">
-            Our team will contact you shortly on <span className="text-[#6F4E37] font-bold">{formData.contactNumber}</span> to set up your 7-day trial.
+            Hi <span className="text-[#6F4E37] font-bold">{formData.name}</span>, our team will contact you shortly on <span className="text-[#6F4E37] font-bold">{formData.contactNumber}</span> to set up your 7-day trial.
           </p>
         </div>
         <button 
@@ -74,6 +106,27 @@ export default function TrialForm() {
       
       <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
         <div className="space-y-4">
+          {/* Name Field */}
+          <div>
+            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'name' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+              Your Name <span className="text-red-500 font-black">*</span>
+            </label>
+            <div className={`relative transition-all duration-300 ${focusedField === 'name' ? 'transform -translate-y-1' : ''}`}>
+              <User className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'name' ? 'text-[#6F4E37]' : 'text-zinc-400'}`} />
+              <input
+                required
+                type="text"
+                placeholder="e.g. Rajesh Kumar"
+                onFocus={() => setFocusedField('name')}
+                onBlur={() => setFocusedField(null)}
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-4 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37] transition-all font-medium"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Restaurant Name Field */}
           <div>
             <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'restaurantName' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Restaurant / Cafe Name <span className="text-red-500 font-black">*</span>
@@ -93,6 +146,7 @@ export default function TrialForm() {
             </div>
           </div>
 
+          {/* Contact Number Field */}
           <div>
             <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'contactNumber' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Contact Number <span className="text-red-500 font-black">*</span>
@@ -102,32 +156,84 @@ export default function TrialForm() {
               <input
                 required
                 type="tel"
-                placeholder="e.g. +91 98765 43210"
+                placeholder="e.g. 9876543210"
+                pattern="[0-9]{10}"
+                title="Please enter a valid 10-digit mobile number"
+                maxLength={10}
                 onFocus={() => setFocusedField('contactNumber')}
                 onBlur={() => setFocusedField(null)}
                 className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-4 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37] transition-all font-medium"
                 value={formData.contactNumber}
-                onChange={(e) => setFormData({ ...formData, contactNumber: e.target.value })}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '').slice(0, 10);
+                  setFormData({ ...formData, contactNumber: value });
+                }}
               />
             </div>
           </div>
 
+          {/* Location Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
-              When should we call? <span className="text-red-500 font-black">*</span>
+            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'location' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+              Location <span className="text-red-500 font-black">*</span>
             </label>
-            <div className={`relative transition-all duration-300 ${focusedField === 'preferredTime' ? 'transform -translate-y-1' : ''}`}>
-              <Clock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#6F4E37]' : 'text-zinc-400'}`} />
+            <div className={`relative transition-all duration-300 ${focusedField === 'location' ? 'transform -translate-y-1' : ''}`}>
+              <MapPin className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'location' ? 'text-[#6F4E37]' : 'text-zinc-400'}`} />
               <input
                 required
                 type="text"
-                placeholder="e.g. Tomorrow at 2 PM"
-                onFocus={() => setFocusedField('preferredTime')}
+                placeholder="e.g. Mumbai, Maharashtra"
+                onFocus={() => setFocusedField('location')}
                 onBlur={() => setFocusedField(null)}
                 className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-4 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37] transition-all font-medium"
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Preferred Date Field */}
+          <div>
+            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'preferredDate' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+              Preferred Date <span className="text-red-500 font-black">*</span>
+            </label>
+            <div className={`relative transition-all duration-300 ${focusedField === 'preferredDate' ? 'transform -translate-y-1' : ''}`}>
+              <Calendar className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'preferredDate' ? 'text-[#6F4E37]' : 'text-zinc-400'}`} />
+              <input
+                required
+                type="date"
+                min={getMinDate()}
+                onFocus={() => setFocusedField('preferredDate')}
+                onBlur={() => setFocusedField(null)}
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-4 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37] transition-all font-medium"
+                value={formData.preferredDate}
+                onChange={(e) => setFormData({ ...formData, preferredDate: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Preferred Time Slot Field */}
+          <div>
+            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+              Preferred Time <span className="text-red-500 font-black">*</span>
+            </label>
+            <div className={`relative transition-all duration-300 ${focusedField === 'preferredTime' ? 'transform -translate-y-1' : ''}`}>
+              <Clock className={`absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#6F4E37]' : 'text-zinc-400'}`} />
+              <select
+                required
+                onFocus={() => setFocusedField('preferredTime')}
+                onBlur={() => setFocusedField(null)}
+                className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:ring-4 focus:ring-[#6F4E37]/10 focus:border-[#6F4E37] transition-all font-medium appearance-none cursor-pointer"
                 value={formData.preferredTime}
                 onChange={(e) => setFormData({ ...formData, preferredTime: e.target.value })}
-              />
+              >
+                <option value="">Select a time slot</option>
+                {timeSlots.map((slot) => (
+                  <option key={slot.value} value={slot.label}>
+                    {slot.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
         </div>

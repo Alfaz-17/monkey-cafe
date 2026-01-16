@@ -2,6 +2,10 @@ import mongoose, { Schema, model, models } from "mongoose";
 
 const TrialRequestSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+    },
     restaurantName: {
       type: String,
       required: [true, "Restaurant name is required"],
@@ -9,6 +13,10 @@ const TrialRequestSchema = new Schema(
     contactNumber: {
       type: String,
       required: [true, "Contact number is required"],
+    },
+    location: {
+      type: String,
+      required: [true, "Location is required"],
     },
     preferredTime: {
       type: String,

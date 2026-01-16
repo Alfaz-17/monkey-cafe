@@ -7,9 +7,9 @@ export async function POST(req: Request) {
     await connectDB();
     const body = await req.json();
     
-    const { restaurantName, contactNumber, preferredTime } = body;
+    const { name, restaurantName, contactNumber, location, preferredTime } = body;
     
-    if (!restaurantName || !contactNumber || !preferredTime) {
+    if (!name || !restaurantName || !contactNumber || !location || !preferredTime) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -17,8 +17,10 @@ export async function POST(req: Request) {
     }
     
     const trialRequest = await TrialRequest.create({
+      name,
       restaurantName,
       contactNumber,
+      location,
       preferredTime
     });
     

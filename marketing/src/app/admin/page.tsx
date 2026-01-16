@@ -11,13 +11,17 @@ import {
   LogOut, 
   Search,
   RefreshCcw,
-  LayoutDashboard
+  LayoutDashboard,
+  MapPin,
+  User
 } from "lucide-react";
 
 interface TrialRequest {
   _id: string;
+  name: string;
   restaurantName: string;
   contactNumber: string;
+  location: string;
   preferredTime: string;
   createdAt: string;
 }
@@ -125,8 +129,10 @@ export default function AdminDashboard() {
               <table className="w-full text-left">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Name</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Restaurant / Cafe</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Contact Number</th>
+                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Location</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Preferred Time</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Date</th>
                   </tr>
@@ -135,12 +141,12 @@ export default function AdminDashboard() {
                   {isLoading ? (
                     Array.from({ length: 5 }).map((_, i) => (
                       <tr key={i} className="animate-pulse">
-                        <td colSpan={4} className="px-6 py-6 h-16" />
+                        <td colSpan={6} className="px-6 py-6 h-16" />
                       </tr>
                     ))
                   ) : filteredTrials.length === 0 ? (
                     <tr>
-                      <td colSpan={4} className="px-6 py-12 text-center text-gray-400">
+                      <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
                         No requests found
                       </td>
                     </tr>
@@ -153,6 +159,14 @@ export default function AdminDashboard() {
                         <td className="px-6 py-6">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+                              <User className="w-5 h-5" />
+                            </div>
+                            <p className="font-bold text-sm">{trial.name}</p>
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
                               <Store className="w-5 h-5" />
                             </div>
                             <p className="font-bold text-sm">{trial.restaurantName}</p>
@@ -162,6 +176,12 @@ export default function AdminDashboard() {
                           <div className="flex items-center gap-2 text-sm">
                             <Phone className="w-4 h-4 text-gray-400" />
                             {trial.contactNumber}
+                          </div>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center gap-2 text-sm">
+                            <MapPin className="w-4 h-4 text-gray-400" />
+                            {trial.location}
                           </div>
                         </td>
                         <td className="px-6 py-6">
