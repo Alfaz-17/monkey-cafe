@@ -7,7 +7,6 @@ import {
   Calendar, 
   Phone, 
   Store, 
-  Clock, 
   LogOut, 
   Search,
   RefreshCcw,
@@ -22,7 +21,6 @@ interface TrialRequest {
   restaurantName: string;
   contactNumber: string;
   location: string;
-  preferredTime: string;
   createdAt: string;
 }
 
@@ -135,7 +133,6 @@ export default function AdminDashboard() {
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Restaurant / Cafe</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Contact Number</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Location</th>
-                    <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Preferred Time</th>
                     <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Date</th>
                   </tr>
                 </thead>
@@ -143,12 +140,12 @@ export default function AdminDashboard() {
                   {isLoading ? (
                     Array.from({ length: 5 }).map((_, i) => (
                       <tr key={i} className="animate-pulse">
-                        <td colSpan={6} className="px-6 py-6 h-16" />
+                      <td colSpan={5} className="px-6 py-6 h-16" />
                       </tr>
                     ))
                   ) : filteredTrials.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
+                      <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
                         No requests found
                       </td>
                     </tr>
@@ -186,12 +183,7 @@ export default function AdminDashboard() {
                             {trial.location}
                           </div>
                         </td>
-                        <td className="px-6 py-6">
-                          <div className="flex items-center gap-2 text-sm">
-                            <Clock className="w-4 h-4 text-gray-400" />
-                            {trial.preferredTime}
-                          </div>
-                        </td>
+
                         <td className="px-6 py-6">
                           <div className="flex flex-col text-sm">
                             <div className="flex items-center gap-2 font-bold text-gray-900 group-hover:text-black">

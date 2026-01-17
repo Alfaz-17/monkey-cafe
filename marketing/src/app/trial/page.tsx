@@ -87,14 +87,14 @@ export default function TrialPage() {
                     ))}
                 </div>
 
-                <div className="pt-12 grayscale opacity-40">
+                {/* <div className="pt-12 grayscale opacity-40">
                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-6">Trusted by modern brands</p>
                     <div className="flex justify-center gap-12 flex-wrap">
                         <span className="font-outfit font-black text-2xl">Masala Republic</span>
                         <span className="font-outfit font-black text-2xl">Urban Tandoor</span>
                         <span className="font-outfit font-black text-2xl">The Saffron Kitchen</span>
                     </div>
-                </div>
+                </div> */}
             </div>
         </div>
       </div>
