@@ -256,7 +256,7 @@ function OrderTrackingContent() {
                         Your order is being prepared with care.
                     </p>
                     <p className="text-[#A68966] text-[10px] font-black uppercase tracking-[0.3em]">
-                        Media Masala • Fresh & Faster
+                        AI Menu System • Fresh & Faster
                     </p>
                 </div>
 

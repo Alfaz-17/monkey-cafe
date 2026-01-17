@@ -103,12 +103,12 @@ export default function MenuPage() {
       <div className="flex flex-col cursor-pointer" onClick={() => router.push(`/demo/menu/${tableIdParam}`)}>
 
         <h1 className="text-2xl font-black tracking-tighter leading-none font-serif italic text-[#3E2723]">
-          Media Masala
+          AI Menu System
         </h1>
         <div className="flex items-center gap-2 mt-1">
           <div className="flex items-center gap-1 bg-[#FDF1E6] px-1.5 py-0.5 rounded-lg border border-[#F0EDE8]">
             <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em]">
-                Media Masala • Fresh & Faster
+                AI Menu System • Fresh & Faster
             </p>
           </div>
           <span className="w-1 h-1 rounded-full bg-stone-300"></span>

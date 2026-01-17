@@ -45,52 +45,96 @@ export default function LandingPage() {
 
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-48 md:pb-32 px-6">
-        <div className="container mx-auto max-w-5xl text-center">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 bg-[#FAF0F4] text-[#8C5E6E] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 shadow-sm border border-[#EAD0DB]/50"
-          >
-            POWERED BY MEDIAMASALA PVT LTD
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="font-outfit font-black text-3xl sm:text-4xl md:text-7xl leading-[1.1] tracking-tight mb-6 md:mb-8"
-          >
-            Build the Right Restaurant System for Your Business Size
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-lg md:text-2xl text-zinc-600 mb-10 max-w-3xl mx-auto leading-relaxed font-medium px-4 md:px-0"
-          >
-            Tell us about your business. Choose what you need. Pricing adapts automatically.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0"
-          >
-            <Link 
-              href="/demo"
-              className="w-full sm:w-auto bg-[#6F4E37] text-white px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:bg-[#5A3E2B] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-2xl shadow-[#6F4E37]/20 min-h-[56px]"
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-6 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#6F4E37]/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl" />
+        </div>
+
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center space-y-8">
+            {/* Badge */}
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 bg-white border border-zinc-200 px-4 py-2 rounded-full shadow-sm"
             >
-              See How It Works <ArrowRight/>
-            </Link>
-            <Link 
-              href="/trial"
-              className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 md:px-10 md:py-5 rounded-full font-bold text-base md:text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 group min-h-[56px]"
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs font-semibold text-zinc-700">  POWERED BY MEDIAAMASALA PVT LTD</span>
+            </motion.div>
+            
+            {/* Main Headline */}
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="font-outfit font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-zinc-900"
             >
-              Start 7-Day Free Trial <ArrowRight className="w-4 h-4 text-[#6F4E37] opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
-          </motion.div>
+              AI Menu System
+              <br />
+              <span className="text-[#6F4E37]">for Restaurants</span>
+            </motion.h1>
+            
+            {/* Subheadline */}
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl md:text-2xl text-zinc-600 max-w-3xl mx-auto leading-relaxed font-medium"
+            >
+              Handle daily operations effortlessly and put your energy into growing your business.
+            </motion.p>
+            
+            {/* CTA Buttons */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+            >
+              <Link 
+                href="/demo"
+                className="group w-full sm:w-auto bg-[#6F4E37] text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#5A3E2B] transition-all hover:shadow-2xl hover:shadow-[#6F4E37]/20 flex items-center justify-center gap-2"
+              >
+                See How It Works 
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link 
+                href="/trial"
+                className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 rounded-xl font-bold text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:shadow-lg flex items-center justify-center gap-2"
+              >
+                Start Free Trial
+              </Link>
+            </motion.div>
+
+            {/* Trust Indicators */}
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-wrap items-center justify-center gap-8 pt-8 text-sm text-zinc-500"
+            >
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium">No credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium">7-day free trial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span className="font-medium">Setup in 5 minutes</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -210,7 +254,7 @@ export default function LandingPage() {
                    <div className="bg-white h-full flex flex-col">
                       {/* Header */}
                       <div className="p-4 border-b border-zinc-100 flex justify-between items-center bg-[#FAF7F2]">
-                         <span className="text-[10px] font-black text-[#3E2723]">MEDIA MASALA</span>
+                         <span className="text-[10px] font-black text-[#3E2723]">AI MENU SYSTEM</span>
                          <div className="relative">
                             <ShoppingCart className="w-4 h-4 text-[#A68966]" />
                             <span className="absolute -top-1.5 -right-1.5 bg-[#6F4E37] text-white text-[7px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-black">2</span>
@@ -291,9 +335,9 @@ export default function LandingPage() {
         <div className="container mx-auto max-w-6xl px-6">
           <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
             <div className="max-w-xl space-y-4">
-               <span className="inline-block px-4 py-1.5 bg-[#6F4E37]/10 border border-[#6F4E37]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#6F4E37]">The Workflow</span>
+               <span className="inline-block px-4 py-1.5 bg-[#6F4E37]/10 border border-[#6F4E37]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#6F4E37]">Simple Process</span>
                <h2 className="font-outfit font-black text-4xl md:text-6xl text-[#3E2723] leading-none">How It Works</h2>
-               <p className="text-[#A68966] text-sm md:text-lg font-medium">Three simple steps to transition your legacy service into a modern high-performance operation.</p>
+               <p className="text-[#A68966] text-sm md:text-lg font-medium">From scan to serve in 3 simple steps. No apps, no hassle, just smooth ordering.</p>
             </div>
           </div>
 
@@ -304,7 +348,7 @@ export default function LandingPage() {
               { 
                 step: "01", 
                 title: "Scan & Browse", 
-                desc: "Guest scans the table QR. No apps, no logins. Instant access to your premium digital menu.", 
+                desc: "Guests scan the QR code on their table. Instant access to your menu—no app downloads, no sign-ups.", 
                 icon: <QrCode className="w-8 h-8"/>,
                 color: "bg-white",
                 textColor: "text-[#6F4E37]"
@@ -312,15 +356,15 @@ export default function LandingPage() {
               { 
                 step: "02", 
                 title: "Order & Pay", 
-                desc: "Intuitive customization and secure checkout. Orders are placed in seconds with 0% error rate.", 
+                desc: "Easy customization and quick checkout. Orders placed in seconds with zero errors.", 
                 icon: <Smartphone className="w-8 h-8"/>,
                 color: "bg-[#6F4E37]",
                 textColor: "text-white"
               },
               { 
                 step: "03", 
-                title: "Live Kitchen Sync", 
-                desc: "Orders hit the kitchen display instantly. Staff gets notified and starts cooking with zero manual entry.", 
+                title: "Kitchen Gets It", 
+                desc: "Orders appear instantly on your kitchen display. Your team starts preparing right away—no manual entry needed.", 
                 icon: <Zap className="w-8 h-8"/>,
                 color: "bg-white",
                 textColor: "text-[#6F4E37]"
@@ -473,12 +517,12 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, x: 0, rotate: -5 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="absolute -left-10 -bottom-16 md:-left-16 md:-bottom-8 z-20 scale-75 md:scale-90"
+                className="absolute -left-10 -bottom-16 md:-left-16 md:-bottom-8 z-20 scale-[0.6] md:scale-[0.7]"
               >
-                <PhoneFrame className="transition-transform group-hover:rotate-0 group-hover:scale-95 duration-700">
+                {/* <PhoneFrame className="transition-transform group-hover:rotate-0 group-hover:scale-95 duration-700">
                   <div className="bg-white h-full flex flex-col font-outfit">
                      <div className="p-5 border-b border-[#F0EDE8] flex justify-between items-center bg-[#FAF7F2]">
-                        <span className="text-[10px] font-black text-[#3E2723]">MEDIA MASALA</span>
+                        <span className="text-[10px] font-black text-[#3E2723]">AI MENU SYSTEM</span>
                         <div className="relative">
                            <ShoppingCart className="w-4 h-4 text-[#A68966]" />
                            <span className="absolute -top-1.5 -right-1.5 bg-[#6F4E37] text-white text-[7px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-black">2</span>
@@ -503,7 +547,7 @@ export default function LandingPage() {
                         </div>
                      </div>
                   </div>
-                </PhoneFrame>
+                </PhoneFrame> */}
               </motion.div>
             </div>
           </div>
@@ -511,7 +555,7 @@ export default function LandingPage() {
       </section>
 
 
-      {/* Social Proof Section */}
+      {/* Social Proof Section
       <section className="py-12 border-y border-zinc-100 bg-white">
         <div className="container mx-auto px-6 text-center">
           <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-10">Trusted by modern hospitality leaders</p>
@@ -521,7 +565,7 @@ export default function LandingPage() {
              ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
 
       {/* Brief Feature Highlights */}
@@ -596,7 +640,7 @@ export default function LandingPage() {
       <section className="py-24 px-6 bg-white border-t border-zinc-100">
           <div className="container mx-auto max-w-4xl text-center">
               <h2 className="font-outfit font-bold text-4xl mb-6">Ready to transform your business?</h2>
-              <p className="text-zinc-500 text-lg mb-10">Join 500+ restaurants using Media Masala to power their ordering.</p>
+              <p className="text-zinc-500 text-lg mb-10">Join 500+ restaurants using AI Menu System to power their ordering.</p>
               <Link 
                 href="/demo"
                 className="inline-block bg-[#6F4E37] text-white px-10 py-5 rounded-full text-lg font-black shadow-xl shadow-[#6F4E37]/20 hover:shadow-2xl hover:scale-105 transition-all text-center"
@@ -612,11 +656,12 @@ export default function LandingPage() {
           <div className="container mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-16">
                   <div className="col-span-2 md:col-span-1">
-                      <div className="flex items-center gap-2 mb-6">
-                        <div className="w-8 h-8 bg-zinc-900 rounded flex items-center justify-center">
-                            <span className="text-white font-bold text-base">M</span>
-                        </div>
-                        <span className="font-outfit font-bold text-xl">Media Masala</span>
+                      <div className="mb-6">
+                        <img 
+                          src="/logo.png" 
+                          alt="AI Menu System" 
+                          className="h-60 w-60 object-contain"
+                        />
                       </div>
                       <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
                           Empowering hospitality businesses with next-gen digital tools.
@@ -647,12 +692,12 @@ export default function LandingPage() {
                   </div>
               </div>
               <div className="border-t border-zinc-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-400">
-                  <p>© 2024 Media Masala. All rights reserved.</p>
-                  <div className="flex gap-6">
+                  <p>© 2024 AI Menu System. All rights reserved.</p>
+                  {/* <div className="flex gap-6">
                       <a href="#" className="hover:text-zinc-900">Twitter</a>
                       <a href="#" className="hover:text-zinc-900">LinkedIn</a>
                       <a href="#" className="hover:text-zinc-900">Instagram</a>
-                  </div>
+                  </div> */}
               </div>
           </div>
       </footer>

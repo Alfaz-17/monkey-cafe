@@ -22,11 +22,11 @@ export default function DemoPage() {
     const [activePerspective, setActivePerspective] = useState<'guest' | 'staff'>('guest');
     
     const steps = [
-        { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'The Master Showcase', desc: 'Experience the entire Media Masala ecosystem in one cohesive journey.' },
+        { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'The Master Showcase', desc: 'Experience the entire AI Menu System ecosystem in one cohesive journey.' },
         { id: 'order', label: 'Guest Order', icon: <Smartphone className="w-4 h-4"/>, title: '1. The Digital Concierge', desc: 'Your guests experience a frictionless, beautiful menu that drives up average order value.' },
         { id: 'kitchen', label: 'Kitchen Sync', icon: <Zap className="w-4 h-4"/>, title: '2. Zero-Leakage Kitchen', desc: 'Orders flow instantly to the kitchen. No missed tickets, no manual entry, total precision.' },
         { id: 'analytics', label: 'Admin Intelligence', icon: <LayoutDashboard className="w-4 h-4"/>, title: '3. The Owner Command Center', desc: 'Real-time revenue tracking, efficiency metrics, and AI-driven growth predictions.' },
-        { id: 'roi', label: 'ROI Results', icon: <TrendingUp className="w-4 h-4"/>, title: '4. The Professional Result', desc: 'See how Media Masala transforms operational chaos into scalable profit.' },
+        { id: 'roi', label: 'ROI Results', icon: <TrendingUp className="w-4 h-4"/>, title: '4. The Professional Result', desc: 'See how AI Menu System transforms operational chaos into scalable profit.' },
     ];
 
     const [cartItems, setCartItems] = useState<{name: string, price: string, img: string, modifiers: string[]}[]>([]);
@@ -150,7 +150,7 @@ export default function DemoPage() {
                                 <div className="h-full flex flex-col bg-[#FAFAFA]">
                                     {/* Mini App Header */}
                                     <div className="p-4 bg-white border-b border-zinc-100 flex justify-between items-center">
-                                        <div className="font-outfit font-black text-sm">Media Masala</div>
+                                        <div className="font-outfit font-black text-sm">AI Menu System</div>
                                         <div className="relative">
                                             <ShoppingCart className="w-4 h-4 text-zinc-400" />
                                             {cartItems.length > 0 && <span className="absolute -top-2 -right-2 bg-[#6F4E37] text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-bold">{cartItems.length}</span>}
@@ -163,7 +163,7 @@ export default function DemoPage() {
                                                 <Coffee className="w-10 h-10 text-[#6F4E37]" />
                                             </div>
                                             <div className="space-y-4">
-                                                <h3 className="text-3xl font-black font-outfit text-[#3E2723]">Media Masala</h3>
+                                                <h3 className="text-3xl font-black font-outfit text-[#3E2723]">AI Menu System</h3>
                                                 <p className="text-xs text-[#A68966] font-medium leading-relaxed">Please scan the QR code on your table <br /> or click below to enter.</p>
                                             </div>
                                             <Button 

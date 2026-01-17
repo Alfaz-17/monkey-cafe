@@ -108,7 +108,7 @@ export default function TrialForm() {
         <div className="space-y-4">
           {/* Name Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'name' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'name' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Your Name <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'name' ? 'transform -translate-y-1' : ''}`}>
@@ -128,7 +128,7 @@ export default function TrialForm() {
 
           {/* Restaurant Name Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'restaurantName' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'restaurantName' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Restaurant / Cafe Name <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'restaurantName' ? 'transform -translate-y-1' : ''}`}>
@@ -148,7 +148,7 @@ export default function TrialForm() {
 
           {/* Contact Number Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'contactNumber' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'contactNumber' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Contact Number <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'contactNumber' ? 'transform -translate-y-1' : ''}`}>
@@ -174,7 +174,7 @@ export default function TrialForm() {
 
           {/* Location Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'location' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'location' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Location <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'location' ? 'transform -translate-y-1' : ''}`}>
@@ -194,7 +194,7 @@ export default function TrialForm() {
 
           {/* Preferred Date Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'preferredDate' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'preferredDate' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Preferred Date <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'preferredDate' ? 'transform -translate-y-1' : ''}`}>
@@ -214,7 +214,7 @@ export default function TrialForm() {
 
           {/* Preferred Time Slot Field */}
           <div>
-            <label className={`block text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 ml-1 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
+            <label className={`block text-left text-[11px] font-black uppercase tracking-[0.15em] mb-2.5 transition-colors duration-300 ${focusedField === 'preferredTime' ? 'text-[#3E2723]' : 'text-zinc-500'}`}>
               Preferred Time <span className="text-red-500 font-black">*</span>
             </label>
             <div className={`relative transition-all duration-300 ${focusedField === 'preferredTime' ? 'transform -translate-y-1' : ''}`}>

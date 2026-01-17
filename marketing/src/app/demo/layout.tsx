@@ -33,12 +33,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Media Masala | Premium Digital Menu",
+  title: "AI Menu System | Premium Digital Menu",
   description: "Order your favorites instantly.",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Media Masala',
+    title: 'AI Menu System',
   },
 };
 

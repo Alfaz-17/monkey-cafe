@@ -105,7 +105,7 @@ export default function AdminLoginPage() {
           </form>
         </div>
         <p className="mt-8 text-center text-[10px] text-gray-400 font-medium uppercase tracking-[0.2em]">
-          Media Masala Internal Tools
+          AI Menu System Internal Tools
         </p>
       </div>
     </div>

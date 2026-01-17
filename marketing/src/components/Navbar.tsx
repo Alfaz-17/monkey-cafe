@@ -1,9 +1,12 @@
-"use client";
+"use client"
+
 
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+
+
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,10 +15,11 @@ export default function Navbar() {
     <nav className="fixed top-0 w-full z-[70] bg-[#FAFAFA]/80 backdrop-blur-md border-b border-zinc-200/50">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-zinc-900 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">M</span>
-          </div>
-          <span className="font-outfit font-bold text-xl tracking-tight">Media Masala</span>
+          <img 
+            src="/logo.png" 
+            alt="AI Menu System" 
+            className="h-70 w-70 ml-[-25] object-contain"
+          />
         </Link>
         
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
@@ -66,4 +70,5 @@ export default function Navbar() {
       )}
     </nav>
   );
+
 }
