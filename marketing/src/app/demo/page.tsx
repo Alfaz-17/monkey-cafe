@@ -22,11 +22,11 @@ export default function DemoPage() {
     const [activePerspective, setActivePerspective] = useState<'guest' | 'staff'>('guest');
     
     const steps = [
-        { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'The Master Showcase', desc: 'Experience the entire AI Menu System ecosystem in one cohesive journey.' },
-        { id: 'order', label: 'Guest Order', icon: <Smartphone className="w-4 h-4"/>, title: '1. The Digital Concierge', desc: 'Your guests experience a frictionless, beautiful menu that drives up average order value.' },
-        { id: 'kitchen', label: 'Kitchen Sync', icon: <Zap className="w-4 h-4"/>, title: '2. Zero-Leakage Kitchen', desc: 'Orders flow instantly to the kitchen. No missed tickets, no manual entry, total precision.' },
-        { id: 'analytics', label: 'Admin Intelligence', icon: <LayoutDashboard className="w-4 h-4"/>, title: '3. The Owner Command Center', desc: 'Real-time revenue tracking, efficiency metrics, and AI-driven growth predictions.' },
-        { id: 'roi', label: 'ROI Results', icon: <TrendingUp className="w-4 h-4"/>, title: '4. The Professional Result', desc: 'See how AI Menu System transforms operational chaos into scalable profit.' },
+        { id: 'start', label: 'Welcome', icon: <Sparkles className="w-4 h-4"/>, title: 'See the Platform', desc: 'A quick tour of the system.' },
+        { id: 'order', label: 'Guest Order', icon: <Smartphone className="w-4 h-4"/>, title: '1. For Your Guests', desc: 'Guests scan a QR code and see a beautiful menu on their phone.' },
+        { id: 'kitchen', label: 'Kitchen Sync', icon: <Zap className="w-4 h-4"/>, title: '2. For Your Kitchen', desc: 'Orders go instantly to the kitchen. No more paper tickets or confusion.' },
+        { id: 'analytics', label: 'Admin Intelligence', icon: <LayoutDashboard className="w-4 h-4"/>, title: '3. For the Owner', desc: 'Track your sales and see how your business is growing.' },
+        { id: 'roi', label: 'ROI Results', icon: <TrendingUp className="w-4 h-4"/>, title: '4. Your Growth', desc: 'See the results of a professional digital system.' },
     ];
 
     const [cartItems, setCartItems] = useState<{name: string, price: string, img: string, modifiers: string[]}[]>([]);

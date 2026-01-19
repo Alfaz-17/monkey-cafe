@@ -39,23 +39,23 @@ export default function FeaturesPage() {
             
             {/* Inventory Management */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
             >
-              <div className="space-y-6 order-2 lg:order-1">
-                <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-red-600">
+              <div className="space-y-4 order-2 lg:order-1">
+                <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-red-600">
                   Low Stock Alert
                 </div>
-                <h3 className="font-outfit font-black text-3xl md:text-5xl">Inventory Management</h3>
-                <p className="text-zinc-600 text-lg leading-relaxed">
-                  Track every ingredient in real-time. Get automatic low-stock alerts, manage reorder levels, and visualize inventory trends to prevent stockouts and reduce waste.
+                <h3 className="font-outfit font-black text-2xl md:text-3xl">Track Your Stock</h3>
+                <p className="text-zinc-600 text-sm md:text-base leading-relaxed">
+                  Keep an eye on everything in your kitchen. Get alerts when you run low.
                 </p>
-                <ul className="space-y-3">
-                  {['Real-time stock tracking', 'Automated reorder alerts', 'Inventory trend analytics', 'Multi-unit support'].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-zinc-700">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <ul className="grid grid-cols-2 gap-2">
+                  {['Real-time tracking', 'Reorder alerts', 'Trend analytics', 'Multi-unit'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-700 text-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                       <span className="font-medium">{feature}</span>
                     </li>
                   ))}
@@ -63,39 +63,39 @@ export default function FeaturesPage() {
               </div>
               <div className="order-1 lg:order-2">
                 <img 
-                  src="/inventory-dashboard.png" 
-                  alt="Inventory Management Dashboard" 
-                  className="w-full rounded-2xl shadow-2xl border border-zinc-200"
+                  src="/inventory.png" 
+                  alt="Inventory Management" 
+                  className="w-full rounded-2xl shadow-xl border border-zinc-100 aspect-video object-cover"
                 />
               </div>
             </motion.div>
 
             {/* Digital Menu */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
             >
               <div className="order-1">
                 <img 
-                  src="/digital-menu.png" 
-                  alt="Digital Menu on Tablet" 
-                  className="w-full rounded-2xl shadow-2xl"
+                  src="/menu-exp.png" 
+                  alt="Digital Menu" 
+                  className="w-full rounded-2xl shadow-xl aspect-video object-cover"
                 />
               </div>
-              <div className="space-y-6 order-2">
-                <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-amber-700">
+              <div className="space-y-4 order-2">
+                <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-amber-700">
                   QR Powered
                 </div>
-                <h3 className="font-outfit font-black text-3xl md:text-5xl">Digital Menu Experience</h3>
-                <p className="text-zinc-600 text-lg leading-relaxed">
-                  Beautiful, interactive menus that guests can access instantly by scanning a QR code. No apps to download, no friction—just pure ordering simplicity.
+                <h3 className="font-outfit font-black text-2xl md:text-3xl">Easy Digital Menu</h3>
+                <p className="text-zinc-600 text-sm md:text-base leading-relaxed">
+                  Guests scan a QR code and see your menu instantly. No apps needed.
                 </p>
-                <ul className="space-y-3">
-                  {['Instant QR code access', 'High-quality food photography', 'Real-time menu updates', 'Multi-language support'].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-zinc-700">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <ul className="grid grid-cols-2 gap-2">
+                  {['Instant QR access', 'Gourmet visuals', 'Live updates', 'Multi-language'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-700 text-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                       <span className="font-medium">{feature}</span>
                     </li>
                   ))}
@@ -105,23 +105,23 @@ export default function FeaturesPage() {
 
             {/* Analytics Dashboard */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
             >
-              <div className="space-y-6 order-2 lg:order-1">
-                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-blue-600">
+              <div className="space-y-4 order-2 lg:order-1">
+                <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-blue-600">
                   Live Data
                 </div>
-                <h3 className="font-outfit font-black text-3xl md:text-5xl">Analytics Dashboard</h3>
-                <p className="text-zinc-600 text-lg leading-relaxed">
-                  Make data-driven decisions with comprehensive analytics. Track revenue, monitor order trends, identify popular items, and measure customer satisfaction—all in real-time.
+                <h3 className="font-outfit font-black text-2xl md:text-3xl">See Your Sales</h3>
+                <p className="text-zinc-600 text-sm md:text-base leading-relaxed">
+                  Understand your business with simple reports. Track sales and guest feedback.
                 </p>
-                <ul className="space-y-3">
-                  {['Revenue tracking & KPIs', 'Order trend analysis', 'Popular items insights', 'Customer satisfaction metrics'].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-zinc-700">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <ul className="grid grid-cols-2 gap-2">
+                  {['KPI tracking', 'Trend analysis', 'Popularity tags', 'Satisfaction'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-700 text-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                       <span className="font-medium">{feature}</span>
                     </li>
                   ))}
@@ -129,39 +129,39 @@ export default function FeaturesPage() {
               </div>
               <div className="order-1 lg:order-2">
                 <img 
-                  src="/analytics-dashboard.png" 
-                  alt="Analytics Dashboard" 
-                  className="w-full rounded-2xl shadow-2xl border border-zinc-200"
+                  src="/analytics.png" 
+                  alt="Analytics" 
+                  className="w-full rounded-2xl shadow-xl border border-zinc-100 aspect-video object-cover"
                 />
               </div>
             </motion.div>
 
             {/* Kitchen Display System */}
             <motion.div 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+              className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
             >
               <div className="order-1">
                 <img 
-                  src="/kitchen-display.png" 
-                  alt="Kitchen Display System" 
-                  className="w-full rounded-2xl shadow-2xl"
+                  src="/kds.png" 
+                  alt="KDS" 
+                  className="w-full rounded-2xl shadow-xl aspect-video object-cover"
                 />
               </div>
-              <div className="space-y-6 order-2">
-                <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-orange-600">
+              <div className="space-y-4 order-2">
+                <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-orange-600">
                   Real-Time Sync
                 </div>
-                <h3 className="font-outfit font-black text-3xl md:text-5xl">Kitchen Display System</h3>
-                <p className="text-zinc-600 text-lg leading-relaxed">
-                  Streamline kitchen operations with a real-time order display. Orders flow instantly from guest to kitchen with zero manual entry. Track preparation status, manage timing, and ensure nothing gets missed.
+                <h3 className="font-outfit font-black text-2xl md:text-3xl">Kitchen Screen</h3>
+                <p className="text-zinc-600 text-sm md:text-base leading-relaxed">
+                  Orders appear instantly in the kitchen. Less paper, fewer mistakes.
                 </p>
-                <ul className="space-y-3">
-                  {['Instant order notifications', 'Color-coded status tracking', 'Order timing & priority', 'Zero-error order flow'].map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-zinc-700">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <ul className="grid grid-cols-2 gap-2">
+                  {['Instant notifications', 'Status tracking', 'Priority flow', 'Error-free'].map((feature, i) => (
+                    <li key={i} className="flex items-center gap-2 text-zinc-700 text-xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                       <span className="font-medium">{feature}</span>
                     </li>
                   ))}
