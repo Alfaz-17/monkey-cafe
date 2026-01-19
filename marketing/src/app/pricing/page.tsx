@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, HelpCircle, Utensils, Store, Building, Globe, ArrowRight, RefreshCcw, Sparkles, Minus, Check, ShieldCheck, QrCode } from "lucide-react";
+import { ChevronDown, ChevronUp, HelpCircle, Utensils, Store, Building, Globe, ArrowRight, RefreshCcw, Sparkles, Minus, Check, ShieldCheck, QrCode, MessageCircle } from "lucide-react";
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { VerticalCutReveal } from "@/components/ui/vertical-cut-reveal";
@@ -152,7 +152,7 @@ const floatingAnimation = {
     transition: {
       duration: 6,
       repeat: Infinity,
-      ease: "easeInOut"
+      ease: "easeInOut" as const
     }
   }
 };
@@ -354,13 +354,23 @@ export default function PricingPage() {
                                                 const element = document.getElementById(analyticsCalculation?.plan.id || "");
                                                 element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                             }}
-                                            className="w-full md:w-auto px-12 md:px-16 py-5 md:py-7 bg-zinc-900 text-white rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-[1.03] active:scale-95 transition-all shadow-2xl hover:shadow-zinc-900/40"
+                                            className="w-full md:w-auto px-8 md:px-12 py-5 md:py-6 bg-zinc-900 text-white rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-[1.03] active:scale-95 transition-all shadow-2xl hover:shadow-zinc-900/40"
                                         >
-                                            View Package Details
+                                            Package Details
                                         </button>
+                                        
+                                        <Link
+                                            href={`https://wa.me/919712330707?text=${encodeURIComponent(`Hi, I just generated a quote (ID: ${quoteId}) for ${analyticsCalculation?.price}. I'd like to discuss the next steps for my restaurant.`)}`}
+                                            target="_blank"
+                                            className="w-full md:w-auto px-8 md:px-12 py-5 md:py-6 bg-[#25D366] text-white rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-[1.03] active:scale-95 transition-all shadow-2xl hover:shadow-[#25D366]/40 flex items-center justify-center gap-2"
+                                        >
+                                            <MessageCircle className="w-4 h-4" />
+                                            Book Consultation
+                                        </Link>
+
                                         <button 
                                             onClick={() => { setIsQuizComplete(false); setCurrentStep(0); setAnswers({}); }} 
-                                            className="w-full md:w-auto px-8 py-5 md:py-7 text-zinc-400 font-bold hover:text-zinc-900 transition-colors uppercase text-[11px] tracking-widest flex items-center justify-center gap-2 group"
+                                            className="w-full md:w-auto px-6 py-5 md:py-6 text-zinc-400 font-bold hover:text-zinc-900 transition-colors uppercase text-[11px] tracking-widest flex items-center justify-center gap-2 group"
                                         >
                                             <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" />
                                             Recalculate
