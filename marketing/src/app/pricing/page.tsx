@@ -144,6 +144,19 @@ const quizSteps = [
   },
 ];
 
+// Modern Animation Variants
+const floatingAnimation = {
+  initial: { y: 0 },
+  animate: {
+    y: [-10, 10, -10],
+    transition: {
+      duration: 6,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
+
 export default function PricingPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -195,80 +208,86 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFDFB] pt-24 pb-20 selection:bg-[#6F4E37]/10">
+    <div className="min-h-screen bg-[#FFFDFB] pt-20 md:pt-24 pb-16 md:pb-20 selection:bg-[#6F4E37]/10 overflow-x-hidden relative">
+      {/* Layered Modern Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#6F4E37]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#D4A373]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-[20%] right-[5%] w-[30%] h-[30%] bg-[#6F4E37]/3 rounded-full blur-[100px]" />
+      </div>
+
       <Navbar />
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        {/* Luxury Hero */}
-        <div className="flex flex-col items-center text-center mb-24 md:mb-32">
+        {/* Luxury Hero - Modern Elevation */}
+        <div className="flex flex-col items-center text-center mb-16 md:mb-32">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center gap-2 mb-8"
+            className="flex items-center gap-3 mb-6 md:mb-8 px-4 py-2 bg-white/50 backdrop-blur-md rounded-full border border-zinc-200/50 shadow-sm"
           >
-            <div className="h-px w-8 bg-[#6F4E37]/30"></div>
-            <span className="text-[10px] uppercase tracking-[0.4em] font-black text-[#6F4E37]">The Investment Tiers</span>
-            <div className="h-px w-8 bg-[#6F4E37]/30"></div>
+            <Sparkles className="w-3 h-3 text-[#6F4E37]" />
+            <span className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] font-black text-[#6F4E37]">The Investment Tiers</span>
+            <Sparkles className="w-3 h-3 text-[#6F4E37]" />
           </motion.div>
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-8xl font-black text-zinc-900 leading-[1.05] tracking-tight mb-8"
-          >
-            Pricing designed for <br className="hidden md:block" />
-            <span className="text-[#6F4E37]">every restaurant.</span>
-          </motion.h1>
+          
+          <div className="relative">
+            <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="text-4xl sm:text-5xl md:text-8xl font-black text-zinc-900 leading-tight md:leading-[1.05] tracking-tight mb-6 md:mb-8"
+            >
+                Simple, transparent <br className="hidden md:block" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6F4E37] to-[#A68966]">investment plans.</span>
+            </motion.h1>
+          </div>
+
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-zinc-500 max-w-2xl font-medium leading-relaxed italic"
+            className="text-base md:text-xl text-zinc-500 max-w-2xl font-medium leading-relaxed"
           >
-            Plans start from <span className="text-[#6F4E37] font-black underline decoration-[#6F4E37]/20 underline-offset-8">₹10,000 per year</span>. Investment varies based on restaurant size, branding depth, and customization level.
+            Built for scale. Choose a plan that matches your current rhythm, or use our analytics engine for a precise configuration.
           </motion.p>
         </div>
 
-        {/* Discovery Quiz (Luxury Consultation Style) */}
-        <div className="max-w-4xl mx-auto mb-32">
-            <div className="bg-white rounded-[2.5rem] md:rounded-[3rem] border border-zinc-100 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.03)] p-6 md:p-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#6F4E37]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        {/* Discovery Quiz (Luxury Consultation Style) - Modern Glass Elevation */}
+        <div className="max-w-4xl mx-auto mb-20 md:mb-32 relative group">
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6F4E37]/20 to-[#A68966]/20 rounded-[2rem] md:rounded-[3.5rem] blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+            <div className="bg-white/80 backdrop-blur-2xl rounded-[2rem] md:rounded-[3rem] border border-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.05)] p-4 md:p-12 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#6F4E37]/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                 <AnimatePresence mode="wait">
                     {!isQuizComplete ? (
                         <motion.div
                             key={currentStep}
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
+                            initial={{ opacity: 0, scale: 0.98, x: 20 }}
+                            animate={{ opacity: 1, scale: 1, x: 0 }}
+                            exit={{ opacity: 0, scale: 1.02, x: -20 }}
+                            transition={{ type: "spring", stiffness: 100, damping: 20 }}
                             className="relative z-10"
                         >
-                            <div className="space-y-2 mb-12">
-                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#6F4E37] opacity-60">Discovery Step 0{currentStep + 1}</div>
-                                <VerticalCutReveal
-                                  key={`q-${animationKey}`}
-                                  splitBy="characters"
-                                  staggerDuration={0.015}
-                                  staggerFrom="first"
-                                  transition={{ type: "spring", stiffness: 200, damping: 21 }}
-                                  containerClassName="text-3xl font-black text-zinc-900"
-                                >
+                            <div className="space-y-1 mb-10 md:mb-12">
+                                <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#6F4E37] bg-[#6F4E37]/5 w-fit px-3 py-1 rounded-full mb-4">Step 0{currentStep + 1} of 03</div>
+                                <h2 className="text-3xl md:text-4xl font-black text-zinc-900 leading-tight tracking-tight">
                                   {quizSteps[currentStep].title}
-                                </VerticalCutReveal>
-                                <p className="text-zinc-500 font-medium">{quizSteps[currentStep].subtitle}</p>
+                                </h2>
+                                <p className="text-sm md:text-base text-zinc-500 font-medium">{quizSteps[currentStep].subtitle}</p>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6">
                                 {quizSteps[currentStep].options.map((opt) => (
                                     <button
                                         key={opt.id}
                                         onClick={() => handleNext(opt)}
-                                        className="group p-5 md:p-8 rounded-[2rem] border border-zinc-100 hover:border-[#6F4E37]/40 hover:bg-[#6F4E37]/5 text-left transition-all duration-500 hover:shadow-xl hover:shadow-[#6F4E37]/5 flex gap-4 md:gap-6 items-center md:items-start"
+                                        className="group p-5 md:p-8 rounded-2xl md:rounded-[2.5rem] border border-zinc-100 bg-white/50 hover:bg-white hover:border-[#6F4E37]/30 text-left transition-all duration-500 hover:shadow-2xl hover:shadow-[#6F4E37]/10 flex gap-4 md:gap-6 items-center md:items-start"
                                     >
-                                        <div className="w-10 h-10 md:w-14 md:h-14 rounded-2xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100 group-hover:bg-[#6F4E37]/10 group-hover:border-[#6F4E37]/20 transition-colors">
-                                            <opt.icon className="w-5 h-5 md:w-7 md:h-7 text-zinc-400 group-hover:text-[#6F4E37] transition-colors" />
+                                        <div className="w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl bg-zinc-50 flex items-center justify-center shrink-0 border border-zinc-100 group-hover:bg-[#6F4E37]/10 group-hover:border-[#6F4E37]/20 group-hover:scale-110 transition-all duration-500">
+                                            <opt.icon className="w-6 h-6 md:w-8 md:h-8 text-zinc-400 group-hover:text-[#6F4E37] transition-colors" />
                                         </div>
                                         <div>
-                                            <div className="text-lg md:text-xl font-black text-zinc-900 mb-1 md:mb-2 group-hover:text-[#6F4E37] transition-colors">{opt.label}</div>
-                                            <div className="text-xs md:text-sm text-zinc-400 font-medium">{opt.description}</div>
+                                            <div className="text-lg md:text-xl font-black text-zinc-900 mb-0.5 md:mb-2 group-hover:text-[#6F4E37] transition-colors">{opt.label}</div>
+                                            <div className="text-[10px] md:text-sm text-zinc-400 font-medium leading-relaxed">{opt.description}</div>
                                         </div>
                                     </button>
                                 ))}
@@ -276,92 +295,93 @@ export default function PricingPage() {
                         </motion.div>
                     ) : (
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0, y: 40 }}
+                            animate={{ opacity: 1, y: 0 }}
                             className="flex flex-col items-center text-center max-w-4xl mx-auto"
                         >
-                            {/* Formal Document Container */}
-                            <div className="w-full bg-white rounded-[2rem] md:rounded-[3rem] border border-zinc-100 shadow-[0_50px_100px_rgba(0,0,0,0.04)] overflow-hidden relative mb-16">
+                            {/* Formal Document Container - Enhanced Physicality */}
+                            <div className="w-full bg-white rounded-2xl md:rounded-[3rem] border border-zinc-100 shadow-[0_50px_100px_rgba(0,0,0,0.08)] overflow-hidden relative mb-10 md:mb-16 transform-gpu rotate-[-0.5deg]">
                                 {/* Letterhead Branding */}
-                                <div className="bg-zinc-900 px-6 md:px-12 py-6 flex justify-between items-center text-white">
+                                <div className="bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 px-6 md:px-12 py-5 md:py-8 flex justify-between items-center text-white">
                                     <div className="flex flex-col items-start text-left">
-                                        <div className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 mb-1">Proposed Architecture</div>
-                                        <div className="font-outfit font-black text-xl italic text-[#D4A373]">Official Quotation</div>
+                                        <div className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[#6F4E37] mb-1">Architecture Proposal</div>
+                                        <div className="font-outfit font-black text-lg md:text-2xl italic tracking-tight">Official Quotation</div>
                                     </div>
                                     <div className="flex flex-col items-end">
-                                        <div className="text-[9px] font-black uppercase tracking-[0.2em]">{quoteId}</div>
-                                        <div className="text-[9px] font-bold opacity-40">Valid: 14 Days</div>
+                                        <div className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] opacity-60">REF: {quoteId}</div>
+                                        <div className="text-[8px] md:text-[9px] font-bold text-[#D4A373]">Valid for 14 Days</div>
                                     </div>
                                 </div>
                                 
-                                <div className="p-6 md:p-20 flex flex-col items-center">
-                                    <div className="w-16 h-16 md:w-20 md:h-20 bg-zinc-50 rounded-[1.5rem] md:rounded-[2rem] flex items-center justify-center mb-6 md:mb-8 border border-zinc-100">
-                                        <QrCode className="w-8 h-8 md:w-10 md:h-10 text-[#6F4E37] opacity-20" />
+                                <div className="p-8 md:p-24 flex flex-col items-center relative overflow-hidden">
+                                    {/* Watermark Decoration */}
+                                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-15deg] pointer-events-none opacity-[0.03]">
+                                        <QrCode className="w-[400px] h-[400px]" />
                                     </div>
 
-                                    <h2 className="text-2xl md:text-5xl font-black text-zinc-900 mb-4 tracking-tighter">Your Tailored Ecosystem.</h2>
-                                    <p className="text-zinc-500 text-xs md:text-base font-medium mb-8 md:mb-12 max-w-sm mx-auto">Based on your operational profile, our analytics engine has generated the following specialized quotation.</p>
+                                    <motion.div 
+                                        {...floatingAnimation}
+                                        className="w-16 h-16 md:w-24 md:h-24 bg-zinc-50 rounded-2xl md:rounded-3xl flex items-center justify-center mb-8 border border-zinc-100 shadow-sm relative z-10"
+                                    >
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#6F4E37]/10 to-transparent rounded-inherit" />
+                                        <QrCode className="w-8 h-8 md:w-12 md:h-12 text-[#6F4E37] relative z-10" />
+                                    </motion.div>
 
-                                    <div className="w-full max-w-2xl bg-[#6F4E37]/5 px-4 md:px-12 py-8 md:py-12 rounded-[2rem] md:rounded-[2.5rem] border border-[#6F4E37]/10 mb-8 md:mb-12 relative overflow-hidden">
-                                        {/* Verification Stamp */}
-                                        <div className="absolute top-6 right-8 opacity-20 rotate-12 hidden md:block">
-                                            <div className="border-4 border-[#6F4E37] rounded-full p-2 flex items-center justify-center">
-                                                <div className="border-2 border-[#6F4E37] border-dashed rounded-full px-4 py-2 text-[10px] font-black text-[#6F4E37] uppercase">Verified Analytics</div>
-                                            </div>
-                                        </div>
+                                    <h2 className="text-3xl md:text-6xl font-black text-zinc-900 mb-2 md:mb-4 tracking-tight relative z-10 leading-none">Your Tailored Quote.</h2>
+                                    <p className="text-zinc-500 text-sm md:text-lg font-medium mb-10 md:mb-16 max-w-md mx-auto relative z-10">Our engine has computed a specialized plan for your operational profile.</p>
 
+                                    <div className="w-full max-w-2xl bg-gradient-to-b from-[#6F4E37]/5 to-white/30 px-6 md:px-12 py-10 md:py-14 rounded-[2.5rem] border border-[#6F4E37]/10 mb-10 md:mb-16 relative overflow-hidden shadow-inner backdrop-blur-sm">
                                         <div className="flex flex-col items-center">
-                                            <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#6F4E37] mb-4">{analyticsCalculation?.plan.name} Package Configuration</div>
-                                            <VerticalCutReveal
-                                              key={`price-${analyticsCalculation?.plan.id}`}
-                                              splitBy="characters"
-                                              staggerDuration={0.03}
-                                              containerClassName="text-4xl md:text-7xl font-black text-zinc-900 tracking-tighter mb-8"
-                                            >
+                                            <div className="text-[10px] md:text-[12px] font-black uppercase tracking-[0.4em] text-[#6F4E37] mb-4">{analyticsCalculation?.plan.name} Configuration</div>
+                                            <div className="text-5xl md:text-8xl font-black text-zinc-900 tracking-tighter mb-8 transition-all hover:scale-105 duration-500">
                                               {analyticsCalculation?.price || ""}
-                                            </VerticalCutReveal>
+                                            </div>
                                             
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full pt-8 border-t border-[#6F4E37]/10">
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full pt-10 border-t border-[#6F4E37]/10">
                                                 {analyticsCalculation?.breakdown.map((item, i) => (
-                                                    <div key={i} className="text-center group">
-                                                        <div className="text-[9px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-2 group-hover:text-[#6F4E37] transition-colors">{item.label}</div>
-                                                        <div className="text-lg font-black text-zinc-900">{item.value}</div>
+                                                    <div key={i} className="text-center group flex md:flex-col items-center justify-between md:justify-center">
+                                                        <div className="text-[9px] md:text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none md:mb-3 group-hover:text-[#6F4E37] transition-colors">{item.label}</div>
+                                                        <div className="text-base md:text-xl font-black text-zinc-900">{item.value}</div>
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex flex-wrap items-center justify-center gap-6">
+                                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 w-full relative z-10">
                                         <button 
                                             onClick={() => {
                                                 const element = document.getElementById(analyticsCalculation?.plan.id || "");
                                                 element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                             }}
-                                            className="px-10 md:px-12 py-5 md:py-6 bg-zinc-900 text-white rounded-2xl font-black uppercase text-[10px] md:text-xs tracking-widest hover:scale-105 active:scale-95 transition-all shadow-2xl relative overflow-hidden group"
+                                            className="w-full md:w-auto px-12 md:px-16 py-5 md:py-7 bg-zinc-900 text-white rounded-2xl font-black uppercase text-[11px] tracking-widest hover:scale-[1.03] active:scale-95 transition-all shadow-2xl hover:shadow-zinc-900/40"
                                         >
-                                            <span className="relative z-10">Authorized Selection</span>
-                                            <div className="absolute inset-0 bg-[#6F4E37] translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+                                            View Package Details
                                         </button>
                                         <button 
                                             onClick={() => { setIsQuizComplete(false); setCurrentStep(0); setAnswers({}); }} 
-                                            className="px-6 md:px-8 py-5 md:py-6 text-zinc-400 font-bold hover:text-zinc-900 transition-colors uppercase text-[10px] tracking-widest border-b-2 border-transparent hover:border-zinc-200"
+                                            className="w-full md:w-auto px-8 py-5 md:py-7 text-zinc-400 font-bold hover:text-zinc-900 transition-colors uppercase text-[11px] tracking-widest flex items-center justify-center gap-2 group"
                                         >
-                                            Re-calculate Profile
+                                            <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" />
+                                            Recalculate
                                         </button>
                                     </div>
                                 </div>
 
-                                {/* Formal footer */}
-                                <div className="bg-zinc-50 border-t border-zinc-100 px-6 md:px-12 py-8 flex flex-wrap justify-center items-center gap-4 md:gap-6 opacity-40">
-                                    <div className="flex items-center gap-2">
-                                        <ShieldCheck className="w-4 h-4" />
-                                        <span className="text-[9px] font-black uppercase tracking-widest">Enterprise Grade Architecture</span>
+                                {/* Formal footer - High Contrast */}
+                                <div className="bg-zinc-50/80 backdrop-blur-md border-t border-zinc-200/50 px-6 md:px-12 py-8 md:py-10 flex flex-wrap justify-center items-center gap-6 md:gap-10">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center shadow-inner">
+                                            <ShieldCheck className="w-3.5 h-3.5 text-green-600" />
+                                        </div>
+                                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-600">Enterprise Grade Architecture</span>
                                     </div>
-                                    <div className="h-px w-8 bg-zinc-200 hidden md:block" />
-                                    <div className="flex items-center gap-2">
-                                        <Check className="w-4 h-4" />
-                                        <span className="text-[9px] font-black uppercase tracking-widest">Hand-Crafted Configuration</span>
+                                    <div className="hidden md:block h-6 w-[1px] bg-zinc-200" />
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-6 h-6 rounded-full bg-zinc-900 flex items-center justify-center shadow-lg">
+                                            <Check className="w-3.5 h-3.5 text-[#D4A373]" />
+                                        </div>
+                                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-zinc-900">Hand-Crafted Configuration</span>
                                     </div>
                                 </div>
                             </div>
@@ -371,8 +391,8 @@ export default function PricingPage() {
             </div>
         </div>
 
-        {/* Real-World Premium Grid - Optimized for 2-Column Mobile */}
-        <div className="grid grid-cols-2 gap-4 md:gap-12 mb-32 max-w-6xl mx-auto px-2 md:px-0">
+        {/* Real-World Premium Grid - Modern Cards Elevation */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-20 md:mb-32 max-w-7xl mx-auto items-stretch">
           {plans.map((plan, index) => {
             const isMatch = analyticsCalculation?.plan.id === plan.id;
             const displayPrice = isMatch ? analyticsCalculation.price : plan.price;
@@ -385,128 +405,127 @@ export default function PricingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.8 }}
-                className={`flex flex-col bg-white rounded-[2rem] md:rounded-[4rem] border border-zinc-100 overflow-hidden group hover:shadow-[0_40px_100px_rgba(0,0,0,0.04)] transition-all duration-700 h-full relative ${plan.recommended || isMatch ? 'ring-2 ring-[#6F4E37]/5 md:ring-1' : ''}`}
+                className={`flex flex-col bg-white rounded-[2.5rem] md:rounded-[3.5rem] border border-zinc-100 overflow-hidden group hover:shadow-[0_80px_100px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 h-full relative ${plan.recommended || isMatch ? 'ring-2 ring-[#6F4E37]/20 shadow-[0_40px_80px_-15px_rgba(111,78,55,0.15)]' : 'hover:border-[#6F4E37]/30'}`}
               >
-                {/* Visual Badges */}
-                <div className="absolute top-4 md:top-10 right-4 md:right-10 flex flex-col items-end gap-2">
+                {/* Visual Badges - Modern High Contrast */}
+                <div className="absolute top-6 right-6 flex flex-col items-end gap-2 z-10">
                     {plan.recommended && !isMatch && (
-                        <div className="px-2.5 md:px-6 py-1 md:py-2.5 bg-[#6F4E37] text-white text-[7px] md:text-xs font-black rounded-full uppercase tracking-widest shadow-xl">Best Value</div>
+                        <div className="px-4 py-1.5 bg-[#6F4E37] text-white text-[9px] font-black rounded-full uppercase tracking-widest shadow-lg">Recommended</div>
                     )}
                     {isMatch && (
                         <motion.div 
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
-                            className="px-2.5 md:px-6 py-1 md:py-2.5 bg-zinc-900 text-white text-[7px] md:text-xs font-black rounded-full uppercase tracking-widest shadow-xl flex items-center gap-2"
+                            className="px-4 py-1.5 bg-zinc-900 text-white text-[9px] font-black rounded-full uppercase tracking-widest flex items-center gap-2 shadow-2xl"
                         >
-                            <Check className="w-2 h-2 md:w-3 md:h-3" /> Profile Match
+                            <Sparkles className="w-3 h-3 text-[#D4A373]" /> Best Match
                         </motion.div>
                     )}
                 </div>
 
-              <div className="p-5 md:p-12 pb-0 md:pb-0">
-                  <div className="flex items-center gap-2 mb-4 md:mb-6">
-                      <div className={`w-1.5 h-1.5 rounded-full ${plan.accent}`}></div>
-                      <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-[#6F4E37]">{plan.name}</span>
+              <div className="p-8 md:p-12 pb-6 relative relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                      <div className={`w-2 h-2 rounded-full ${plan.accent} shadow-sm group-hover:scale-150 transition-transform duration-500`}></div>
+                      <span className="text-[11px] font-black uppercase tracking-[0.4em] text-[#6F4E37]">{plan.name}</span>
                   </div>
-                  <h3 className="text-sm md:text-3xl font-black text-zinc-900 tracking-tight leading-tight mb-4 md:mb-4 h-8 md:h-auto overflow-hidden">{plan.fullName}</h3>
+                  <h3 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight leading-none mb-2">{plan.fullName}</h3>
+                  <div className="text-[10px] font-bold text-zinc-400/80 uppercase tracking-widest">{plan.purpose}</div>
               </div>
 
-              <div className="px-5 md:px-12 py-6 md:py-10 bg-[#FAFAFA]/50 border-y border-zinc-100/50 text-center md:text-left">
-                  <div className="text-[8px] md:text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">
-                    {isMatch ? "Your Precise Quote" : "Fixed Annual Quote"}
-                  </div>
-                  <div className="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2 justify-center md:justify-start">
-                      <span className="text-xl md:text-5xl font-black text-zinc-900 tracking-tighter transition-all duration-1000">
+              <div className="px-8 md:px-12 py-8 bg-zinc-50/50 border-y border-zinc-100/50 group-hover:bg-white transition-colors duration-700">
+                  <div className="text-[9px] font-black text-[#6F4E37]/40 uppercase tracking-[0.3em] mb-2 px-1">Annual Investment</div>
+                  <div className="flex items-baseline gap-2">
+                      <span className={`text-3xl md:text-4xl font-black ${isMatch ? 'text-[#6F4E37]' : 'text-zinc-900'} tracking-tighter`}>
                         {displayPrice}
                       </span>
-                      <span className="text-[7px] md:text-[10px] font-bold text-zinc-300 uppercase tracking-[0.2em]">/ ANNUM</span>
+                      <span className="text-[9px] font-bold text-zinc-300 uppercase tracking-widest">/ YEAR</span>
                   </div>
               </div>
 
-              <div className="p-5 md:p-12 space-y-8 md:space-y-12 flex-grow">
+              <div className="p-8 md:p-12 space-y-10 flex-grow relative z-10">
                   <div className="space-y-4">
-                      <div className="text-[8px] md:text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em] flex items-center gap-2">
-                          <div className="h-px w-3 bg-zinc-200"></div> BEST FOR
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em] mb-4">OPTIMAL FOR</div>
+                      <div className="flex flex-wrap gap-2">
                           {plan.bestFor.map(item => (
-                              <span key={item} className="text-[8px] md:text-xs font-bold text-zinc-500 bg-white border border-zinc-100 px-2.5 py-1 rounded-lg shadow-sm">{item}</span>
+                              <span key={item} className="text-[9px] md:text-[10px] font-black text-zinc-600 bg-white border border-zinc-100 px-3 py-1.5 rounded-xl shadow-sm hover:border-[#6F4E37]/30 transition-colors uppercase tracking-widest cursor-default">{item}</span>
                           ))}
                       </div>
                   </div>
 
-                  <div className="space-y-4 md:space-y-6">
-                      <div className="text-[8px] md:text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em] flex items-center gap-2">
-                        <div className="h-px w-3 bg-zinc-200"></div> DELIVERABLES
-                      </div>
-                      <ul className="space-y-3 md:space-y-4">
-                          {plan.includes.slice(0, 4).map(item => (
-                              <li key={item} className="flex items-center gap-3 md:gap-4 group/item">
-                                  <div className="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-[#6F4E37]/30 transition-all duration-300 group-hover/item:bg-[#6F4E37] group-hover/item:scale-150"></div>
-                                  <span className="text-[10px] md:text-base text-zinc-600 font-semibold tracking-tight line-clamp-1 md:line-clamp-none">{item}</span>
+                  <div className="space-y-6">
+                      <div className="text-[9px] font-black text-zinc-300 uppercase tracking-[0.4em] mb-4">SYSTEM DELIVERABLES</div>
+                      <ul className="space-y-4">
+                          {plan.includes.map(item => (
+                              <li key={item} className="flex items-start gap-4 group/item">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-[#6F4E37]/20 mt-1.5 group-hover/item:bg-[#6F4E37] group-hover/item:scale-125 transition-all duration-300"></div>
+                                  <span className="text-sm md:text-base text-zinc-600 font-semibold tracking-tight leading-snug group-hover/item:text-zinc-900 transition-colors">{item}</span>
                               </li>
                           ))}
-                          {plan.includes.length > 4 && (
-                              <li className="text-[8px] md:text-sm text-zinc-400 font-bold italic pl-4">+ and more in consultation</li>
-                          )}
                       </ul>
                   </div>
 
-                  <div className="pt-6 md:pt-10 mt-auto">
+                  <div className="pt-10 mt-auto">
                       <Link 
                         href="/trial" 
-                        className={`block w-full text-center py-4 md:py-7 rounded-xl md:rounded-[2rem] font-black uppercase text-[9px] md:text-xs tracking-[0.2em] transition-all active:scale-[0.98] ${plan.recommended || isMatch ? 'bg-[#6F4E37] text-white shadow-2xl shadow-[#6F4E37]/40 ring-4 ring-[#6F4E37]/10' : 'bg-zinc-900 text-white hover:bg-zinc-800'}`}
+                        className={`block w-full text-center py-5 md:py-6 rounded-2xl font-black uppercase text-[11px] tracking-[0.3em] transition-all hover:scale-[1.02] active:scale-95 shadow-xl ${plan.recommended || isMatch ? 'bg-[#6F4E37] text-white shadow-[#6F4E37]/20 hover:shadow-[#6F4E37]/40' : 'bg-zinc-900 text-white hover:bg-zinc-800 shadow-zinc-900/10 hover:shadow-zinc-900/30'}`}
                         >
-                        {isMatch ? "Lock This Price" : "Select"}
+                        {isMatch ? "Authorize This Price" : "Initiate Setup"}
                       </Link>
                   </div>
               </div>
+
+              {/* Decorative Subtle Gradient Background on Group Hover */}
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#6F4E37]/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             </motion.div>
             );
           })}
         </div>
 
-        {/* Why Range-Based? (Luxury Section) */}
-        <div className="grid md:grid-cols-2 gap-20 items-center mb-32 p-12 md:p-24 bg-zinc-900 rounded-[4rem] text-white relative overflow-hidden">
+        {/* Why Range-Based? (Luxury Section) - Mobile Optimized */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20 md:mb-32 p-8 md:p-24 bg-zinc-900 rounded-[2rem] md:rounded-[4rem] text-white relative overflow-hidden">
              <div className="absolute bottom-0 right-0 w-96 h-96 bg-[#6F4E37] opacity-10 rounded-full blur-[100px] translate-y-1/2 translate-x-1/2"></div>
-             <div>
+             <div className="relative z-10">
                 <div className="text-[#6F4E37] font-black uppercase tracking-[0.4em] text-[10px] mb-6">THE PHILOSOPHY</div>
                 <h2 className="text-3xl md:text-6xl font-black tracking-tight leading-tight mb-8">Fairness through <span className="italic serif opacity-40">Precision.</span></h2>
-                <div className="space-y-8">
+                <div className="space-y-8 md:space-y-12">
                     {faqs.map((faq, i) => (
                         <div key={i} className="space-y-2 max-w-md">
-                            <div className="text-zinc-400 font-black uppercase text-[10px] tracking-widest">Question {i+1}</div>
-                            <div className="text-lg font-bold">"{faq.question}"</div>
-                            <p className="text-zinc-500 font-medium text-sm leading-relaxed">{faq.answer}</p>
+                            <div className="text-zinc-500 font-black uppercase text-[10px] tracking-widest flex items-center gap-2">
+                              <span className="text-[#6F4E37]">0{i+1}</span> Question
+                            </div>
+                            <div className="text-lg md:text-xl font-bold">"{faq.question}"</div>
+                            <p className="text-zinc-400 font-medium text-sm leading-relaxed">{faq.answer}</p>
                         </div>
                     ))}
                 </div>
              </div>
-             <div className="hidden md:flex flex-col gap-4">
-                 <div className="p-8 border border-white/10 rounded-[3rem] bg-white/5 backdrop-blur-xl">
-                    <Utensils className="w-10 h-10 text-[#6F4E37] mb-6" />
-                    <div className="text-2xl font-black mb-2">Hospitality First</div>
-                    <p className="text-zinc-400 font-medium">We design for the bustle of the restaurant floor, not just the pixels of the screen.</p>
+             <div className="flex flex-col gap-6 relative z-10">
+                 <div className="p-8 border border-white/10 rounded-2xl md:rounded-[3rem] bg-white/5 backdrop-blur-xl">
+                    <Utensils className="w-8 h-8 text-[#6F4E37] mb-6" />
+                    <div className="text-xl md:text-2xl font-black mb-2">Hospitality First</div>
+                    <p className="text-zinc-400 text-sm font-medium">Built for the restaurant floor, ensuring speed and clarity when things get busy.</p>
                  </div>
-                 <div className="p-8 border border-white/10 rounded-[3rem] bg-white/5 backdrop-blur-xl translate-x-12">
-                    <Globe className="w-10 h-10 text-[#6F4E37] mb-6" />
-                    <div className="text-2xl font-black mb-2">Global Scale</div>
-                    <p className="text-zinc-400 font-medium">From single bistros to multi-continental chains, our system adapts to your load.</p>
+                 <div className="p-8 border border-white/10 rounded-2xl md:rounded-[3rem] bg-white/5 backdrop-blur-xl lg:translate-x-12">
+                    <Globe className="w-8 h-8 text-[#6F4E37] mb-6" />
+                    <div className="text-xl md:text-2xl font-black mb-2">Cloud Infrastructure</div>
+                    <p className="text-zinc-400 text-sm font-medium">Lightning-fast performance powered by enterprise-grade server architecture.</p>
                  </div>
              </div>
         </div>
 
-        {/* Final Luxury Call to Action */}
-        <div className="text-center py-20 relative">
-            <h2 className="text-3xl md:text-5xl font-black text-zinc-900 mb-12 tracking-tighter">Ready to Redefine Your Service?</h2>
+        {/* Final Luxury Call to Action - Mobile Optimized */}
+        <div className="text-center py-12 md:py-20 relative px-4">
+            <h2 className="text-3xl md:text-5xl font-black text-zinc-900 mb-8 md:mb-12 tracking-tight">Ready to transform?</h2>
             <Link 
                 href="/trial" 
-                className="inline-flex items-center gap-4 px-12 py-6 bg-[#6F4E37] text-white rounded-[2rem] font-black uppercase text-[10px] md:text-sm tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-[0_30px_60px_rgba(111,78,55,0.3)] group"
+                className="inline-flex items-center gap-4 px-10 md:px-12 py-5 md:py-6 bg-[#6F4E37] text-white rounded-xl md:rounded-[2rem] font-black uppercase text-[10px] md:text-sm tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#6F4E37]/30 group w-full md:w-auto justify-center"
             >
-                Request Expert Consultation
+                Launch Your System
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <div className="mt-10 text-[10px] font-black text-zinc-300 uppercase tracking-widest">Trusted by leading hospitality brands worldwide</div>
+            <div className="mt-8 text-[9px] font-black text-zinc-300 uppercase tracking-widest leading-relaxed">
+              Standard 24-hour setup window for basic plans <br className="md:hidden" /> • Verified Hospitality Tech
+            </div>
         </div>
       </div>
     </div>
