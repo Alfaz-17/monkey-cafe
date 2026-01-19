@@ -56,6 +56,7 @@ export default function DemoPage() {
 
     return (
         <div className="min-h-screen bg-[#FAFAFA] pb-20">
+            <Navbar />
             <div className="container mx-auto px-6">
                 
                 {/* Demo Progress Bar */}

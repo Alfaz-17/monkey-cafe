@@ -7,31 +7,25 @@ import Link from "next/link";
 import { useState } from "react";
 
 
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 w-full z-[70] bg-[#FAFAFA]/80 backdrop-blur-md border-b border-zinc-200/50">
       <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5">
-          {/* Logo Icon */}
-       
-          {/* Logo Text */}
-<div className="flex items-center gap-1">
-  <span className="text-2xl font-extrabold text-primary">AI</span>
-  <span className="text-xl font-bold tracking-tight text-[#1A1A1A]">
-    Menu System
-  </span>
-</div>
-
-
-
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="flex items-center gap-1.5">
+            <span className="text-2xl font-black text-[#6F4E37] tracking-tighter">AI</span>
+            <span className="text-xl font-bold tracking-tight text-[#1A1A1A] group-hover:text-[#6F4E37] transition-colors">
+              Menu System
+            </span>
+          </div>
         </Link>
         
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600">
           <Link href="/" className="hover:text-zinc-900 transition-colors">Home</Link>
           <Link href="/features" className="hover:text-zinc-900 transition-colors">Features</Link>
+          <Link href="/pricing" className="hover:text-zinc-900 transition-colors">Pricing</Link>
           <Link href="/trial" className="hover:text-zinc-900 transition-colors">Start Trial</Link>
           <Link href="/demo" className="hover:text-zinc-900 transition-colors bg-zinc-100 px-3 py-1 rounded-full">Interactive Demo</Link>
         </div>
@@ -64,6 +58,7 @@ export default function Navbar() {
         >
             <Link href="/" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Home</Link>
             <Link href="/features" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Features</Link>
+            <Link href="/pricing" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Pricing</Link>
             <Link href="/trial" onClick={() => setIsMenuOpen(false)} className="block text-zinc-600 font-medium">Start Trial</Link>
             <Link href="/demo" onClick={() => setIsMenuOpen(false)} className="block text-zinc-900 font-bold">Interactive Demo</Link>
             <Link 

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { 
   ArrowRight, 
+  Check,
   CheckCircle2, 
   Zap, 
   Smartphone, 
@@ -13,7 +14,13 @@ import {
   CreditCard,
   Sparkles,
   ShoppingCart,
-  Plus
+  Plus,
+  Coffee,
+  Utensils,
+  Clock,
+  Shield,
+  Star,
+  Users
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -71,9 +78,9 @@ export default function LandingPage() {
               transition={{ delay: 0.1 }}
               className="font-outfit font-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] tracking-tight text-zinc-900"
             >
-              AI Menu System
+              Turn your menu into a 
               <br />
-              <span className="text-[#6F4E37]">for Restaurants</span>
+              <span className="text-[#6F4E37]">hospitality experience.</span>
             </motion.h1>
             
             {/* Subheadline */}
@@ -83,7 +90,9 @@ export default function LandingPage() {
               transition={{ delay: 0.2 }}
               className="text-xl md:text-2xl text-zinc-600 max-w-3xl mx-auto leading-relaxed font-medium"
             >
-              Handle daily operations effortlessly and put your energy into growing your business.
+              Menus designed to build comfort, trust, and brand value — not just display food items.
+              <br className="hidden md:block" />
+              Built for restaurant owners who care about how customers feel.
             </motion.p>
             
             {/* CTA Buttons */}
@@ -97,14 +106,14 @@ export default function LandingPage() {
                 href="/demo"
                 className="group w-full sm:w-auto bg-[#6F4E37] text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#5A3E2B] transition-all hover:shadow-2xl hover:shadow-[#6F4E37]/20 flex items-center justify-center gap-2"
               >
-                See How It Works 
+                See how it looks 
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link 
                 href="/trial"
                 className="w-full sm:w-auto bg-white border-2 border-zinc-200 text-zinc-900 px-8 py-4 rounded-xl font-bold text-lg hover:border-[#6F4E37] hover:text-[#6F4E37] transition-all hover:shadow-lg flex items-center justify-center gap-2"
               >
-                Start Free Trial
+                For restaurant owners
               </Link>
             </motion.div>
 
@@ -116,25 +125,77 @@ export default function LandingPage() {
               className="flex flex-wrap items-center justify-center gap-8 pt-8 text-sm text-zinc-500"
             >
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-medium">No credit card required</span>
+                <span className="w-2 h-2 rounded-full bg-[#6F4E37]" />
+                <span className="font-semibold text-zinc-900">Live Demo: SWAT x Café</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-medium">7-day free trial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span className="font-medium">Setup in 5 minutes</span>
+                <span className="w-2 h-2 rounded-full bg-zinc-200" />
+                <span className="font-medium">See it in action</span>
               </div>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* SWAT x Café Showcase Section */}
+      <section className="pb-24 px-6 relative overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+            <div className="text-center mb-16">
+                <p className="text-[#6F4E37] font-black uppercase tracking-[0.3em] text-xs mb-4">A real menu we built</p>
+                <h2 className="text-3xl md:text-5xl font-outfit font-black text-zinc-900 mb-6">Calm browsing, clear descriptions.</h2>
+                <div className="w-20 h-1 bg-[#6F4E37]/20 mx-auto rounded-full" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                    { name: "Café Latte", price: "₹139", desc: "Smooth espresso with velvety steamed milk", icon: "☕" },
+                    { name: "Hot Chocolate", price: "₹149", desc: "Rich and creamy Belgian hot chocolate", badge: "Popular", icon: "🍫" },
+                    { name: "Hazelnut Cold Coffee", price: "₹169", desc: "Premium cold coffee with rich hazelnut syrup", badge: "New", icon: "🧊" },
+                    { name: "Paneer Peri Peri Sandwich", price: "₹159", desc: "Grilled sandwich with spicy peri peri paneer", badge: "Popular", icon: "🥪" },
+                    { name: "Margherita Pizza", price: "₹199", desc: "Classic pizza with mozzarella and fresh basil", icon: "🍕" },
+                    { name: "Chocolate Brownie", price: "₹139", desc: "Warm fudgy brownie with vanilla ice cream", badge: "Popular", icon: "🍰" },
+                ].map((item, i) => (
+                    <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        className="group bg-white p-8 rounded-[2.5rem] border border-zinc-100 hover:shadow-[0_40px_100px_rgba(0,0,0,0.04)] transition-all duration-700 relative overflow-hidden"
+                    >
+                        {item.badge && (
+                            <div className="absolute top-6 right-6">
+                                <span className="bg-[#6F4E37] text-white text-[8px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest shadow-xl">
+                                    {item.badge}
+                                </span>
+                            </div>
+                        )}
+                        <div className="w-16 h-16 bg-[#FAF7F2] rounded-2xl flex items-center justify-center text-3xl mb-8 group-hover:scale-110 transition-transform duration-700">
+                            {item.icon}
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-baseline">
+                                <h3 className="text-xl font-black text-zinc-900">{item.name}</h3>
+                                <span className="text-[#6F4E37] font-black">{item.price}</span>
+                            </div>
+                            <p className="text-zinc-500 text-sm leading-relaxed font-medium">
+                                {item.desc}
+                            </p>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            <div className="mt-16 text-center">
+                <Link 
+                    href="/demo"
+                    className="inline-flex items-center gap-3 bg-zinc-900 text-white px-10 py-5 rounded-2xl font-black text-lg hover:scale-105 transition-all shadow-2xl shadow-black/10"
+                >
+                    Explore Full Demo Menu
+                    <ArrowRight className="w-5 h-5" />
+                </Link>
+                <p className="mt-6 text-zinc-400 text-sm font-bold uppercase tracking-widest">Fully branded, customized menu experience</p>
+            </div>
         </div>
       </section>
 
@@ -330,62 +391,64 @@ export default function LandingPage() {
       </section>
 
 
-      {/* How it Works Section */}
+      {/* Experience Pillars Section */}
       <section className="py-24 md:py-32 bg-[#FAF7F2] border-y border-[#F0EDE8]">
         <div className="container mx-auto max-w-6xl px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
-            <div className="max-w-xl space-y-4">
-               <span className="inline-block px-4 py-1.5 bg-[#6F4E37]/10 border border-[#6F4E37]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#6F4E37]">Simple Process</span>
-               <h2 className="font-outfit font-black text-4xl md:text-6xl text-[#3E2723] leading-none">How It Works</h2>
-               <p className="text-[#A68966] text-sm md:text-lg font-medium">From scan to serve in 3 simple steps. No apps, no hassle, just smooth ordering.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-24 text-center md:text-left">
+            <div className="max-w-xl space-y-4 mx-auto md:mx-0">
+               <span className="inline-block px-4 py-1.5 bg-[#6F4E37]/10 border border-[#6F4E37]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#6F4E37]">The Guest Experience</span>
+               <h2 className="font-outfit font-black text-4xl md:text-6xl text-[#3E2723] leading-tight">This is what your customers experience.</h2>
+               <p className="text-[#A68966] text-sm md:text-lg font-medium leading-relaxed">
+                  A calm, clean, beautifully branded menu that helps guests understand food easily and order confidently.
+               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 border-t-2 border-dashed border-[#E7DCCA] -z-0" />
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
             {[
               { 
-                step: "01", 
-                title: "Scan & Browse", 
-                desc: "Guests scan the QR code on their table. Instant access to your menu—no app downloads, no sign-ups.", 
-                icon: <QrCode className="w-8 h-8"/>,
-                color: "bg-white",
-                textColor: "text-[#6F4E37]"
+                num: "01", 
+                title: "Beautiful First Impression", 
+                desc: "Your restaurant's identity shines through — colors, fonts, and personality that match your brand.", 
+                icon: <Sparkles className="w-8 h-8"/>,
               },
               { 
-                step: "02", 
-                title: "Order & Pay", 
-                desc: "Easy customization and quick checkout. Orders placed in seconds with zero errors.", 
-                icon: <Smartphone className="w-8 h-8"/>,
-                color: "bg-[#6F4E37]",
-                textColor: "text-white"
+                num: "02", 
+                title: "Clear Dish Understanding", 
+                desc: "Ingredients, taste profiles, and spice levels explained in ways that help guests decide confidently.", 
+                icon: <Utensils className="w-8 h-8"/>,
               },
               { 
-                step: "03", 
-                title: "Kitchen Gets It", 
-                desc: "Orders appear instantly on your kitchen display. Your team starts preparing right away—no manual entry needed.", 
-                icon: <Zap className="w-8 h-8"/>,
-                color: "bg-white",
-                textColor: "text-[#6F4E37]"
+                num: "03", 
+                title: "Comfortable Browsing", 
+                desc: "No confusion, no rushing. Guests take their time and enjoy the experience.", 
+                icon: <Clock className="w-8 h-8"/>,
+              },
+              { 
+                num: "04", 
+                title: "Family-Friendly Design", 
+                desc: "Readable by everyone — from kids to elders. Built for how Indian families actually dine.", 
+                icon: <Users className="w-8 h-8"/>,
               }
             ].map((item, i) => (
               <motion.div 
                 key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
-                className="relative z-10 flex flex-col items-center md:items-start text-center md:text-left group"
+                transition={{ delay: i * 0.1 }}
+                className="flex gap-8 group"
               >
-                <div className={`w-20 h-20 ${item.color} ${item.textColor} rounded-[2rem] shadow-xl flex items-center justify-center mb-8 border border-[#F0EDE8] group-hover:scale-110 transition-transform duration-500`}>
-                  {item.icon}
+                <div className="flex-shrink-0">
+                    <div className="text-5xl font-outfit font-black text-[#6F4E37]/10 group-hover:text-[#6F4E37]/20 transition-colors duration-500 mb-2">
+                        {item.num}
+                    </div>
                 </div>
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 justify-center md:justify-start">
-                    <span className="text-[10px] font-black text-[#6F4E37] bg-white border border-[#F0EDE8] px-2 py-0.5 rounded-full">{item.step}</span>
-                    <h3 className="font-outfit font-black text-xl md:text-2xl text-[#3E2723]">{item.title}</h3>
+                  <div className="w-12 h-12 bg-white rounded-2xl shadow-sm border border-[#F0EDE8] flex items-center justify-center text-[#6F4E37]">
+                    {item.icon}
                   </div>
+                  <h3 className="font-outfit font-black text-xl md:text-2xl text-[#3E2723]">{item.title}</h3>
                   <p className="text-[#A68966]/80 text-sm md:text-base leading-relaxed font-medium">{item.desc}</p>
                 </div>
               </motion.div>
@@ -568,85 +631,224 @@ export default function LandingPage() {
       </section> */}
 
 
-      {/* Brief Feature Highlights */}
-      <section id="features" className="py-16 md:py-32 px-4 md:px-6 bg-white">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="inline-block px-4 py-1.5 bg-zinc-100 border border-zinc-200 rounded-full text-xs font-black uppercase tracking-widest text-zinc-600 mb-6">What You Get</span>
-            <h2 className="font-outfit font-black text-3xl md:text-6xl mb-4 md:mb-6">Everything You Need<br className="md:hidden" /> to Scale</h2>
-            <p className="text-zinc-500 text-sm md:text-lg max-w-2xl mx-auto">A complete system that handles everything from QR ordering to kitchen sync to AI-powered growth.</p>
-          </div>
+      {/* Philosophy Section - Problem & Solution */}
+      <section className="py-24 md:py-32 px-6 bg-zinc-900 text-white relative overflow-hidden">
+        <div className="container mx-auto max-w-6xl relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+            {/* Problem */}
+            <div className="space-y-12">
+               <div className="space-y-4">
+                  <span className="text-[#D4A373] text-[10px] font-black uppercase tracking-[0.3em]">The industry problem</span>
+                  <h2 className="text-3xl md:text-5xl font-outfit font-black leading-tight">Why most menus don't help restaurants grow.</h2>
+               </div>
+               <div className="space-y-6">
+                  {[
+                    "Customers feel confused choosing dishes",
+                    "Menus look the same everywhere",
+                    "Staff repeats the same explanations",
+                    "Brand value is not visible",
+                    "Wrong orders and dissatisfaction happen"
+                  ].map((text, i) => (
+                    <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1 }}
+                        className="flex items-center gap-4 text-zinc-400 group"
+                    >
+                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 group-hover:bg-[#D4A373] transition-colors" />
+                        <span className="text-lg font-medium group-hover:text-white transition-colors">{text}</span>
+                    </motion.div>
+                  ))}
+               </div>
+               <p className="text-[#D4A373] font-black text-xl italic pt-8 border-t border-white/5">
+                 "Your food may be great — but your menu doesn't show it."
+               </p>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#6F4E37] rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
-                <QrCode className="w-6 h-6 md:w-7 md:h-7 text-white" />
-              </div>
-              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Digital Gateway</h3>
-              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">QR menu, table ordering, zero app downloads. Instant ordering for guests.</p>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-zinc-900 rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
-                <ShoppingCart className="w-6 h-6 md:w-7 md:h-7 text-white" />
-              </div>
-              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Conversion Engine</h3>
-              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Customization, cart, checkout. Maximize order value with zero friction.</p>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-6 md:p-8 bg-zinc-50 rounded-2xl md:rounded-3xl border border-zinc-100 hover:shadow-xl transition-all">
-              <div className="w-12 h-12 md:w-14 md:h-14 bg-[#6F4E37] rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6">
-                <TrendingUp className="w-6 h-6 md:w-7 md:h-7 text-white" />
-              </div>
-              <h3 className="font-black text-lg md:text-xl mb-2 md:mb-3 text-zinc-900">Real-time Intelligence</h3>
-              <p className="text-zinc-600 leading-relaxed text-sm md:text-base">Live tracking, AI upsells, instant kitchen sync. All in real-time.</p>
-            </motion.div>
-          </div>
-
-          <div className="text-center">
-            <Link href="/features" className="inline-flex items-center gap-2 bg-zinc-900 text-white px-8 py-4 rounded-full font-bold hover:bg-zinc-800 transition-all hover:scale-105 shadow-xl">
-              Explore All Features <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Solution */}
+            <div className="bg-[#1A1A1A] p-8 md:p-16 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8">
+                    <CheckCircle2 className="w-12 h-12 text-[#6F4E37] opacity-20" />
+                </div>
+                <div className="relative z-10 space-y-10">
+                    <div className="space-y-4">
+                        <span className="text-[#6F4E37] text-[10px] font-black uppercase tracking-[0.3em]">The Hospitality Solution</span>
+                        <h2 className="text-3xl font-outfit font-black leading-tight italic">Built for hospitality, not software.</h2>
+                    </div>
+                    <div className="space-y-8">
+                       {[
+                         { title: "Brand-owned menu", desc: "Your restaurant's colours, fonts, language, and tone — not a template." },
+                         { title: "Comfortable browsing", desc: "Guests take their time and feel confident ordering." },
+                         { title: "Clear dish understanding", desc: "Ingredients, taste, spice level explained properly." },
+                         { title: "Designed for Indian culture", desc: "Family-friendly, practical, and respectful." }
+                       ].map((item, i) => (
+                         <div key={i} className="flex gap-6">
+                             <div className="w-6 h-6 rounded-full bg-[#6F4E37]/10 flex items-center justify-center flex-shrink-0 mt-1">
+                                <Check className="w-3 h-3 text-[#6F4E37]" />
+                             </div>
+                             <div className="space-y-1">
+                                <h4 className="font-black text-lg text-white">{item.title}</h4>
+                                <p className="text-zinc-500 text-sm leading-relaxed">{item.desc}</p>
+                             </div>
+                         </div>
+                       ))}
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* Identity & Re-categorization Section */}
+      <section className="py-24 md:py-32 px-6 bg-white overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div className="lg:col-span-12 text-center max-w-3xl mx-auto space-y-6 mb-12">
+                   <h2 className="text-4xl md:text-7xl font-outfit font-black text-zinc-900 leading-tight">Your restaurant. Your identity.</h2>
+                   <p className="text-zinc-500 text-lg md:text-xl font-medium leading-relaxed">
+                     Every restaurant is different. Your menu should look and feel that way too.
+                   </p>
+                </div>
 
-      {/* Trial Teaser */}
-      <section className="py-24 px-6 bg-[#FAF7F2] border-y border-[#F0EDE8]">
-         <div className="container mx-auto max-w-4xl text-center">
-            <motion.div 
-               initial={{ opacity: 0, y: 10 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               className="inline-flex items-center gap-2 bg-[#6F4E37]/10 text-[#6F4E37] px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 border border-[#6F4E37]/20"
-            >
-               Zero Risk • Full Access
-            </motion.div>
-            <h2 className="font-outfit font-black text-3xl md:text-5xl mb-6 text-[#3E2723]">Experience the Difference Yourself</h2>
-            <p className="text-[#A68966] text-lg max-w-2xl mx-auto mb-10 font-medium">No plans, no complexity. Request your 7-day free trial today and see how our ecosystem scales your restaurant.</p>
-            
-            <Link 
-                href="/trial"
-                className="inline-flex items-center gap-2 bg-[#6F4E37] text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-[#5A3E2B] transition-all hover:scale-105 shadow-xl shadow-[#6F4E37]/20"
-            >
-                Start Your 7-Day Free Trial <ArrowRight className="w-4 h-4" />
-            </Link>
-         </div>
+                <div className="lg:col-span-5 space-y-8">
+                    <div className="space-y-6">
+                        {[
+                          "Café, family dining, fine dining — each gets its own style",
+                          "Colours, typography, layout, and language tone are customizable",
+                          "Menu structure designed around your food, not software limits"
+                        ].map((text, i) => (
+                          <div key={i} className="flex gap-4">
+                             <div className="flex-shrink-0 mt-1.5"><div className="w-1.5 h-1.5 rounded-full bg-[#6F4E37]" /></div>
+                             <p className="font-outfit font-black text-xl text-zinc-900 leading-tight italic">{text}</p>
+                          </div>
+                        ))}
+                    </div>
+                    <div className="pt-8 space-y-2">
+                        <p className="text-4xl font-outfit font-black text-[#6F4E37] leading-[1.1]">Your menu doesn't look like an app.</p>
+                        <p className="text-5xl font-outfit font-black text-zinc-900 leading-[1.1]">It looks like your restaurant.</p>
+                    </div>
+                </div>
+
+                <div className="lg:col-span-7 grid grid-cols-2 gap-4 md:gap-8">
+                    {[
+                      { type: "Small Restaurants", desc: "Intimate dining spaces", color: "bg-zinc-50" },
+                      { type: "Family Dining", desc: "Warm family gatherings", color: "bg-[#6F4E37]/5" },
+                      { type: "Cafés", desc: "Casual coffee spots", color: "bg-amber-50" },
+                      { type: "Fine Dining", desc: "Premium experiences", color: "bg-zinc-900 text-white" },
+                      { type: "Hotels & Franchises", desc: "Multi-location brands", color: "bg-zinc-50", full: true }
+                    ].map((item, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className={`${item.color} p-8 rounded-[2rem] border border-zinc-100 flex flex-col justify-end min-h-[160px] ${item.full ? 'col-span-2' : ''}`}
+                      >
+                         <h4 className="font-outfit font-black text-lg md:text-2xl mb-1">{item.type}</h4>
+                         <p className="text-sm font-medium opacity-60 uppercase tracking-widest">{item.desc}</p>
+                      </motion.div>
+                    ))}
+                </div>
+            </div>
+        </div>
       </section>
 
 
-      {/* Final CTA Section */}
-      <section className="py-24 px-6 bg-white border-t border-zinc-100">
-          <div className="container mx-auto max-w-4xl text-center">
-              <h2 className="font-outfit font-bold text-4xl mb-6">Ready to transform your business?</h2>
-              <p className="text-zinc-500 text-lg mb-10">Join 500+ restaurants using AI Menu System to power their ordering.</p>
-              <Link 
-                href="/demo"
-                className="inline-block bg-[#6F4E37] text-white px-10 py-5 rounded-full text-lg font-black shadow-xl shadow-[#6F4E37]/20 hover:shadow-2xl hover:scale-105 transition-all text-center"
-              >
-                  Launch Live Demo <ArrowRight className="inline-block ml-2 w-5 h-5" />
-              </Link>
+      {/* Bespoke Philosophy Section */}
+      <section className="py-24 md:py-32 px-6 bg-zinc-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#6F4E37]/10 to-transparent pointer-events-none" />
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
+            <motion.div 
+               initial={{ opacity: 0, scale: 0.9 }}
+               whileInView={{ opacity: 1, scale: 1 }}
+               viewport={{ once: true }}
+               className="inline-block px-6 py-2 bg-white/5 border border-white/10 rounded-full text-xs font-black uppercase tracking-[0.3em] mb-12"
+            >
+               The Anti-Template Commitment
+            </motion.div>
+            <h2 className="text-4xl md:text-8xl font-outfit font-black mb-12 leading-[1.1]">No two menus are same.</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left mb-16">
+                <div className="space-y-6">
+                    <p className="text-xl font-medium text-zinc-400">We do not use fixed templates. We do not reuse designs. Every restaurant gets a fully customized, branded menu experience, built specifically for them.</p>
+                </div>
+                <div className="space-y-4">
+                    <p className="text-[#D4A373] font-black uppercase tracking-widest text-sm">You get full control over:</p>
+                    <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                        {["Colours", "Fonts", "Language tone", "Menu structure", "Dish presentation"].map((item, i) => (
+                            <div key={i} className="flex items-center gap-3">
+                                <div className="w-1 h-1 rounded-full bg-[#D4A373]" />
+                                <span className="font-bold text-lg">{item}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className="pt-12 border-t border-white/5">
+                <p className="text-2xl md:text-4xl font-outfit font-black italic">"This is not a menu we give you. This is a menu we build for you."</p>
+            </div>
+        </div>
+      </section>
+
+      {/* Coming Soon: Digital Hospitality Assistant */}
+      <section className="py-24 md:py-40 px-6 bg-[#FAFAFA] relative overflow-hidden">
+        <div className="container mx-auto max-w-6xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div className="space-y-8 order-2 lg:order-1">
+                    <div className="space-y-4">
+                        <span className="bg-[#6F4E37] text-white px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.3em]">Coming Soon</span>
+                        <h2 className="text-4xl md:text-6xl font-outfit font-black text-zinc-900 leading-tight">Digital hospitality assistant.</h2>
+                        <p className="text-zinc-500 text-lg md:text-xl font-medium leading-relaxed">
+                            An optional voice-based assistant to help guests understand the menu politely and comfortably — only when needed.
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-4 text-[#6F4E37] font-black uppercase tracking-widest text-sm">
+                        <Clock className="w-5 h-5" />
+                        Available later as an optional add-on
+                    </div>
+                </div>
+                <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+                    <div className="w-72 h-72 rounded-full border-4 border-[#6F4E37]/10 flex items-center justify-center p-8 relative">
+                        <motion.div 
+                            animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                            className="absolute inset-4 bg-[#6F4E37]/5 rounded-full"
+                        />
+                        <div className="w-48 h-48 bg-white rounded-full shadow-2xl flex items-center justify-center relative z-10 border border-zinc-100">
+                             <div className="space-y-1 text-center">
+                                <div className="flex gap-1 justify-center mb-2">
+                                    {[1,2,3,4].map(i => (
+                                        <motion.div 
+                                            key={i}
+                                            animate={{ height: [4, 12, 4] }}
+                                            transition={{ duration: 1, repeat: Infinity, delay: i * 0.2 }}
+                                            className="w-1 bg-[#6F4E37] rounded-full"
+                                        />
+                                    ))}
+                                </div>
+                                <span className="text-[10px] font-black text-[#6F4E37] uppercase tracking-widest leading-none">AI Voice</span>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* See how it looks Section */}
+      <section className="py-24 md:py-40 px-6 bg-white">
+          <div className="container mx-auto max-w-4xl text-center space-y-12">
+              <h2 className="font-outfit font-black text-4xl md:text-7xl text-zinc-900 leading-[1.1]">See how your restaurant will look.</h2>
+              <p className="text-zinc-500 text-xl md:text-2xl font-medium italic">"No pressure. No obligation. Just experience the difference."</p>
+              <div className="pt-8">
+                  <Link 
+                    href="/demo"
+                    className="inline-block bg-[#6F4E37] text-white px-12 py-6 rounded-2xl text-xl font-black shadow-2xl shadow-[#6F4E37]/20 hover:scale-105 transition-all text-center"
+                  >
+                      Experience Now <ArrowRight className="inline-block ml-3 w-6 h-6" />
+                  </Link>
+              </div>
           </div>
       </section>
 
@@ -687,7 +889,7 @@ export default function LandingPage() {
                   </div>
               </div>
               <div className="border-t border-zinc-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-zinc-400">
-                  <p>© 2024 AI Menu System. All rights reserved.</p>
+                  <p>© 2024 SWAT x Café Menu System. All rights reserved.</p>
                   {/* <div className="flex gap-6">
                       <a href="#" className="hover:text-zinc-900">Twitter</a>
                       <a href="#" className="hover:text-zinc-900">LinkedIn</a>
