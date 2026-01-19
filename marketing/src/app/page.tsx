@@ -655,18 +655,13 @@ export default function LandingPage() {
       <footer className="bg-[#FAFAFA] border-t border-zinc-200 pt-20 pb-10 px-6">
           <div className="container mx-auto">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-16">
-                  <div className="col-span-2 md:col-span-1">
-                      <div className="mb-6">
-                        <img 
-                          src="/logo.png" 
-                          alt="AI Menu System" 
-                          className="h-60 w-60 object-contain"
-                        />
-                      </div>
-                      <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                          Empowering hospitality businesses with next-gen digital tools.
-                      </p>
-                  </div>
+    <div className="flex items-center gap-1">
+  <span className="text-2xl font-extrabold text-primary">AI</span>
+  <span className="text-xl font-bold tracking-tight text-[#1A1A1A]">
+    Menu System
+  </span>
+</div>
+
                   <div>
                       <h4 className="font-bold mb-6">Product</h4>
                       <ul className="space-y-4 text-sm text-zinc-500">
